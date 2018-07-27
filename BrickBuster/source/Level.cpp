@@ -6,7 +6,8 @@
 #include <memory>
 
 Level::Level(MediaCache& mc) : State(mc),
-								bat(std::make_unique<Bat>(mediaCache.getScrWidth(), mediaCache.getScrHeight()))
+								bat(std::make_unique<Bat>(mediaCache.getScrWidth(), mediaCache.getScrHeight())),
+								ball(std::make_unique<Ball>("files/images/ball/ball.bmp", mediaCache.getScrWidth(), static_cast<int>(bat->getPosition().y)))
 {
 	Point2D p{ 10,100 };
 	for (int i = 0; i < 6; i++)
@@ -54,7 +55,6 @@ Level::Level(MediaCache& mc) : State(mc),
 
 Level::~Level()
 {
-
 }
 
 void Level::enter(Engine* )
@@ -70,6 +70,27 @@ void Level::handleEvents(SDL_Event &e, Engine* engine)
 void Level::update(const double dTime, Engine* )
 {
 	bat->move(mediaCache.getScrWidth(), dTime);
+
+	checkIfBallMoving();
+	ball->move(mediaCache.getScrWidth(), mediaCache.getScrHeight(), bat->getBox(), blocks, dTime);
+
+	removeDestroyedBlocks();
+}
+
+void Level::removeDestroyedBlocks()
+{
+	auto b = blocks.begin();
+	while (b != blocks.end())
+	{
+		if (!(*b)->isAlive())
+		{
+			b = blocks.erase(b);
+		}
+		else
+		{
+			++b;
+		}
+	}
 }
 
 void Level::render()
@@ -79,6 +100,7 @@ void Level::render()
 	{
 		mediaCache.drawRectangle(block->getBox(), block->getColor());
 	}
+	mediaCache.renderTexture(mediaCache.getImage(ball->getImage()), static_cast<int>(ball->getPosition().x), static_cast<int>(ball->getPosition().y));
 }
 
 void Level::exit(Engine* )
@@ -87,7 +109,6 @@ void Level::exit(Engine* )
 }
 
 // ===============
-// Class Functions
 // ===============
 
 void Level::keyPressed(SDL_Event &e, Engine*)
@@ -99,6 +120,7 @@ void Level::keyPressed(SDL_Event &e, Engine*)
 			case SDLK_LEFT:
 			case SDLK_a:
 				bat->setDirection({ -1,0 });
+
 				break;
 			case SDLK_RIGHT:
 			case SDLK_d:
@@ -119,5 +141,13 @@ void Level::keyPressed(SDL_Event &e, Engine*)
 				bat->setDirection({ 0,0 });
 				break;
 		}
+	}
+}
+
+void Level::checkIfBallMoving()
+{
+	if (!ball->isMoving() && bat->getDirection().x != 0)
+	{
+		ball->startMoving(bat->getDirection().x, -1);
 	}
 }

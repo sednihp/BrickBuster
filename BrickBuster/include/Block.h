@@ -20,10 +20,10 @@ private:
 	const int blockHeight = 20;
 	SDL_Rect box;
 	SDL_Color color;
-	bool destructible;
+	bool destructible, alive;
 	int score;
 
-	void setColor(BrickBuster::BlockColor bc);
+	void configureBlock(BrickBuster::BlockColor bc);
 
 public:
 	Block(const Point2D& p, BrickBuster::BlockColor bc);
@@ -32,4 +32,6 @@ public:
 	const SDL_Rect& getBox() const { return box; }
 	const SDL_Color& getColor() const { return color; }
 	const int getHeight() const { return blockHeight; }
+	void destroyBlock();
+	const bool isAlive() const { return alive; }
 };

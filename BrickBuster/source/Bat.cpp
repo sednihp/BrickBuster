@@ -1,6 +1,6 @@
 #include "Bat.h"
 
-Bat::Bat(const int scrWidth, const int scrHeight) : color{255,255,255}
+Bat::Bat(const int scrWidth, const int scrHeight) : color{128,64,32}
 {
 	box = { (scrWidth - batWidth) / 2, box.y = scrHeight - batMargin, box.w = batWidth, box.h = batHeight };
 

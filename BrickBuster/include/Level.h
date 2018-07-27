@@ -11,8 +11,11 @@ class Level : public State {
 private:
 	std::unique_ptr<Bat> bat;
 	std::vector<std::unique_ptr<Block>> blocks;
+	std::unique_ptr<Ball> ball;
 
 	void keyPressed(SDL_Event &e, Engine* engine);
+	void checkIfBallMoving();
+	void removeDestroyedBlocks();
 	
 public:
 	Level(MediaCache& mc);

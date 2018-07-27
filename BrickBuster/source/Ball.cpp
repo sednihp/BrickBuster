@@ -1,9 +1,9 @@
 #include "Ball.h"
 
-Ball::Ball(const std::string& img, const int _x, const int scrHeight) : Object(img), moving(false), speed(0)
+Ball::Ball(const std::string& img, const int scrWidth, const int topOfBat) : Object(img), moving(false), speed(0)
 {
-	position.x = _x + radius;
-	position.y = ((scrHeight - ballWidth) / 2) + radius;
+	position.x = ((scrWidth - ballWidth) / 2) + radius;
+	position.y = topOfBat - radius;
 }
 
 Ball::~Ball()
@@ -16,54 +16,68 @@ const Point2D Ball::getPosition()
 	return { position.x - radius, position.y - radius };
 }
 
-int Ball::move(const int scrHeight, const int scrWidth, const SDL_Rect& leftBat, const SDL_Rect& rightBat, const double dTime)
+int Ball::move(const int scrWidth, const int scrHeight, const SDL_Rect& bat, std::vector<std::unique_ptr<Block>>& blocks, const double dTime)
 {
 	direction.normalize();
 
-	//move the ball across, then check if it's hit a bat or gone off screen
-	position.x += direction.x * speed * dTime;
+	//move across, then check if it's hit the bat, a block or the edge of the screen
+	const double moveX = direction.x * speed * dTime;
+	position.x += moveX;
 
-	if (hasCollided(leftBat))
+	if (hasCollided(bat))
 	{
-		position.x = leftBat.x + leftBat.w + radius;
+		position.x -= moveX;
 		direction.x *= -1;
-		speed *= speedIncrement;
 	}
-	else if (hasCollided(rightBat))
+
+	for (auto& block : blocks)
 	{
-		position.x = rightBat.x - radius;
+		if (hasCollided(block->getBox()))
+		{
+			position.x -= moveX;
+			direction.x *= -1;
+			block->destroyBlock();
+		}
+	}
+
+	if (position.x - radius < 0)
+	{
 		direction.x *= -1;
-		speed *= speedIncrement;
+	}
+	else if (position.x + radius > scrWidth)
+	{
+		direction.x *= -1;
 	}
 
-	//the ball has gone off the left side of the screen, so the rightBat has scored
-	if (position.x + radius < 0)
-	{
-		return 2;
-	}
-	//the ball has gone off the right side of the screen, so the leftBat has scored
-	else if (position.x - radius > scrWidth)
-	{
-		return 1;
-	}
-
-	//move the ball up/down then check if it's off screen or hit anything
+	//move up/down then check if it's hit the bat or a block
+	//if its off the bottom of the screen then return -1
 	const double moveY = direction.y * speed * dTime;
 	position.y += moveY;
+
+	if (hasCollided(bat))
+	{
+		position.y -= moveY;
+		direction.y *= -1;
+	}
+
+	for (auto& block : blocks)
+	{
+		if (hasCollided(block->getBox()))
+		{
+			position.y -= moveY;
+			direction.y *= -1;
+			block->destroyBlock();
+		}
+	}
 
 	if (position.y - radius < 0)
 	{
 		direction.y *= -1;
-	}
-	else if (position.y + radius > scrHeight)
-	{
-		direction.y *= -1;
-	}
-	else if (hasCollided(leftBat) || hasCollided(rightBat))
-	{
 		position.y -= moveY;
-		direction.y *= -1;
-		speed *= speedIncrement;
+	}
+	else if (position.y - radius > scrHeight)
+	{
+		return -1;
 	}
 
 	return 0;

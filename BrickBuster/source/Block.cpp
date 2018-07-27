@@ -1,8 +1,8 @@
 #include "Block.h"
 
-Block::Block(const Point2D& p, BrickBuster::BlockColor bc) : destructible(true)
+Block::Block(const Point2D& p, BrickBuster::BlockColor bc) : destructible(true), alive(true)
 {
-	setColor(bc);
+	configureBlock(bc);
 	position = p;
 
 	box = { static_cast<int>(position.x), static_cast<int>(position.y), blockWidth, blockHeight };
@@ -13,8 +13,10 @@ Block::~Block()
 
 }
 
-void Block::setColor(BrickBuster::BlockColor bc)
+void Block::configureBlock(BrickBuster::BlockColor bc)
 {
+	score = static_cast<int>(bc);
+
 	switch (bc)
 	{
 		case BrickBuster::BlockColor::RED:
@@ -22,9 +24,11 @@ void Block::setColor(BrickBuster::BlockColor bc)
 			break;
 		case BrickBuster::BlockColor::ORANGE:
 			color = { 255,128,0 };
+			score = 5;
 			break;
 		case BrickBuster::BlockColor::YELLOW:
 			color = { 255,255,0 };
+			score = 4;
 			break;
 		case BrickBuster::BlockColor::GREEN:
 			color = { 0,255,0 };
@@ -35,5 +39,13 @@ void Block::setColor(BrickBuster::BlockColor bc)
 		case BrickBuster::BlockColor::PURPLE:
 			color = { 128,0,255 };
 			break;
+	}
+}
+
+void Block::destroyBlock()
+{
+	if (destructible)
+	{
+		alive = false;
 	}
 }
