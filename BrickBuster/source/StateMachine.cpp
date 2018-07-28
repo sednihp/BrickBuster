@@ -8,7 +8,6 @@ StateMachine::StateMachine(Engine* owner) :	mOwner(owner),
 
 StateMachine::~StateMachine()
 {
-	
 }
 
 //if we try to change to the same state, return immediately

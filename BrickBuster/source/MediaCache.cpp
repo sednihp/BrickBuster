@@ -57,6 +57,17 @@ void MediaCache::renderTexture(std::shared_ptr<GameTexture> tex, const int x, co
 	SDL_RenderCopy(ren, tex->texture(), NULL, &pos);
 }
 
+void MediaCache::renderTexture(std::shared_ptr<GameTexture> tex, const double x, const double y)
+{
+	SDL_Rect pos;
+	pos.x = static_cast<int>(x);
+	pos.y = static_cast<int>(y);
+	pos.w = tex->getW();
+	pos.h = tex->getH();
+
+	SDL_RenderCopy(ren, tex->texture(), NULL, &pos);
+}
+
 void MediaCache::drawRectangle(const SDL_Rect& rect, const SDL_Color& c)
 {
 	SDL_SetRenderDrawColor(ren, c.r, c.g, c.b, SDL_ALPHA_OPAQUE);

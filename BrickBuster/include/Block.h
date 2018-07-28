@@ -5,12 +5,13 @@ namespace BrickBuster
 {
 	enum class BlockColor
 	{
-		RED,
-		ORANGE,
-		YELLOW,
-		GREEN,
+		GREY = 0,
+		PURPLE,
 		BLUE,
-		PURPLE
+		GREEN,
+		YELLOW,
+		ORANGE,
+		RED
 	};
 }
 
@@ -32,6 +33,6 @@ public:
 	const SDL_Rect& getBox() const { return box; }
 	const SDL_Color& getColor() const { return color; }
 	const int getHeight() const { return blockHeight; }
-	void destroyBlock();
+	void hitByBall();
 	const bool isAlive() const { return alive; }
 };

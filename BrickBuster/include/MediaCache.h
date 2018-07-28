@@ -33,6 +33,7 @@ class MediaCache
 		std::shared_ptr<GameTexture> getText(const std::string& message, TTF_Font* font, const SDL_Color& color);
 
 		void renderTexture(std::shared_ptr<GameTexture> tex, const int x, const int y);
+		void renderTexture(std::shared_ptr<GameTexture> tex, const double x, const double y);
 		void drawRectangle(const SDL_Rect& rect, const SDL_Color& color);
 
 		void clearScreen();

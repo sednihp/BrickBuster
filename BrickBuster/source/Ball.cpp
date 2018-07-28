@@ -1,9 +1,8 @@
 #include "Ball.h"
 
-Ball::Ball(const std::string& img, const int scrWidth, const int topOfBat) : Object(img), moving(false), speed(0)
+Ball::Ball(const std::string& img, const int scrWidth, const double topOfBat) : Object(img), moving(false), speed(startSpeed)
 {
-	position.x = ((scrWidth - ballWidth) / 2) + radius;
-	position.y = topOfBat - radius;
+	setToStartPosition(scrWidth, topOfBat);
 }
 
 Ball::~Ball()
@@ -11,23 +10,30 @@ Ball::~Ball()
 
 }
 
+void Ball::setToStartPosition(const int scrWidth, const double topOfBat)
+{
+	position.x = ((scrWidth - ballWidth) / 2) + radius;
+	position.y = topOfBat - radius;
+}
+
 const Point2D Ball::getPosition()
 {
 	return { position.x - radius, position.y - radius };
 }
 
-int Ball::move(const int scrWidth, const int scrHeight, const SDL_Rect& bat, std::vector<std::unique_ptr<Block>>& blocks, const double dTime)
+int Ball::move(const int scrWidth, const int scrHeight, const SDL_Rect& bat, std::vector<std::unique_ptr<Block>>& blocks)
 {
 	direction.normalize();
 
 	//move across, then check if it's hit the bat, a block or the edge of the screen
-	const double moveX = direction.x * speed * dTime;
+	const double moveX = direction.x * speed;
 	position.x += moveX;
 
 	if (hasCollided(bat))
 	{
 		position.x -= moveX;
 		direction.x *= -1;
+		speed *= speedIncrement;
 	}
 
 	for (auto& block : blocks)
@@ -36,7 +42,8 @@ int Ball::move(const int scrWidth, const int scrHeight, const SDL_Rect& bat, std
 		{
 			position.x -= moveX;
 			direction.x *= -1;
-			block->destroyBlock();
+			speed *= speedIncrement;
+			block->hitByBall();
 		}
 	}
 
@@ -51,13 +58,14 @@ int Ball::move(const int scrWidth, const int scrHeight, const SDL_Rect& bat, std
 
 	//move up/down then check if it's hit the bat or a block
 	//if its off the bottom of the screen then return -1
-	const double moveY = direction.y * speed * dTime;
+	const double moveY = direction.y * speed;
 	position.y += moveY;
 
 	if (hasCollided(bat))
 	{
 		position.y -= moveY;
 		direction.y *= -1;
+		speed *= speedIncrement;
 	}
 
 	for (auto& block : blocks)
@@ -66,7 +74,8 @@ int Ball::move(const int scrWidth, const int scrHeight, const SDL_Rect& bat, std
 		{
 			position.y -= moveY;
 			direction.y *= -1;
-			block->destroyBlock();
+			speed *= speedIncrement;
+			block->hitByBall();
 		}
 	}
 
@@ -121,15 +130,12 @@ void Ball::startMoving(const double xDir, const double yDir)
 
 	direction.x = xDir * randomX;
 	direction.y = yDir * randomY;
-
-	speed = movingSpeed;
 }
 
-void Ball::reset(const int _x, const int scrHeight)
+void Ball::reset(const int scrWidth, const double topOfBat)
 {
 	direction = { 0,0 };
-	position.x = _x + radius;
-	position.y = ((scrHeight - ballWidth) / 2) + radius;
-	speed = 0;
+	setToStartPosition(scrWidth, topOfBat);
+	speed = startSpeed;
 	moving = false;
 }

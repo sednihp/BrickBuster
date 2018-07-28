@@ -125,6 +125,7 @@
     <ClInclude Include="include\Ball.h" />
     <ClInclude Include="include\Bat.h" />
     <ClInclude Include="include\Block.h" />
+    <ClInclude Include="include\BlockLoader.h" />
     <ClInclude Include="include\ChooseLevel.h" />
     <ClInclude Include="include\CollisionEngine.h" />
     <ClInclude Include="include\Engine.h" />
@@ -146,6 +147,7 @@
     <ClCompile Include="source\Ball.cpp" />
     <ClCompile Include="source\Bat.cpp" />
     <ClCompile Include="source\Block.cpp" />
+    <ClCompile Include="source\BlockLoader.cpp" />
     <ClCompile Include="source\ChooseLevel.cpp" />
     <ClCompile Include="source\CollisionEngine.cpp" />
     <ClCompile Include="source\Engine.cpp" />

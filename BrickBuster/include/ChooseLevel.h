@@ -18,7 +18,7 @@ public:
 
 	virtual void enter(Engine* engine);
 	virtual void handleEvents(SDL_Event &e, Engine* engine);
-	virtual void update(const double dTime, Engine* engine);
+	virtual void update(Engine* engine);
 	virtual void render();
 	virtual void exit(Engine* engine);
 };

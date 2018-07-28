@@ -90,6 +90,9 @@
     <ClInclude Include="include\Block.h">
       <Filter>Header Files\Object</Filter>
     </ClInclude>
+    <ClInclude Include="include\BlockLoader.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CollisionEngine.cpp">
@@ -145,6 +148,9 @@
     </ClCompile>
     <ClCompile Include="source\Block.cpp">
       <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BlockLoader.cpp">
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

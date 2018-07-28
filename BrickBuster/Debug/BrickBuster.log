@@ -1,2 +1,6 @@
-﻿  Ball.cpp
+﻿  ChooseLevel.cpp
+  Engine.cpp
+  Level.cpp
+  main.cpp
+  Generating Code...
   BrickBuster.vcxproj -> D:\Dropbox\Code\C++\BrickBuster\Debug\BrickBuster.exe

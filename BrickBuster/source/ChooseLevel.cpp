@@ -42,7 +42,7 @@ void ChooseLevel::handleEvents(SDL_Event &e, Engine* engine)
 	}
 }
 
-void ChooseLevel::update(const double , Engine* )
+void ChooseLevel::update(Engine* )
 {
 
 }

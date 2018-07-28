@@ -9,7 +9,9 @@ class Engine
 {
 	private: 
 		bool running;
-		double deltaTime;
+		double previous, lag;
+		const double fps = 60;
+		const double frameLength = 1000.0 / fps;
 		MediaCache mediaCache;
 		std::unique_ptr<StateMachine> stateMachine;
 		unsigned int randomNumber;
@@ -23,11 +25,7 @@ class Engine
 		~Engine();
 
 		void run();
-		const bool isRunning() const { return running; }
-		void stopRunning() { running = false; }
-
 		void changeState(std::shared_ptr<State> newState);
-		unsigned int getRandom(const int rangeMin, const int rangeMax);
 };
 
 #endif

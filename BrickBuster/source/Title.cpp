@@ -28,7 +28,7 @@ void Title::handleEvents(SDL_Event &e, Engine* engine)
 	}
 }
 
-void Title::update(const double, Engine*)
+void Title::update(Engine*)
 {
 }
 
@@ -86,7 +86,7 @@ void Title::mouseClicked(SDL_Event&, Engine* engine)
 	{
 		if (CollisionEngine::checkCollision(menu[0]->getBox(), x, y))
 		{
-			engine->changeState(std::make_shared<Level>(mediaCache));
+			engine->changeState(std::make_shared<Level>(mediaCache, 1));
 		}
 		else if (CollisionEngine::checkCollision(menu[1]->getBox(), x, y))
 		{

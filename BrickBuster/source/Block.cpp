@@ -24,11 +24,9 @@ void Block::configureBlock(BrickBuster::BlockColor bc)
 			break;
 		case BrickBuster::BlockColor::ORANGE:
 			color = { 255,128,0 };
-			score = 5;
 			break;
 		case BrickBuster::BlockColor::YELLOW:
 			color = { 255,255,0 };
-			score = 4;
 			break;
 		case BrickBuster::BlockColor::GREEN:
 			color = { 0,255,0 };
@@ -39,10 +37,14 @@ void Block::configureBlock(BrickBuster::BlockColor bc)
 		case BrickBuster::BlockColor::PURPLE:
 			color = { 128,0,255 };
 			break;
+		case BrickBuster::BlockColor::GREY:
+			color = { 192,192,192 };
+			destructible = false;
+			break;
 	}
 }
 
-void Block::destroyBlock()
+void Block::hitByBall()
 {
 	if (destructible)
 	{

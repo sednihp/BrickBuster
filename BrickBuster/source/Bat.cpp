@@ -2,10 +2,15 @@
 
 Bat::Bat(const int scrWidth, const int scrHeight) : color{128,64,32}
 {
-	box = { (scrWidth - batWidth) / 2, box.y = scrHeight - batMargin, box.w = batWidth, box.h = batHeight };
+	setBatToStartPosition(scrWidth, scrHeight);
 
 	position.x = box.x;
 	position.y = box.y;
+}
+
+void Bat::setBatToStartPosition(const int scrWidth, const int scrHeight)
+{
+	box = { (scrWidth - batWidth) / 2, box.y = scrHeight - batMargin, box.w = batWidth, box.h = batHeight };
 }
 
 Bat::~Bat()
@@ -13,9 +18,9 @@ Bat::~Bat()
 
 }
 
-void Bat::move(const int scrWidth, const double dTime)
+void Bat::move(const int scrWidth)
 {
-	position.x += direction.x * speed * dTime;
+	position.x += direction.x * speed;
 
 	if (position.x < 0)
 	{
@@ -40,11 +45,11 @@ const SDL_Rect& Bat::getBox()
 	return box;
 }
 
-void Bat::reset(const int scrHeight)
+void Bat::reset(const int scrWidth, const int scrHeight)
 {
-	direction.y = 0;
-	box.y = (scrHeight - batHeight) / 2;
-	position.y = box.y;
+	direction = { 0,0 };
+	setBatToStartPosition(scrWidth, scrHeight);
+	position.x = box.x;
 }
 
 void Bat::startMoving()

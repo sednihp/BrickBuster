@@ -3,7 +3,7 @@
 #include <time.h>
 
 Engine::Engine() :	running(true),
-					deltaTime(SDL_GetTicks()),
+					previous(SDL_GetTicks()), lag(0.0),
 					mediaCache()
 {
 	srand(static_cast<unsigned int>(time(nullptr)));
@@ -18,11 +18,25 @@ Engine::~Engine()
 
 void Engine::run()
 {
-	handleEvents();
+	while(running)
+	{
+		double current = SDL_GetTicks();
+		double elapsed = current - previous;
+		previous = current;
+		lag += elapsed;
 
-	update();
+		handleEvents();
+		if (!running)
+			break;
 
-	render();
+		while (lag >= frameLength)
+		{
+			update();
+			lag -= frameLength;
+		}
+
+		render();
+	}
 }
 
 //handle any events that happen (keyboard, mouse etc) locally first, then pass them down to the currentState
@@ -47,8 +61,7 @@ void Engine::handleEvents()
 
 void Engine::update()
 {
-	stateMachine->currentState()->update((SDL_GetTicks() - deltaTime) / 1000.f, this);
-	deltaTime = SDL_GetTicks();
+	stateMachine->currentState()->update(this);
 }
 
 //clear the screen, render the currentState then update the screen
@@ -64,9 +77,4 @@ void Engine::render()
 void Engine::changeState(std::shared_ptr<State> newState)
 {
 	stateMachine->changeState(newState);
-}
-
-unsigned int Engine::getRandom(int rangeMin, int rangeMax)
-{
-	return (rand() % rangeMax + rangeMin);
 }
