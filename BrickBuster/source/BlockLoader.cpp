@@ -1,6 +1,7 @@
 #include "BlockLoader.h"
 #include <fstream>
 #include <iostream>
+#include "InputComponent.h"
 
 void BlockLoader::loadBlocks(const int levelNum, std::vector<std::unique_ptr<Block>>& blocks)
 {
@@ -41,7 +42,10 @@ void BlockLoader::loadBlocks(const int levelNum, std::vector<std::unique_ptr<Blo
 
 		Point2D p{ x,y };
 
-		blocks.push_back(std::make_unique<Block>(p, bc));
+		blocks.push_back(std::make_unique<Block>(std::make_unique<BlockInputComponent>(), 
+													std::make_unique<BlockGraphicsComponent>(), 
+													p, 
+													bc));
 	}
 
 	infile.close();

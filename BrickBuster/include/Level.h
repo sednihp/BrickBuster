@@ -16,7 +16,6 @@ private:
 	int levelNum;
 	std::unique_ptr<BlockLoader> blockLoader;
 
-	void keyPressed(SDL_Event &e, Engine* engine);
 	void checkIfBallMoving();
 	void removeDestroyedBlocks();
 	

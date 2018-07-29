@@ -2,6 +2,7 @@
 #include <iostream>
 #include "SDL_image.h"
 #include "SDL_ttf.h"
+#include "Vectors.h"
 
 MediaCache::MediaCache() :	window(nullptr), ren(nullptr), 
 							imgCache(ren), fontCache(ren, "files/fonts/LCDPHONE.TTF"), txtCache(ren)
@@ -9,14 +10,14 @@ MediaCache::MediaCache() :	window(nullptr), ren(nullptr),
 	window = SDL_CreateWindow("Brick Buster", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, mScrWidth, mScrHeight, SDL_WINDOW_SHOWN);
 	if(!window)
 	{
-		std::cout << SDL_GetError() << std::endl;
+		std::cout << "CreateWindow error: " << SDL_GetError() << "\n";
 		exit(2);
 	}
 
 	ren = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if(!ren)
 	{
-		std::cout << SDL_GetError() << std::endl;
+		std::cout << "CreateRenderer error: " << SDL_GetError() << "\n";
 		exit(3);
 	}
 }
@@ -44,8 +45,6 @@ std::shared_ptr<GameTexture> MediaCache::getText(const std::string& message, TTF
 	return txtCache.getText(message, font, color);
 }
 
-#include "Vectors.h"
-
 void MediaCache::renderTexture(std::shared_ptr<GameTexture> tex, const int x, const int y)
 {
     SDL_Rect pos;
@@ -54,7 +53,10 @@ void MediaCache::renderTexture(std::shared_ptr<GameTexture> tex, const int x, co
 	pos.w = tex->getW();
 	pos.h = tex->getH();
  
-	SDL_RenderCopy(ren, tex->texture(), NULL, &pos);
+	if (SDL_RenderCopy(ren, tex->texture(), NULL, &pos) < 0)
+	{
+		std::cout << "RenderCopy error: " << SDL_GetError() << "\n";
+	}
 }
 
 void MediaCache::renderTexture(std::shared_ptr<GameTexture> tex, const double x, const double y)
@@ -65,19 +67,39 @@ void MediaCache::renderTexture(std::shared_ptr<GameTexture> tex, const double x,
 	pos.w = tex->getW();
 	pos.h = tex->getH();
 
-	SDL_RenderCopy(ren, tex->texture(), NULL, &pos);
+	if (SDL_RenderCopy(ren, tex->texture(), NULL, &pos) < 0)
+	{
+		std::cout << "RenderCopy error: " << SDL_GetError() << "\n";
+	}
 }
 
-void MediaCache::drawRectangle(const SDL_Rect& rect, const SDL_Color& c)
+void MediaCache::drawRectangle(const SDL_Rect& rect, const SDL_Color c)
 {
-	SDL_SetRenderDrawColor(ren, c.r, c.g, c.b, SDL_ALPHA_OPAQUE);
-	SDL_RenderFillRect(ren, &rect);
+	if (SDL_SetRenderDrawColor(ren, c.r, c.g, c.b, SDL_ALPHA_OPAQUE) < 0)
+	{
+		std::cout << "SetRenderDrawColor error: " << SDL_GetError() << "\n";
+	}
+	if (SDL_RenderFillRect(ren, &rect) < 0)
+	{
+		std::cout << "RenderFillRect error: " << SDL_GetError() << "\n";
+	}
 }
 
 void MediaCache::clearScreen()
 { 
-	SDL_SetRenderDrawColor(ren, bgColor.r, bgColor.g, bgColor.b, SDL_ALPHA_OPAQUE); 
-	SDL_RenderClear(ren); 
+	if (SDL_SetRenderDrawColor(ren, bgColor.r, bgColor.g, bgColor.b, SDL_ALPHA_OPAQUE) < 0)
+	{
+		std::cout << "SetRenderDrawColor error: " << SDL_GetError() << "\n";
+	}
+	if(SDL_RenderClear(ren) < 0)
+	{
+		std::cout << "RenderClear error: " << SDL_GetError() << "\n";
+	}
+}
+
+void MediaCache::updateScreen() 
+{ 
+	SDL_RenderPresent(ren); 
 }
 
 const int MediaCache::centreX(const int gtWidth) const

@@ -21,8 +21,8 @@ class MediaCache
 		FontCache fontCache;
 		TextCache txtCache;
 
-		MediaCache &operator=(const MediaCache&);
-		MediaCache(const MediaCache&);
+		MediaCache &operator=(const MediaCache&) = delete;
+		MediaCache(const MediaCache&) = delete;
 
 	public:
 		MediaCache();
@@ -34,10 +34,10 @@ class MediaCache
 
 		void renderTexture(std::shared_ptr<GameTexture> tex, const int x, const int y);
 		void renderTexture(std::shared_ptr<GameTexture> tex, const double x, const double y);
-		void drawRectangle(const SDL_Rect& rect, const SDL_Color& color);
+		void drawRectangle(const SDL_Rect& rect, const SDL_Color color);
 
 		void clearScreen();
-		void updateScreen() { SDL_RenderPresent(ren); }
+		void updateScreen();
 
 		const int getScrWidth() const { return mScrWidth; }
 		const int getScrHeight() const { return mScrHeight; }

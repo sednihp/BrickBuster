@@ -4,11 +4,19 @@
 #include "Engine.h"
 #include "Title.h"
 #include <memory>
+#include "InputComponent.h"
 
 Level::Level(MediaCache& mc, 
-			const int level) : State(mc), levelNum(level), blockLoader(std::make_unique<BlockLoader>()),
-								bat(std::make_unique<Bat>(mediaCache.getScrWidth(), mediaCache.getScrHeight())),
-								ball(std::make_unique<Ball>("files/images/ball/ball.bmp", mediaCache.getScrWidth(), bat->getPosition().y))
+			const int level) : State(mc), levelNum(level), 
+								blockLoader(std::make_unique<BlockLoader>()),
+								bat(std::make_unique<Bat>(std::make_unique<BatInputComponent>(), 
+															std::make_unique<BatGraphicsComponent>(),
+															mediaCache.getScrWidth(),
+															mediaCache.getScrHeight())),
+								ball(std::make_unique<Ball>(std::make_unique<BallInputComponent>(),
+															std::make_unique<BallGraphicsComponent>(),
+															mediaCache.getScrWidth(), 
+															bat->getPosition().y))
 {
 	blockLoader->loadBlocks(levelNum, blocks);
 }
@@ -22,9 +30,9 @@ void Level::enter(Engine* )
 
 }
 
-void Level::handleEvents(SDL_Event &e, Engine* engine)
+void Level::handleEvents(SDL_Event &e, Engine*)
 {
-	keyPressed(e, engine);
+	bat->handleEvents(e);
 }
 
 void Level::update(Engine* )
@@ -43,12 +51,12 @@ void Level::update(Engine* )
 
 void Level::render()
 {
-	mediaCache.drawRectangle(bat->getBox(), bat->getColor());
+	bat->render(mediaCache);
 	for (const auto& block : blocks)
 	{
-		mediaCache.drawRectangle(block->getBox(), block->getColor());
+		block->render(mediaCache);
 	}
-	mediaCache.renderTexture(mediaCache.getImage(ball->getImage()), ball->getPosition().x, ball->getPosition().y);
+	ball->render(mediaCache);
 }
 
 void Level::exit(Engine* )
@@ -58,38 +66,6 @@ void Level::exit(Engine* )
 
 // ===============
 // ===============
-
-void Level::keyPressed(SDL_Event &e, Engine*)
-{
-	if (e.type == SDL_KEYDOWN)
-	{
-		switch (e.key.keysym.sym)
-		{
-			case SDLK_LEFT:
-			case SDLK_a:
-				bat->setDirection({ -1,0 });
-				break;
-			case SDLK_RIGHT:
-			case SDLK_d:
-				bat->setDirection({ 1,0 });
-				break;
-		}
-	}
-	else if (e.type == SDL_KEYUP)
-	{
-		switch (e.key.keysym.sym)
-		{
-			case SDLK_LEFT:
-			case SDLK_a:
-				bat->setDirection({ 0,0 });
-				break;
-			case SDLK_RIGHT:
-			case SDLK_d:
-				bat->setDirection({ 0,0 });
-				break;
-		}
-	}
-}
 
 void Level::checkIfBallMoving()
 {

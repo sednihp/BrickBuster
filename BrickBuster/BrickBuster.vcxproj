@@ -130,6 +130,8 @@
     <ClInclude Include="include\CollisionEngine.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\FontCache.h" />
+    <ClInclude Include="include\GraphicsComponent.h" />
+    <ClInclude Include="include\InputComponent.h" />
     <ClInclude Include="include\Level.h" />
     <ClInclude Include="include\GameTexture.h" />
     <ClInclude Include="include\ImageCache.h" />
@@ -152,6 +154,8 @@
     <ClCompile Include="source\CollisionEngine.cpp" />
     <ClCompile Include="source\Engine.cpp" />
     <ClCompile Include="source\FontCache.cpp" />
+    <ClCompile Include="source\GraphicsComponent.cpp" />
+    <ClCompile Include="source\InputComponent.cpp" />
     <ClCompile Include="source\Level.cpp" />
     <ClCompile Include="source\GameTexture.cpp" />
     <ClCompile Include="source\ImageCache.cpp" />

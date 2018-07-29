@@ -25,6 +25,7 @@ class Engine
 		~Engine();
 
 		void run();
+		void stopRunning() { running = false; }
 		void changeState(std::shared_ptr<State> newState);
 };
 

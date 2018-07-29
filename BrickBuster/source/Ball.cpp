@@ -1,7 +1,13 @@
 #include "Ball.h"
 
-Ball::Ball(const std::string& img, const int scrWidth, const double topOfBat) : Object(img), moving(false), speed(startSpeed)
+Ball::Ball(std::unique_ptr<InputComponent> ic,
+			std::unique_ptr<GraphicsComponent> gc,
+			const int scrWidth, 
+			const double topOfBat) : Object(std::move(ic), 
+											std::move(gc)),
+									moving(false), speed(startSpeed)
 {
+	image = fileName;
 	setToStartPosition(scrWidth, topOfBat);
 }
 

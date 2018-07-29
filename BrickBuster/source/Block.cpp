@@ -1,7 +1,14 @@
 #include "Block.h"
 
-Block::Block(const Point2D& p, BrickBuster::BlockColor bc) : destructible(true), alive(true)
+Block::Block(std::unique_ptr<InputComponent> ic,
+				std::unique_ptr<GraphicsComponent> gc,
+				const Point2D& p,
+				BrickBuster::BlockColor bc) : Object(std::move(ic), 
+														std::move(gc)),
+												destructible(true), 
+												alive(true)
 {
+	box = { static_cast<int>(p.x), static_cast<int>(p.y), blockWidth, blockHeight };
 	configureBlock(bc);
 	position = p;
 

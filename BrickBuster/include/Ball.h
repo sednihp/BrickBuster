@@ -4,21 +4,24 @@
 
 class Ball : public Object {
 private:
-	SDL_Color color;
 	bool moving;
 	const int ballWidth = 20;
 	const int radius = ballWidth / 2;
 	const double speedIncrement = 1.005;
 	const double startSpeed = 7;
+	const std::string fileName = "files/images/ball/ball.bmp";
 	double speed;
 
 	void setToStartPosition(const int scrWidth, const double topOfBat);
 
 public:
-	Ball(const std::string& img, const int scrWidth, const double topOfBat);
+	Ball(std::unique_ptr<InputComponent> ic, 
+			std::unique_ptr<GraphicsComponent> gc, 
+			const int scrWidth, 
+			const double topOfBat);
 	~Ball();
 
-	const Point2D getPosition();
+	virtual const Point2D getPosition();
 	const int getRadius() { return radius; }
 	const bool isMoving() { return moving; }
 	void reverseXDir() { direction.x *= -1; }

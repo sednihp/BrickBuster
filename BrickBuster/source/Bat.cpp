@@ -1,16 +1,21 @@
 #include "Bat.h"
+#include <iostream>
 
-Bat::Bat(const int scrWidth, const int scrHeight) : color{128,64,32}
+Bat::Bat(std::unique_ptr<InputComponent> ic, 
+			std::unique_ptr<GraphicsComponent> gc,
+			const int scrWidth, 
+			const int scrHeight) : Object(std::move(ic), 
+											std::move(gc))
 {
-	setBatToStartPosition(scrWidth, scrHeight);
-
+	color = { 160,64,32 };
+	setBatToStartPos(scrWidth, scrHeight);
 	position.x = box.x;
 	position.y = box.y;
 }
 
-void Bat::setBatToStartPosition(const int scrWidth, const int scrHeight)
+void Bat::setBatToStartPos(const int scrWidth, const int scrHeight)
 {
-	box = { (scrWidth - batWidth) / 2, box.y = scrHeight - batMargin, box.w = batWidth, box.h = batHeight };
+	box = {(scrWidth - batWidth) / 2, scrHeight - batMargin, batWidth, batHeight };
 }
 
 Bat::~Bat()
@@ -32,11 +37,6 @@ void Bat::move(const int scrWidth)
 	}
 }
 
-void Bat::setDirection(const Vector2D& newDir)
-{
-	direction = newDir;
-}
-
 const SDL_Rect& Bat::getBox()
 {
 	box.x = static_cast<int>(position.x);
@@ -48,7 +48,7 @@ const SDL_Rect& Bat::getBox()
 void Bat::reset(const int scrWidth, const int scrHeight)
 {
 	direction = { 0,0 };
-	setBatToStartPosition(scrWidth, scrHeight);
+	setBatToStartPos(scrWidth, scrHeight);
 	position.x = box.x;
 }
 
