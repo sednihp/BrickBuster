@@ -83,6 +83,9 @@ void Level::render()
 	}
 	ball->render(mediaCache);
 
+	scoreTex = mediaCache.getText(player->getScore(), font, mediaCache.getTextColor());
+	mediaCache.renderTexture(scoreTex, 0, 5);
+
 	livesTex = mediaCache.getText(player->getLives(), font, mediaCache.getTextColor());
 	mediaCache.renderTexture(livesTex, mediaCache.getScrWidth() - livesTex->getW(), 5);
 
@@ -110,5 +113,19 @@ void Level::checkIfBallMoving()
 
 void Level::removeDestroyedBlocks()
 {
+	auto b = blocks.begin();
+	while (b != blocks.end())
+	{
+		if (!(*b)->isAlive())
+		{
+			player->hasScored((*b)->getScore());
+			b = blocks.erase(b);
+		}
+		else
+		{
+			++b;
+		}
+	}
+
 	blocks.erase(std::remove_if(blocks.begin(), blocks.end(), [](std::unique_ptr<Block>& block) { return (!block->isAlive()); }), blocks.end());
 }

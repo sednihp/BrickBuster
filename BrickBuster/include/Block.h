@@ -17,4 +17,5 @@ public:
 
 	void hitByBall();
 	const bool isAlive() const { return alive; }
+	const int getScore() const { return score; }
 };
