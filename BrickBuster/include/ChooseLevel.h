@@ -7,8 +7,8 @@ private:
 	TTF_Font * f1;
 	TTF_Font* f2;
 	const int numLevels = 14;
-	std::vector<std::shared_ptr<GameTexture>> levelTex;
-	std::shared_ptr<GameTexture> menu;
+	std::vector<GameTex> levelTex;
+	GameTex menu;
 
 	void mouseClicked(SDL_Event &e, Engine* engine);
 

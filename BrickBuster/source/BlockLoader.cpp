@@ -10,7 +10,7 @@ void BlockLoader::loadBlocks(const int levelNum, std::vector<std::unique_ptr<Blo
 	std::ifstream infile(levelFile);
 	if (!infile)
 	{
-		std::cout << "Can't open " << levelNum << ".lvl";
+		std::cerr << "Can't open " << levelNum << ".lvl";
 		levelFile = "files/levels/1.lvl";
 		infile.open(levelFile);
 	}

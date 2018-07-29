@@ -10,12 +10,12 @@ ChooseLevel::ChooseLevel(MediaCache& mc) : State(mc),
 	for(int i = 0; i < numLevels-1; i++)
 	{
 		std::string s = "Level " + std::to_string(i + 1);
-		std::shared_ptr<GameTexture> tex = mediaCache.getText(s, f1, c);
+		GameTex tex = mediaCache.getText(s, f1, c);
 		tex->setPosition(mediaCache.centreX(tex->getW()), 20 + i*tex->getH());
 		levelTex.push_back(tex);
 	}
 
-	std::shared_ptr<GameTexture> userlvlTex = mediaCache.getText("User Level", f1, c);
+	GameTex userlvlTex = mediaCache.getText("User Level", f1, c);
 	userlvlTex->setPosition(mediaCache.centreX(userlvlTex->getW()), 20 + (numLevels - 1)*userlvlTex->getH());
 	levelTex.push_back(userlvlTex);
 

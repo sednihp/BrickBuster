@@ -7,8 +7,8 @@ class Title : public State
 	private:
 		TTF_Font* titleFont;
 		TTF_Font* menuFont;
-		std::vector<std::shared_ptr<GameTexture>> titleTex;
-		std::vector<std::shared_ptr<GameTexture>> menu;
+		std::vector<GameTex> titleTex;
+		std::vector<GameTex> menu;
 
 		void generateTextures();
 		void mouseClicked(SDL_Event &e, Engine* engine);

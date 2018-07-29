@@ -26,12 +26,13 @@ class MediaCache
 		MediaCache();
 		~MediaCache();
 
-		std::shared_ptr<GameTexture> getImage(const std::string& file);
+		GameTex getImage(const std::string& file);
 		TTF_Font* getFont(const int size);
-		std::shared_ptr<GameTexture> getText(const std::string& message, TTF_Font* font, const SDL_Color& color);
+		GameTex getText(const std::string& message, TTF_Font* font, const SDL_Color& color);
+		GameTex getText(const int message, TTF_Font* font, const SDL_Color& color);
 
-		void renderTexture(std::shared_ptr<GameTexture> tex, const int x, const int y);
-		void renderTexture(std::shared_ptr<GameTexture> tex, const double x, const double y);
+		void renderTexture(GameTex tex, const int x, const int y);
+		void renderTexture(GameTex tex, const double x, const double y);
 		void drawRectangle(const SDL_Rect& rect, const SDL_Color color);
 
 		void clearScreen();

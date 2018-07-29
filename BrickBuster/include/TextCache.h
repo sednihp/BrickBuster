@@ -9,7 +9,7 @@ class TextCache
 {
 	private:
 		SDL_Renderer* &ren;
-		std::map<std::pair<TTF_Font*, std::string>, std::shared_ptr<GameTexture>> words;
+		std::map<std::pair<TTF_Font*, std::string>, GameTex> words;
 
 		TextCache &operator=(const TextCache&);
 		TextCache(const TextCache&);
@@ -19,5 +19,6 @@ class TextCache
 		~TextCache();
 
 		void flush();
-		std::shared_ptr<GameTexture> getText(const std::string& message, TTF_Font* font, const SDL_Color& color);
+		GameTex getText(const std::string& message, TTF_Font* font, const SDL_Color& color);
+		GameTex getText(const int message, TTF_Font* font, const SDL_Color& color);
 };

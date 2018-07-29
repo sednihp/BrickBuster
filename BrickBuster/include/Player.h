@@ -2,13 +2,17 @@
 
 class Player {
 private:
-	int score;
+	int score, lives;
 
 public:
-	Player() : score(0) {}
+	Player() : score(0), lives(3) {}
 	~Player() {}
 
 	void hasScored() { ++score; }
+	void loseLife() { --lives; }
+	
 	const int getScore() const { return score; }
-	void reset() { score = 0;  }
+	const int getLives() const { return lives; }
+
+	void reset() { score = 0; }
 };

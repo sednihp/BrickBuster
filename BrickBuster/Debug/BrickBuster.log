@@ -1,9 +1,2 @@
-﻿  Ball.cpp
-  Block.cpp
-  BlockLoader.cpp
-  ChooseLevel.cpp
-  CollisionEngine.cpp
-  GameObject.cpp
-  Level.cpp
-  Generating Code...
+﻿  Level.cpp
   BrickBuster.vcxproj -> D:\Dropbox\Code\C++\BrickBuster\Debug\BrickBuster.exe

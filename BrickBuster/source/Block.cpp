@@ -17,7 +17,6 @@ Block::Block(std::unique_ptr<InputComponent> ic,
 
 Block::~Block()
 {
-
 }
 
 void Block::configureBlock(BrickBuster::BlockColor bc)

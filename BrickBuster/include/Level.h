@@ -10,11 +10,15 @@
 
 class Level : public State {
 private:
+	std::unique_ptr<Player> player;
 	std::unique_ptr<Bat> bat;
 	std::vector<std::unique_ptr<Block>> blocks;
 	std::unique_ptr<Ball> ball;
-	int levelNum;
 	std::unique_ptr<BlockLoader> blockLoader;
+	TTF_Font * font;
+	GameTex pausedTex, livesTex, scoreTex;
+	int levelNum;
+	bool paused;
 
 	void checkIfBallMoving();
 	void removeDestroyedBlocks();

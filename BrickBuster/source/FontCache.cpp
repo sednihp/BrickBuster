@@ -1,5 +1,6 @@
 #include "FontCache.h"
 #include "Vectors.h"
+#include <iostream>
 
 FontCache::FontCache(SDL_Renderer* &renderer, const std::string &f) : ren(renderer), fontFile(f)
 {
@@ -31,8 +32,10 @@ TTF_Font* FontCache::getFont(const int size)
     if(i == fonts.end())
     {
 		TTF_Font* font = TTF_OpenFont(fontFile.c_str(), size);
-		if(!font)
-			throw TTF_GetError();
+		if (!font)
+		{
+			std::cerr << "No font loaded: " << TTF_GetError() << "\n";
+		}
 		i = fonts.insert(i, std::make_pair(size, font));
 }
 

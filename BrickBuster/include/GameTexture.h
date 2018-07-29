@@ -1,5 +1,10 @@
 #pragma once
 #include "SDL_render.h"
+#include <memory>
+
+class GameTexture;
+
+typedef std::shared_ptr<GameTexture> GameTex;
 
 class GameTexture 
 {

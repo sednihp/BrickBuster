@@ -31,6 +31,18 @@
     <Filter Include="Source Files\Object">
       <UniqueIdentifier>{64e2accb-973a-46fb-b139-444e9b370f33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Object\Components">
+      <UniqueIdentifier>{6ccb8e5c-e5ca-4e2c-a610-d25df6f1e18c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Object\Components">
+      <UniqueIdentifier>{b4e564ec-3110-4589-9036-cd9a6b21128d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Graphics">
+      <UniqueIdentifier>{9947c9ff-7c2d-4645-ad79-b3ac041b24e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Graphics">
+      <UniqueIdentifier>{99bb9d0f-3364-4d1f-86dc-e0a94f54d166}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CollisionEngine.h">
@@ -39,25 +51,10 @@
     <ClInclude Include="include\Engine.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\FontCache.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GameTexture.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ImageCache.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="include\MediaCache.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="include\Player.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="include\StateMachine.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="include\TextCache.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="include\Timer.h">
@@ -90,17 +87,32 @@
     <ClInclude Include="include\BlockLoader.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\InputComponent.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GraphicsComponent.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="include\GameObject.h">
       <Filter>Header Files\Object</Filter>
     </ClInclude>
     <ClInclude Include="include\BrickBuster.h">
       <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GraphicsComponent.h">
+      <Filter>Header Files\Object\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\InputComponent.h">
+      <Filter>Header Files\Object\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FontCache.h">
+      <Filter>Header Files\Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameTexture.h">
+      <Filter>Header Files\Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ImageCache.h">
+      <Filter>Header Files\Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MediaCache.h">
+      <Filter>Header Files\Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="include\TextCache.h">
+      <Filter>Header Files\Engine\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -110,22 +122,7 @@
     <ClCompile Include="source\Engine.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="source\FontCache.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="source\GameTexture.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ImageCache.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="source\MediaCache.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="source\StateMachine.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="source\TextCache.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
     <ClCompile Include="source\Timer.cpp">
@@ -143,9 +140,6 @@
     <ClCompile Include="source\Title.cpp">
       <Filter>Source Files\State</Filter>
     </ClCompile>
-    <ClCompile Include="source\Level.cpp">
-      <Filter>Source Files\State</Filter>
-    </ClCompile>
     <ClCompile Include="source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -158,14 +152,32 @@
     <ClCompile Include="source\BlockLoader.cpp">
       <Filter>Source Files\Engine</Filter>
     </ClCompile>
-    <ClCompile Include="source\InputComponent.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="source\GraphicsComponent.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="source\GameObject.cpp">
       <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GraphicsComponent.cpp">
+      <Filter>Source Files\Object\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="source\InputComponent.cpp">
+      <Filter>Source Files\Object\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="source\FontCache.cpp">
+      <Filter>Source Files\Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GameTexture.cpp">
+      <Filter>Source Files\Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ImageCache.cpp">
+      <Filter>Source Files\Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MediaCache.cpp">
+      <Filter>Source Files\Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\TextCache.cpp">
+      <Filter>Source Files\Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Level.cpp">
+      <Filter>Source Files\State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
