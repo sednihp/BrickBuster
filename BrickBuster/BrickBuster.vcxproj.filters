@@ -81,9 +81,6 @@
     <ClInclude Include="include\Bat.h">
       <Filter>Header Files\Object</Filter>
     </ClInclude>
-    <ClInclude Include="include\Object.h">
-      <Filter>Header Files\Object</Filter>
-    </ClInclude>
     <ClInclude Include="include\ChooseLevel.h">
       <Filter>Header Files\State</Filter>
     </ClInclude>
@@ -97,6 +94,12 @@
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
     <ClInclude Include="include\GraphicsComponent.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameObject.h">
+      <Filter>Header Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BrickBuster.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
   </ItemGroup>
@@ -143,9 +146,6 @@
     <ClCompile Include="source\Level.cpp">
       <Filter>Source Files\State</Filter>
     </ClCompile>
-    <ClCompile Include="source\Object.cpp">
-      <Filter>Source Files\Object</Filter>
-    </ClCompile>
     <ClCompile Include="source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -163,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="source\GraphicsComponent.cpp">
       <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GameObject.cpp">
+      <Filter>Source Files\Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

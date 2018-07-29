@@ -4,7 +4,7 @@
 Bat::Bat(std::unique_ptr<InputComponent> ic, 
 			std::unique_ptr<GraphicsComponent> gc,
 			const int scrWidth, 
-			const int scrHeight) : Object(std::move(ic), 
+			const int scrHeight) : GameObject(std::move(ic), 
 											std::move(gc))
 {
 	color = { 160,64,32 };

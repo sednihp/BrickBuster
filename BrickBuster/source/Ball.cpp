@@ -3,11 +3,11 @@
 Ball::Ball(std::unique_ptr<InputComponent> ic,
 			std::unique_ptr<GraphicsComponent> gc,
 			const int scrWidth, 
-			const double topOfBat) : Object(std::move(ic), 
+			const double topOfBat) : GameObject(std::move(ic), 
 											std::move(gc)),
 									moving(false), speed(startSpeed)
 {
-	image = fileName;
+	image = "files/images/ball/ball.bmp";
 	setToStartPosition(scrWidth, topOfBat);
 }
 

@@ -126,6 +126,7 @@
     <ClInclude Include="include\Bat.h" />
     <ClInclude Include="include\Block.h" />
     <ClInclude Include="include\BlockLoader.h" />
+    <ClInclude Include="include\BrickBuster.h" />
     <ClInclude Include="include\ChooseLevel.h" />
     <ClInclude Include="include\CollisionEngine.h" />
     <ClInclude Include="include\Engine.h" />
@@ -137,7 +138,7 @@
     <ClInclude Include="include\ImageCache.h" />
     <ClInclude Include="include\MediaCache.h" />
     <ClInclude Include="include\Player.h" />
-    <ClInclude Include="include\Object.h" />
+    <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\State.h" />
     <ClInclude Include="include\StateMachine.h" />
     <ClInclude Include="include\TextCache.h" />
@@ -161,7 +162,7 @@
     <ClCompile Include="source\ImageCache.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MediaCache.cpp" />
-    <ClCompile Include="source\Object.cpp" />
+    <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\StateMachine.cpp" />
     <ClCompile Include="source\TextCache.cpp" />
     <ClCompile Include="source\Timer.cpp" />

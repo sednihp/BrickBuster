@@ -1,7 +1,7 @@
 #pragma once
-#include "Object.h"
+#include "GameObject.h"
 
-class Bat : public Object {
+class Bat : public GameObject {
 private:
 	const int speed = 7;
 	const int batMargin = 50;

@@ -3,7 +3,7 @@
 Block::Block(std::unique_ptr<InputComponent> ic,
 				std::unique_ptr<GraphicsComponent> gc,
 				const Point2D& p,
-				BrickBuster::BlockColor bc) : Object(std::move(ic), 
+				BrickBuster::BlockColor bc) : GameObject(std::move(ic), 
 														std::move(gc)),
 												destructible(true), 
 												alive(true)

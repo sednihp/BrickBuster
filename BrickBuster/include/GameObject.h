@@ -7,7 +7,7 @@
 #include <memory>
 #include <iostream>
 
-class Object
+class GameObject
 {
 	protected:
 		Point2D position;
@@ -19,9 +19,9 @@ class Object
 		std::unique_ptr<GraphicsComponent> graphics;
 
 	public:
-		Object(std::unique_ptr<InputComponent> ic, 
+		GameObject(std::unique_ptr<InputComponent> ic, 
 				std::unique_ptr<GraphicsComponent> gc);
-		~Object();
+		~GameObject();
 
 		virtual const Point2D getPosition() { return position; }
 		virtual const SDL_Rect& getBox() { return box; }

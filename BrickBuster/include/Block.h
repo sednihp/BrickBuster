@@ -1,21 +1,8 @@
 #pragma once
-#include "Object.h"
+#include "GameObject.h"
+#include "BrickBuster.h"
 
-namespace BrickBuster
-{
-	enum class BlockColor
-	{
-		GREY = 0,
-		PURPLE,
-		BLUE,
-		GREEN,
-		YELLOW,
-		ORANGE,
-		RED
-	};
-}
-
-class Block : public Object {
+class Block : public GameObject {
 private:
 	const int blockWidth = 80;
 	const int blockHeight = 20;
