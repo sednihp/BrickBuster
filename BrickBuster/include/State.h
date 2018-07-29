@@ -1,6 +1,4 @@
-#ifndef STATE_H
-#define STATE_H
-
+#pragma once
 #include "MediaCache.h"
 class Engine;
 
@@ -22,5 +20,3 @@ class State
 		virtual void render() = 0;
 		virtual void exit(Engine* engine) = 0;
 };
-
-#endif

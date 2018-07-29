@@ -13,7 +13,7 @@ class Object
 		Point2D position;
 		Vector2D direction;
 		std::string image = "";
-		SDL_Rect box = { 0,0,0,0 };
+		SDL_Rect box = { 0,0,1,1 };
 		SDL_Color color = { 0,0,0 };
 		std::unique_ptr<InputComponent> input;
 		std::unique_ptr<GraphicsComponent> graphics;

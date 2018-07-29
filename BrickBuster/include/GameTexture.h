@@ -1,6 +1,4 @@
-#ifndef GAMETEXTURE_H
-#define GAMETEXTURE_H
-
+#pragma once
 #include "SDL_render.h"
 
 class GameTexture 
@@ -22,5 +20,3 @@ class GameTexture
 
 		void setPosition(const int x, const int y);
 };
-
-#endif

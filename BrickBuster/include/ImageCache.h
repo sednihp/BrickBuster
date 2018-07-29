@@ -1,6 +1,4 @@
-#ifndef IMAGECACHE_H
-#define IMAGECACHE_H
-
+#pragma once
 #include "GameTexture.h"
 #include <string>
 #include <map>
@@ -22,5 +20,3 @@ class ImageCache
 		void flush();
 		std::shared_ptr<GameTexture> getImage(const std::string& file);
 };
-
-#endif

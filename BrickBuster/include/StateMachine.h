@@ -1,6 +1,4 @@
-#ifndef STATEMACHINE_H
-#define STATEMACHINE_H
-
+#pragma once
 #include "State.h"
 #include <memory>
 class Engine;
@@ -21,5 +19,3 @@ class StateMachine
 
 		void changeState(std::shared_ptr<State> newState);
 };
-
-#endif

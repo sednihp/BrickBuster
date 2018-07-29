@@ -1,6 +1,4 @@
-#ifndef TEXTCACHE_H
-#define TEXTCACHE_H
-
+#pragma once
 #include "GameTexture.h"
 #include <string>
 #include <map>
@@ -23,5 +21,3 @@ class TextCache
 		void flush();
 		std::shared_ptr<GameTexture> getText(const std::string& message, TTF_Font* font, const SDL_Color& color);
 };
-
-#endif

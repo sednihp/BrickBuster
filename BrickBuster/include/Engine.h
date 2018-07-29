@@ -1,5 +1,4 @@
-#ifndef ENGINE_H
-#define ENGINE_H
+#pragma once
 
 #include "MediaCache.h"
 #include "StateMachine.h"
@@ -28,5 +27,3 @@ class Engine
 		void stopRunning() { running = false; }
 		void changeState(std::shared_ptr<State> newState);
 };
-
-#endif

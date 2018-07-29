@@ -1,6 +1,4 @@
-#ifndef MEDIACACHE_H
-#define MEDIACACHE_H
-
+#pragma once
 #include "SDL.h"
 #include <string>
 #include "ImageCache.h"
@@ -45,5 +43,3 @@ class MediaCache
 		const int centreY(const int gtHeight) const;
 		const SDL_Color& getTextColor();	
 };
-
-#endif

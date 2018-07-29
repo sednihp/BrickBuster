@@ -1,6 +1,4 @@
-#ifndef FONTCACHE_H
-#define FONTCACHE_H
-
+#pragma once
 #include "SDL_ttf.h"
 #include <map>
 
@@ -21,5 +19,3 @@ class FontCache
 		void flush();
 		TTF_Font* getFont(const int size);
 };
-
-#endif
