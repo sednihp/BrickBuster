@@ -5,7 +5,7 @@
 
 class Ball : public GameObject {
 private:
-	bool moving;
+	bool moving = false;
 	const int ballWidth = 20;
 	const int radius = ballWidth / 2;
 	const double speedIncrement = 1.005;
@@ -26,6 +26,6 @@ public:
 	void startMoving(const double xDir, const double yDir);
 	bool hasCollided(const SDL_Rect& rect);
 	const double distance(const double x1, const double y1, const double x2, const double y2);
-	int move(const int scrWidth, const int scrHeight, const std::unique_ptr<Bat>& bat, const std::vector<std::unique_ptr<Block>>& blocks);
+	int update(const int scrWidth, const int scrHeight, const std::unique_ptr<Bat>& bat, const std::vector<std::unique_ptr<Block>>& blocks);
 	void reset(const int scrWidth, const double topOfBat);
 };

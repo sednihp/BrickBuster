@@ -9,8 +9,8 @@ class FontCache
 		std::map<int, TTF_Font*> fonts;
 		const std::string fontFile;
 
-		FontCache &operator=(const FontCache&);
-		FontCache(const FontCache&);
+		FontCache &operator=(const FontCache&) = delete;
+		FontCache(const FontCache&) = delete;
 
 	public:
 		FontCache(SDL_Renderer* &ren, const std::string &f);

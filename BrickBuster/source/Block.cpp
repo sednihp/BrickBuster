@@ -4,15 +4,12 @@ Block::Block(std::unique_ptr<InputComponent> ic,
 				std::unique_ptr<GraphicsComponent> gc,
 				const Point2D& p,
 				BrickBuster::BlockColor bc) : GameObject(std::move(ic), 
-														std::move(gc)),
-												destructible(true), 
-												alive(true)
+														std::move(gc))
 {
-	box = { static_cast<int>(p.x), static_cast<int>(p.y), blockWidth, blockHeight };
 	configureBlock(bc);
 	position = p;
-
-	box = { static_cast<int>(position.x), static_cast<int>(position.y), blockWidth, blockHeight };
+	setBox({ static_cast<int>(position.x), static_cast<int>(position.y), blockWidth, blockHeight });
+	//box = { static_cast<int>(position.x), static_cast<int>(position.y), blockWidth, blockHeight };
 }
 
 Block::~Block()

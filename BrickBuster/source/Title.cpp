@@ -34,7 +34,7 @@ void Title::update(Engine*)
 
 void Title::render()
 {
-	for (auto &title : titleTex)
+	for (auto& title : titleTex)
 	{
 		mediaCache.renderTexture(title, title->getX(), title->getY());
 	}
@@ -56,21 +56,19 @@ void Title::exit(Engine* )
 
 void Title::generateTextures()
 {
-	SDL_Color c = mediaCache.getTextColor();
-
-	titleTex.push_back(mediaCache.getText("Brick", titleFont, c));
-	titleTex.push_back(mediaCache.getText("Buster", titleFont, c));
+	titleTex.push_back(mediaCache.getText("Brick", titleFont));
+	titleTex.push_back(mediaCache.getText("Buster", titleFont));
 
 	for (size_t i = 0; i < titleTex.size(); i++)
 	{
 		titleTex[i]->setPosition(mediaCache.centreX(titleTex[i]->getW()), 10 + i * titleTex[i]->getH());
 	}
 
-	menu.push_back(mediaCache.getText("Play", menuFont, c));
-	menu.push_back(mediaCache.getText("Choose Level", menuFont, c));
-	menu.push_back(mediaCache.getText("High Scores", menuFont, c));
-	menu.push_back(mediaCache.getText("Level Editor", menuFont, c));
-	menu.push_back(mediaCache.getText("Exit", menuFont, c));
+	menu.push_back(mediaCache.getText("Play", menuFont));
+	menu.push_back(mediaCache.getText("Choose Level", menuFont));
+	menu.push_back(mediaCache.getText("High Scores", menuFont));
+	menu.push_back(mediaCache.getText("Level Editor", menuFont));
+	menu.push_back(mediaCache.getText("Exit", menuFont));
 
 	for (size_t i = 0; i<menu.size(); ++i)
 	{
@@ -86,11 +84,11 @@ void Title::mouseClicked(SDL_Event&, Engine* engine)
 	{
 		if (CollisionEngine::checkCollision(menu[0]->getBox(), x, y))
 		{
-			engine->changeState(std::make_shared<Level>(mediaCache, 1));
+			engine->changeState(std::make_unique<Level>(mediaCache, 1));
 		}
 		else if (CollisionEngine::checkCollision(menu[1]->getBox(), x, y))
 		{
-			engine->changeState(std::make_shared<ChooseLevel>(mediaCache));
+			engine->changeState(std::make_unique<ChooseLevel>(mediaCache));
 		}
 		else if (CollisionEngine::checkCollision(menu[2]->getBox(), x, y))
 		{

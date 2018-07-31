@@ -7,15 +7,14 @@ Bat::Bat(std::unique_ptr<InputComponent> ic,
 			const int scrHeight) : GameObject(std::move(ic), 
 											std::move(gc))
 {
-	color = { 160,64,32 };
+	setColor({ 160,64,32 });
 	setBatToStartPos(scrWidth, scrHeight);
-	position.x = box.x;
-	position.y = box.y;
+	setPosition({ static_cast<double>(box.x),static_cast<double>(box.y) });
 }
 
 void Bat::setBatToStartPos(const int scrWidth, const int scrHeight)
 {
-	box = {(scrWidth - batWidth) / 2, scrHeight - batMargin, batWidth, batHeight };
+	setBox({(scrWidth - batWidth) / 2, scrHeight - batMargin, batWidth, batHeight });
 }
 
 Bat::~Bat()
@@ -23,7 +22,7 @@ Bat::~Bat()
 
 }
 
-void Bat::move(const int scrWidth)
+void Bat::update(const int scrWidth)
 {
 	position.x += direction.x * speed;
 
@@ -39,15 +38,14 @@ void Bat::move(const int scrWidth)
 
 const SDL_Rect& Bat::getBox()
 {
-	box.x = static_cast<int>(position.x);
-	box.y = static_cast<int>(position.y);
-
+	setBox({ static_cast<int>(position.x),static_cast<int>(position.y),box.w,box.h });
+	
 	return box;
 }
 
 void Bat::reset(const int scrWidth, const int scrHeight)
 {
-	direction = { 0,0 };
+	setDirection({ 0,0 });
 	setBatToStartPos(scrWidth, scrHeight);
 	position.x = box.x;
 }
@@ -57,10 +55,10 @@ void Bat::startMoving()
 	switch (rand() % 2)
 	{
 		case 0:
-			direction.y = -1;
+			setDirection({ 0,-1 });
 			break;
 		case 1: 
-			direction.y = 1;
+			setDirection({ 0,1 });
 			break;
 	}
 }

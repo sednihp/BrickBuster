@@ -9,7 +9,6 @@ Level::Level(MediaCache& mc,
 			const int level) : State(mc), 
 								font(mediaCache.getFont(60)),
 								levelNum(level), 
-								paused(false),
 								player(std::make_unique<Player>()),
 								blockLoader(std::make_unique<BlockLoader>()),
 								bat(std::make_unique<Bat>(std::make_unique<BatInputComponent>(), 
@@ -23,8 +22,11 @@ Level::Level(MediaCache& mc,
 {
 	blockLoader->loadBlocks(levelNum, blocks);
 
-	pausedTex = mediaCache.getText("Paused", font, mediaCache.getTextColor());
+	pausedTex = mediaCache.getText("Paused", font);
 	pausedTex->setPosition(mediaCache.centreX(pausedTex->getW()), mediaCache.centreY(pausedTex->getH()));
+
+	levelTex = mediaCache.getText("Level " + std::to_string(levelNum), font);
+	levelTex->setPosition(mediaCache.centreX(levelTex->getW()), 5);
 }
 
 Level::~Level()
@@ -36,58 +38,55 @@ void Level::enter(Engine* )
 
 }
 
-void Level::handleEvents(SDL_Event &e, Engine*)
+void Level::handleEvents(SDL_Event &e, Engine* engine)
 {
-	if (e.type == SDL_KEYDOWN)
-	{
-		switch (e.key.keysym.sym)
-		{
-			case SDLK_SPACE: 
-				paused = !paused;
-				break;
-		}
-	}
+	keyPressed(e, engine);
 
-	bat->handleEvents(e);
+	if (!paused)
+	{
+		bat->handleEvents(e);
+	}
 }
 
 void Level::update(Engine* engine)
 {
 	if (!paused)
 	{
-		bat->move(mediaCache.getScrWidth());
+		bat->update(mediaCache.getScrWidth());
 
-		checkIfBallMoving();
-
-		if (ball->move(mediaCache.getScrWidth(), mediaCache.getScrHeight(), bat, blocks) < 0)
+		//if ball->move() returns < 0 the ball has gone off the bottom of the screen so we need to lose and life and reset
+		//if we've lost all our lives then we're dead
+		if (ball->update(mediaCache.getScrWidth(), mediaCache.getScrHeight(), bat, blocks) < 0)
 		{
 			player->loseLife();
 			if (player->getLives() == 0)
 			{
-				engine->changeState(std::make_shared<Title>(mediaCache));
+				engine->changeState(std::make_unique<Title>(mediaCache));
 			}
 			bat->reset(mediaCache.getScrWidth(), mediaCache.getScrHeight());
 			ball->reset(mediaCache.getScrWidth(), bat->getPosition().y);
 		}
 
-		removeDestroyedBlocks();
+		updateBlocks();
 	}
 }
 
 void Level::render()
 {
+	scoreTex = mediaCache.getText(player->getScore(), font);
+	mediaCache.renderTexture(scoreTex, 0, 5);
+
+	mediaCache.renderTexture(levelTex, levelTex->getX(), levelTex->getY());
+
+	livesTex = mediaCache.getText(player->getLives(), font);
+	mediaCache.renderTexture(livesTex, mediaCache.getScrWidth() - livesTex->getW(), 5);
+
 	bat->render(mediaCache);
 	for (const auto& block : blocks)
 	{
 		block->render(mediaCache);
 	}
 	ball->render(mediaCache);
-
-	scoreTex = mediaCache.getText(player->getScore(), font, mediaCache.getTextColor());
-	mediaCache.renderTexture(scoreTex, 0, 5);
-
-	livesTex = mediaCache.getText(player->getLives(), font, mediaCache.getTextColor());
-	mediaCache.renderTexture(livesTex, mediaCache.getScrWidth() - livesTex->getW(), 5);
 
 	if (paused)
 	{
@@ -103,15 +102,22 @@ void Level::exit(Engine* )
 // ===============
 // ===============
 
-void Level::checkIfBallMoving()
+void Level::keyPressed(SDL_Event& e, Engine*)
 {
-	if (!ball->isMoving() && bat->getDirection().x != 0)
+	if (e.type == SDL_KEYDOWN)
 	{
-		ball->startMoving(bat->getDirection().x, -1);
+		switch (e.key.keysym.sym)
+		{
+		case SDLK_SPACE:
+			paused = !paused;
+			break;
+		}
 	}
 }
 
-void Level::removeDestroyedBlocks()
+//iterate through all the blocks
+//if a block is not alive then it has been hit, so assign it's score to the player and remove it
+void Level::updateBlocks()
 {
 	auto b = blocks.begin();
 	while (b != blocks.end())
@@ -126,6 +132,4 @@ void Level::removeDestroyedBlocks()
 			++b;
 		}
 	}
-
-	blocks.erase(std::remove_if(blocks.begin(), blocks.end(), [](std::unique_ptr<Block>& block) { return (!block->isAlive()); }), blocks.end());
 }

@@ -122,6 +122,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\AudioCache.h" />
     <ClInclude Include="include\Ball.h" />
     <ClInclude Include="include\Bat.h" />
     <ClInclude Include="include\Block.h" />
@@ -139,6 +140,7 @@
     <ClInclude Include="include\MediaCache.h" />
     <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\GameObject.h" />
+    <ClInclude Include="include\PowerUp.h" />
     <ClInclude Include="include\State.h" />
     <ClInclude Include="include\StateMachine.h" />
     <ClInclude Include="include\TextCache.h" />
@@ -147,6 +149,7 @@
     <ClInclude Include="include\Vectors.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\AudioCache.cpp" />
     <ClCompile Include="source\Ball.cpp" />
     <ClCompile Include="source\Bat.cpp" />
     <ClCompile Include="source\Block.cpp" />

@@ -10,11 +10,11 @@
 class GameObject
 {
 	protected:
-		Point2D position;
-		Vector2D direction;
-		std::string image = "";
+		Point2D position = { 0,0 };
+		Vector2D direction = { 0,0 };
 		SDL_Rect box = { 0,0,1,1 };
 		SDL_Color color = { 0,0,0 };
+		std::string image = "";
 		std::unique_ptr<InputComponent> input;
 		std::unique_ptr<GraphicsComponent> graphics;
 
@@ -29,7 +29,11 @@ class GameObject
 		const std::string& getImage() const { return image; }
 		const SDL_Color& getColor() const { return color; }
 
-		void setDirection(const Vector2D& dir) { direction = dir; }
+		void setPosition(const Point2D& p) { position = p; }
+		void setBox(const SDL_Rect& r) { box = r; }
+		void setDirection(const Vector2D& d) { direction = d; }
+		void setImage(const std::string i) { image = i; }
+		void setColor(const SDL_Color& c) { color = c; }		
 
 		void handleEvents(SDL_Event &e) { input->handleEvents(*this, e); }
 		void render(MediaCache& mc) { graphics->render(*this, mc); }

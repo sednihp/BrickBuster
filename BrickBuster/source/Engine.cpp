@@ -2,14 +2,13 @@
 #include "Title.h"
 #include <time.h>
 
-Engine::Engine() :	running(true),
-					previous(SDL_GetTicks()), lag(0.0),
+Engine::Engine() :	previous(SDL_GetTicks()), lag(0.0),
 					mediaCache()
 {
 	srand(static_cast<unsigned int>(time(nullptr)));
 
-	stateMachine = std::make_unique<StateMachine>(this);
-	stateMachine->setCurrentState(std::make_shared<Title>(mediaCache));
+	stateMachine = std::make_unique<StateMachine>(this, std::make_unique<Title>(mediaCache));
+	//stateMachine->setCurrentState(nullptr);
 }
 
 Engine::~Engine()
@@ -52,16 +51,16 @@ void Engine::handleEvents()
 		//the esc key takes us back to the title screen
 		else if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE)
 		{
-			changeState(std::make_shared<Title>(mediaCache));
+			changeState(std::make_unique<Title>(mediaCache));
 		}
 
-		stateMachine->currentState()->handleEvents(e, this);
+		stateMachine->getCurrentState()->handleEvents(e, this);
 	}
 }
 
 void Engine::update()
 {
-	stateMachine->currentState()->update(this);
+	stateMachine->getCurrentState()->update(this);
 }
 
 //clear the screen, render the currentState then update the screen
@@ -69,12 +68,12 @@ void Engine::render()
 {
 	mediaCache.clearScreen();
 
-	stateMachine->currentState()->render();
+	stateMachine->getCurrentState()->render();
 
 	mediaCache.updateScreen();
 }
 
-void Engine::changeState(std::shared_ptr<State> newState)
+void Engine::changeState(std::unique_ptr<State> newState)
 {
-	stateMachine->changeState(newState);
+	stateMachine->changeState(std::move(newState));
 }

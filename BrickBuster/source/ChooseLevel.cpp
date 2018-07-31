@@ -1,26 +1,25 @@
 #include "ChooseLevel.h"
 #include "Engine.h"
 #include "Title.h"
+#include "Level.h"
 #include"CollisionEngine.h"
 
 ChooseLevel::ChooseLevel(MediaCache& mc) : State(mc), 
-											f1(mediaCache.getFont(30)), f2(mediaCache.getFont(40))
+											lvlFont(mediaCache.getFont(40)), f2(mediaCache.getFont(50))
 {
-	SDL_Color c = mediaCache.getTextColor();
-	for(int i = 0; i < numLevels-1; i++)
+	for(int i = 0; i < numLevels; i++)
 	{
 		std::string s = "Level " + std::to_string(i + 1);
-		GameTex tex = mediaCache.getText(s, f1, c);
-		tex->setPosition(mediaCache.centreX(tex->getW()), 20 + i*tex->getH());
+		GameTex tex = mediaCache.getText(s, lvlFont);
+		tex->setPosition(mediaCache.centreX(tex->getW()), topMargin + i*tex->getH());
 		levelTex.push_back(tex);
 	}
 
-	GameTex userlvlTex = mediaCache.getText("User Level", f1, c);
-	userlvlTex->setPosition(mediaCache.centreX(userlvlTex->getW()), 20 + (numLevels - 1)*userlvlTex->getH());
+	GameTex userlvlTex = mediaCache.getText("User Level", lvlFont);
+	userlvlTex->setPosition(mediaCache.centreX(userlvlTex->getW()), topMargin + numLevels*userlvlTex->getH());
 	levelTex.push_back(userlvlTex);
 
-
-	menu = mediaCache.getText("Main Menu", f2, c);
+	menu = mediaCache.getText("Main Menu", f2);
 	menu->setPosition(mediaCache.centreX(menu->getW()), mediaCache.getScrHeight() - menu->getH());
 }
 
@@ -69,7 +68,16 @@ void ChooseLevel::mouseClicked(SDL_Event &, Engine* engine)
 	{
 		if (CollisionEngine::checkCollision(menu->getBox(), x, y))
 		{
-			engine->changeState(std::make_shared <Title> (mediaCache));
+			engine->changeState(std::make_unique<Title>(mediaCache));
+		}
+
+		for (int i=0; i<numLevels; i++)
+		{
+			if (CollisionEngine::checkCollision(levelTex[i]->getBox(), x, y))
+			{
+				engine->changeState(std::make_unique<Level>(mediaCache, i+1));
+				break;
+			}
 		}
 	}
 }

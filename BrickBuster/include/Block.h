@@ -6,7 +6,8 @@ class Block : public GameObject {
 private:
 	const int blockWidth = 80;
 	const int blockHeight = 20;
-	bool destructible, alive;
+	bool destructible = true;
+	bool alive = true;
 	int score;
 
 	void configureBlock(BrickBuster::BlockColor bc);

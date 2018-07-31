@@ -37,10 +37,10 @@
     <Filter Include="Header Files\Object\Components">
       <UniqueIdentifier>{b4e564ec-3110-4589-9036-cd9a6b21128d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Engine\Graphics">
+    <Filter Include="Header Files\Engine\Media">
       <UniqueIdentifier>{9947c9ff-7c2d-4645-ad79-b3ac041b24e8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Engine\Graphics">
+    <Filter Include="Source Files\Engine\Media">
       <UniqueIdentifier>{99bb9d0f-3364-4d1f-86dc-e0a94f54d166}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -100,19 +100,25 @@
       <Filter>Header Files\Object\Components</Filter>
     </ClInclude>
     <ClInclude Include="include\FontCache.h">
-      <Filter>Header Files\Engine\Graphics</Filter>
+      <Filter>Header Files\Engine\Media</Filter>
     </ClInclude>
     <ClInclude Include="include\GameTexture.h">
-      <Filter>Header Files\Engine\Graphics</Filter>
+      <Filter>Header Files\Engine\Media</Filter>
     </ClInclude>
     <ClInclude Include="include\ImageCache.h">
-      <Filter>Header Files\Engine\Graphics</Filter>
+      <Filter>Header Files\Engine\Media</Filter>
     </ClInclude>
     <ClInclude Include="include\MediaCache.h">
-      <Filter>Header Files\Engine\Graphics</Filter>
+      <Filter>Header Files\Engine\Media</Filter>
     </ClInclude>
     <ClInclude Include="include\TextCache.h">
-      <Filter>Header Files\Engine\Graphics</Filter>
+      <Filter>Header Files\Engine\Media</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PowerUp.h">
+      <Filter>Header Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AudioCache.h">
+      <Filter>Header Files\Engine\Media</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -162,22 +168,25 @@
       <Filter>Source Files\Object\Components</Filter>
     </ClCompile>
     <ClCompile Include="source\FontCache.cpp">
-      <Filter>Source Files\Engine\Graphics</Filter>
+      <Filter>Source Files\Engine\Media</Filter>
     </ClCompile>
     <ClCompile Include="source\GameTexture.cpp">
-      <Filter>Source Files\Engine\Graphics</Filter>
+      <Filter>Source Files\Engine\Media</Filter>
     </ClCompile>
     <ClCompile Include="source\ImageCache.cpp">
-      <Filter>Source Files\Engine\Graphics</Filter>
+      <Filter>Source Files\Engine\Media</Filter>
     </ClCompile>
     <ClCompile Include="source\MediaCache.cpp">
-      <Filter>Source Files\Engine\Graphics</Filter>
+      <Filter>Source Files\Engine\Media</Filter>
     </ClCompile>
     <ClCompile Include="source\TextCache.cpp">
-      <Filter>Source Files\Engine\Graphics</Filter>
+      <Filter>Source Files\Engine\Media</Filter>
     </ClCompile>
     <ClCompile Include="source\Level.cpp">
       <Filter>Source Files\State</Filter>
+    </ClCompile>
+    <ClCompile Include="source\AudioCache.cpp">
+      <Filter>Source Files\Engine\Media</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

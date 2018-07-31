@@ -7,8 +7,8 @@ class State
 	protected:
 		MediaCache &mediaCache;
 
-		State &operator=(const State&);
-		State(const State&);
+		State &operator=(const State&) = delete;
+		State(const State&) = delete;
 
 	public:
 		State(MediaCache &mc) : mediaCache(mc) {}

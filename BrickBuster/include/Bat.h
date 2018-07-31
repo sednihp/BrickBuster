@@ -16,8 +16,7 @@ public:
 
 	virtual const SDL_Rect& getBox();
 	const int getWidth() const { return batWidth; }
-	void move(const int scrWidth);
-	
+	void update(const int scrWidth);
 	void reset(const int scrWidth, const int scrHeight);
 	void startMoving();
 };

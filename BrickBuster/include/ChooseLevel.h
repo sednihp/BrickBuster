@@ -4,9 +4,10 @@
 
 class ChooseLevel : public State {
 private:
-	TTF_Font * f1;
+	TTF_Font* lvlFont;
 	TTF_Font* f2;
-	const int numLevels = 14;
+	const int numLevels = 15;
+	const int topMargin = 20;
 	std::vector<GameTex> levelTex;
 	GameTex menu;
 

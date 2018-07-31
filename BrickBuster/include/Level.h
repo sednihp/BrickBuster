@@ -16,12 +16,12 @@ private:
 	std::unique_ptr<Ball> ball;
 	std::unique_ptr<BlockLoader> blockLoader;
 	TTF_Font * font;
-	GameTex pausedTex, livesTex, scoreTex;
+	GameTex pausedTex, levelTex, livesTex, scoreTex;
 	int levelNum;
-	bool paused;
+	bool paused = false;
 
-	void checkIfBallMoving();
-	void removeDestroyedBlocks();
+	void keyPressed(SDL_Event& e, Engine* engine);
+	void updateBlocks();
 	
 public:
 	Level(MediaCache& mc, const int level);

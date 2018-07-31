@@ -12,9 +12,6 @@ class Title : public State
 
 		void generateTextures();
 		void mouseClicked(SDL_Event &e, Engine* engine);
-
-		Title &operator=(const Title&);
-		Title(const Title&);
 		
 	public:
 		Title(MediaCache &mc);

@@ -11,8 +11,8 @@ class TextCache
 		SDL_Renderer* &ren;
 		std::map<std::pair<TTF_Font*, std::string>, GameTex> words;
 
-		TextCache &operator=(const TextCache&);
-		TextCache(const TextCache&);
+		TextCache &operator=(const TextCache&) = delete;
+		TextCache(const TextCache&) = delete;
 
 	public:
 		TextCache(SDL_Renderer* &renderer);

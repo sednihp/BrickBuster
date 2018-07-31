@@ -6,16 +6,13 @@ class Engine;
 class StateMachine
 {
 	private:
-		Engine* mOwner;
-		std::shared_ptr<State> mCurrentState;
+		Engine* owner;
+		std::unique_ptr<State> currentState;
 
 	public:
-		StateMachine(Engine* engine);
+		StateMachine(Engine* engine, std::unique_ptr<State> s);
 		~StateMachine();
 
-		void setCurrentState(std::shared_ptr<State> s) { mCurrentState = std::shared_ptr<State>(s); }
-
-		std::shared_ptr<State> currentState() const { return mCurrentState; }
-
-		void changeState(std::shared_ptr<State> newState);
+		const std::unique_ptr<State>& getCurrentState() const { return currentState; }
+		void changeState(std::unique_ptr<State> newState);
 };

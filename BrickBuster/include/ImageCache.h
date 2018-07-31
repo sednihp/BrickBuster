@@ -10,8 +10,8 @@ class ImageCache
 		SDL_Renderer* &ren;
 		std::map<std::string, GameTex> images;
 
-		ImageCache &operator=(const ImageCache&);
-		ImageCache(const ImageCache&);
+		ImageCache &operator=(const ImageCache&) = delete;
+		ImageCache(const ImageCache&) = delete;
 
 	public:
 		ImageCache(SDL_Renderer* &renderer);

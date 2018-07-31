@@ -40,14 +40,14 @@ TTF_Font* MediaCache::getFont(int size)
 	return fontCache.getFont(size);
 }
 
-GameTex MediaCache::getText(const std::string& message, TTF_Font* font, const SDL_Color& color)
+GameTex MediaCache::getText(const std::string& text, TTF_Font* font)
 {
-	return txtCache.getText(message, font, color);
+	return txtCache.getText(text, font, textColor);
 }
 
-GameTex MediaCache::getText(const int message, TTF_Font* font, const SDL_Color& color)
+GameTex MediaCache::getText(const int text, TTF_Font* font)
 {
-	return txtCache.getText(message, font, color);
+	return txtCache.getText(text, font, textColor);
 }
 
 void MediaCache::renderTexture(GameTex tex, const int x, const int y)
@@ -66,19 +66,10 @@ void MediaCache::renderTexture(GameTex tex, const int x, const int y)
 
 void MediaCache::renderTexture(GameTex tex, const double x, const double y)
 {
-	SDL_Rect pos;
-	pos.x = static_cast<int>(x);
-	pos.y = static_cast<int>(y);
-	pos.w = tex->getW();
-	pos.h = tex->getH();
-
-	if (SDL_RenderCopy(ren, tex->texture(), NULL, &pos) < 0)
-	{
-		std::cerr << "RenderCopy error: " << SDL_GetError() << "\n";
-	}
+	renderTexture(tex, static_cast<int>(x), static_cast<int>(y));
 }
 
-void MediaCache::drawRectangle(const SDL_Rect& rect, const SDL_Color c)
+void MediaCache::drawRectangle(const SDL_Rect& rect, const SDL_Color& c)
 {
 	if (SDL_SetRenderDrawColor(ren, c.r, c.g, c.b, SDL_ALPHA_OPAQUE) < 0)
 	{

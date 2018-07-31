@@ -5,9 +5,9 @@ Ball::Ball(std::unique_ptr<InputComponent> ic,
 			const int scrWidth, 
 			const double topOfBat) : GameObject(std::move(ic), 
 												std::move(gc)),
-										moving(false), speed(startSpeed)
+										speed(startSpeed)
 {
-	image = "files/images/ball/ball.bmp";
+	setImage("files/images/ball/ball.bmp");
 	setToStartPosition(scrWidth, topOfBat);
 }
 
@@ -27,78 +27,87 @@ const Point2D Ball::getPosition()
 	return { position.x - radius, position.y - radius };
 }
 
-int Ball::move(const int scrWidth, const int scrHeight, const std::unique_ptr<Bat>& bat, const std::vector<std::unique_ptr<Block>>& blocks)
+int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<Bat>& bat, const std::vector<std::unique_ptr<Block>>& blocks)
 {
-	direction.normalize();
-
-	//move across, then check if it's hit the bat, a block or the edge of the screen
-	const double moveX = direction.x * speed;
-	position.x += moveX;
-
-	if (hasCollided(bat->getBox()))
+	if (!isMoving() && bat->getDirection().x != 0)
 	{
-		if (direction.x > 0)
-		{
-			position.x = bat->getPosition().x - 2*radius;
-		}
-		else
-		{
-			position.x = bat->getPosition().x + bat->getWidth() + 2*radius;
-		}
-		direction.x *= -1;
-		direction.x += bat->getDirection().x;
-		speed *= speedIncrement;
+		startMoving(bat->getDirection().x, -1);
+		return 0;
 	}
-
-	for (auto& block : blocks)
+	else
 	{
-		if (hasCollided(block->getBox()))
+
+		direction.normalize();
+
+		//move across, then check if it's hit the bat, a block or the edge of the screen
+		const double moveX = direction.x * speed;
+		position.x += moveX;
+
+		if (hasCollided(bat->getBox()))
+		{
+			if (direction.x > 0)
+			{
+				position.x = bat->getPosition().x - 2 * radius;
+			}
+			else
+			{
+				position.x = bat->getPosition().x + bat->getWidth() + 2 * radius;
+			}
+			direction.x *= -1;
+			direction.x += bat->getDirection().x;
+			speed *= speedIncrement;
+		}
+
+		for (auto& block : blocks)
+		{
+			if (hasCollided(block->getBox()))
+			{
+				position.x -= moveX;
+				direction.x *= -1;
+				speed *= speedIncrement;
+				block->hitByBall();
+			}
+		}
+
+		if (position.x - radius < 0 || position.x + radius > scrWidth)
 		{
 			position.x -= moveX;
 			direction.x *= -1;
-			speed *= speedIncrement;
-			block->hitByBall();
 		}
-	}
 
-	if (position.x - radius < 0 || position.x + radius > scrWidth)
-	{
-		position.x -= moveX;
-		direction.x *= -1;
-	}
+		//move up/down then check if it's hit the bat or a block
+		//if its off the bottom of the screen then return -1
+		const double moveY = direction.y * speed;
+		position.y += moveY;
 
-	//move up/down then check if it's hit the bat or a block
-	//if its off the bottom of the screen then return -1
-	const double moveY = direction.y * speed;
-	position.y += moveY;
+		if (hasCollided(bat->getBox()))
+		{
+			position.y = bat->getPosition().y - radius;
+			direction.y = -1;
+			speed *= speedIncrement;
+			direction.x += bat->getDirection().x;
+		}
 
-	if (hasCollided(bat->getBox()))
-	{
-		position.y = bat->getPosition().y - radius;
-		direction.y = -1;
-		speed *= speedIncrement;
-		direction.x += bat->getDirection().x;
-	}
+		for (auto& block : blocks)
+		{
+			if (hasCollided(block->getBox()))
+			{
+				position.y -= moveY;
+				direction.y *= -1;
+				speed *= speedIncrement;
+				block->hitByBall();
+			}
+		}
 
-	for (auto& block : blocks)
-	{
-		if (hasCollided(block->getBox()))
+		if (position.y - radius < 0)
 		{
 			position.y -= moveY;
 			direction.y *= -1;
-			speed *= speedIncrement;
-			block->hitByBall();
 		}
-	}
-
-	if (position.y - radius < 0)
-	{
-		position.y -= moveY;
-		direction.y *= -1;
-	}
-	else if (position.y - radius > scrHeight)
-	{
-		return -1;
+		else if (position.y - radius > scrHeight)
+		{
+			return -1;
+		}
 	}
 
 	return 0;
@@ -137,11 +146,11 @@ void Ball::startMoving(const double xDir, const double yDir)
 {
 	moving = true;
 
-	const double randomX = rand() % 20 + 50;
-	const double randomY = rand() % 20 + 50;
+	const double xRand = rand() % 100 + 10;
+	const double yRand = rand() % 100 + 10;
 
-	direction.x = xDir * randomX;
-	direction.y = yDir * randomY;
+	direction.x = xDir * xRand;
+	direction.y = yDir * yRand;
 }
 
 void Ball::reset(const int scrWidth, const double topOfBat)

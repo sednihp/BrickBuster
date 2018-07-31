@@ -10,11 +10,10 @@ class MediaCache
 	private:
 		const int mScrWidth = 600;
 		const int mScrHeight = 750;
+		const SDL_Color textColor = { 255,255,255 };
+		const SDL_Color bgColor = { 91,173,255 };
 		SDL_Window* window;
 		SDL_Renderer* ren;
-		const SDL_Color textColor{ 255,255,255 };
-		const SDL_Color bgColor{ 91,173,255 };
-
 		ImageCache imgCache;
 		FontCache fontCache;
 		TextCache txtCache;
@@ -28,12 +27,12 @@ class MediaCache
 
 		GameTex getImage(const std::string& file);
 		TTF_Font* getFont(const int size);
-		GameTex getText(const std::string& message, TTF_Font* font, const SDL_Color& color);
-		GameTex getText(const int message, TTF_Font* font, const SDL_Color& color);
+		GameTex getText(const std::string& text, TTF_Font* font);
+		GameTex getText(const int text, TTF_Font* font);
 
 		void renderTexture(GameTex tex, const int x, const int y);
 		void renderTexture(GameTex tex, const double x, const double y);
-		void drawRectangle(const SDL_Rect& rect, const SDL_Color color);
+		void drawRectangle(const SDL_Rect& rect, const SDL_Color& color);
 
 		void clearScreen();
 		void updateScreen();

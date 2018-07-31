@@ -1,76 +1,36 @@
-#first column
-grey 0 50
-red 0 70
-orange 0 90
-yellow 0 110
-green 0 130
-blue 0 150
-purple 0 170
-pink 0 190
-#second column
-grey 40 50
-red 40 70
-orange 40 90
-yellow 40 110
-green 40 130
-blue 40 150
-purple 40 170
-grey 40 190
-#----------------------
-#third column
-#----------------------
-grey 160 50
-red 160 70
-orange 160 90
-yellow 160 110
-green 160 130
-blue 160 150
-purple 160 170
-grey 160 190
-#fourth column
-grey 200 50
-red 200 70
-orange 200 90
-yellow 200 110
-green 200 130
-blue 200 150
-purple 200 170
-pink 200 190
-#fifth column
-grey 240 50
-red 240 70
-orange 240 90
-yellow 240 110
-green 240 130
-blue 240 150
-purple 240 170
-pink 240 190
-#sixth column
-grey 280 50
-red 280 70
-orange 280 90
-yellow 280 110
-green 280 130
-blue 280 150
-purple 280 170
-grey 280 190
-#-------------------
-#seventh column
-#-----------------
-grey 400 50
-red 400 70
-orange 400 90
-yellow 400 110
-green 400 130
-blue 400 150
-purple 400 170
-grey 400 190
-#eigth column
-grey 440 50
-red 440 70
-orange 440 90
-yellow 440 110
-green 440 130
-blue 440 150
-purple 440 170
-pink 440 190
+6 10 100
+5 110 100
+4 210 100
+3 310 100
+2 410 100
+1 510 100
+6 10 140
+5 110 140
+4 210 140
+3 310 140
+2 410 140
+1 510 140
+6 10 180
+5 110 180
+4 210 180
+3 310 180
+2 410 180
+1 510 180
+6 10 220
+5 110 220
+4 210 220
+3 310 220
+2 410 220
+1 510 220
+6 10 260
+5 110 260
+4 210 260
+3 310 260
+2 410 260
+1 510 260
+6 10 300
+5 110 300
+4 210 300
+3 310 300
+2 410 300
+1 510 300

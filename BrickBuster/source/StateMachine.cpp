@@ -1,8 +1,8 @@
 #include "StateMachine.h"
 #include "Engine.h"
 
-StateMachine::StateMachine(Engine* owner) :	mOwner(owner),
-											mCurrentState(nullptr)
+StateMachine::StateMachine(Engine* owner, std::unique_ptr<State> s) : owner(owner),
+																	currentState(std::move(s))
 {
 }
 
@@ -12,16 +12,16 @@ StateMachine::~StateMachine()
 
 //if we try to change to the same state, return immediately
 //otherwise exit out of the current state, assign newState to currentState and enter the new state
-void StateMachine::changeState(std::shared_ptr<State> newState)
+void StateMachine::changeState(std::unique_ptr<State> newState)
 {
-	if(typeid(*mCurrentState) == typeid(*newState))
+	if(typeid(*currentState) == typeid(*newState))
 	{
 		return;
 	}
 
-	mCurrentState->exit(mOwner);
+	currentState->exit(owner);
 
-	mCurrentState = newState;
+	currentState = std::move(newState);
 
-	mCurrentState->enter(mOwner);
+	currentState->enter(owner);
 }
