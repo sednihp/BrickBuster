@@ -1,9 +1,2 @@
-﻿  AudioCache.cpp
-  BrickLoader.cpp
-  ChooseLevel.cpp
-  CollisionEngine.cpp
-  Level.cpp
-  GameTexture.cpp
-  Title.cpp
-  Generating Code...
+﻿  Level.cpp
   BrickBuster.vcxproj -> D:\Dropbox\Code\C++\BrickBuster\Debug\BrickBuster.exe

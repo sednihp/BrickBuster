@@ -58,16 +58,17 @@ void Level::update(Engine* engine)
 		//if we've lost all our lives then we're dead
 		if (ball->update(mediaCache.getScrWidth(), mediaCache.getScrHeight(), bat, blocks) < 0)
 		{
-			player->loseLife();
-			if (player->getLives() == 0)
-			{
-				engine->changeState(std::make_unique<Title>(mediaCache));
-			}
 			bat->reset(mediaCache.getScrWidth(), mediaCache.getScrHeight());
 			ball->reset(mediaCache.getScrWidth(), bat->getPosition().y);
+			player->loseLife();			
 		}
 
 		updateBricks();
+	}
+
+	if (player->getLives() == 0)
+	{
+		engine->changeState(std::make_unique<Title>(mediaCache));
 	}
 }
 
