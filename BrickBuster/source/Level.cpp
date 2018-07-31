@@ -10,7 +10,7 @@ Level::Level(MediaCache& mc,
 								font(mediaCache.getFont(60)),
 								levelNum(level), 
 								player(std::make_unique<Player>()),
-								blockLoader(std::make_unique<BlockLoader>()),
+								blockLoader(std::make_unique<BrickLoader>()),
 								bat(std::make_unique<Bat>(std::make_unique<BatInputComponent>(), 
 															std::make_unique<BatGraphicsComponent>(),
 															mediaCache.getScrWidth(),
@@ -20,7 +20,7 @@ Level::Level(MediaCache& mc,
 															mediaCache.getScrWidth(), 
 															bat->getPosition().y))
 {
-	blockLoader->loadBlocks(levelNum, blocks);
+	blockLoader->loadBricks(levelNum, blocks);
 
 	pausedTex = mediaCache.getText("Paused", font);
 	pausedTex->setPosition(mediaCache.centreX(pausedTex->getW()), mediaCache.centreY(pausedTex->getH()));
@@ -67,7 +67,7 @@ void Level::update(Engine* engine)
 			ball->reset(mediaCache.getScrWidth(), bat->getPosition().y);
 		}
 
-		updateBlocks();
+		updateBricks();
 	}
 }
 
@@ -117,7 +117,7 @@ void Level::keyPressed(SDL_Event& e, Engine*)
 
 //iterate through all the blocks
 //if a block is not alive then it has been hit, so assign it's score to the player and remove it
-void Level::updateBlocks()
+void Level::updateBricks()
 {
 	auto b = blocks.begin();
 	while (b != blocks.end())

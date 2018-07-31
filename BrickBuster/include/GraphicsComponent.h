@@ -18,7 +18,7 @@ public:
 	virtual void render(GameObject& obj, MediaCache& mc);
 };
 
-class BlockGraphicsComponent : public GraphicsComponent {
+class BrickGraphicsComponent : public GraphicsComponent {
 public:
 	virtual void render(GameObject& obj, MediaCache& mc);
 };

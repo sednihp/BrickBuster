@@ -1,53 +1,53 @@
-#include "Block.h"
+#include "Brick.h"
 
-Block::Block(std::unique_ptr<InputComponent> ic,
+Brick::Brick(std::unique_ptr<InputComponent> ic,
 				std::unique_ptr<GraphicsComponent> gc,
 				const Point2D& p,
-				BrickBuster::BlockColor bc) : GameObject(std::move(ic), 
+				BrickBuster::BrickColor bc) : GameObject(std::move(ic), 
 														std::move(gc))
 {
-	configureBlock(bc);
+	configureBrick(bc);
 	position = p;
 	setBox({ static_cast<int>(position.x), static_cast<int>(position.y), blockWidth, blockHeight });
 	//box = { static_cast<int>(position.x), static_cast<int>(position.y), blockWidth, blockHeight };
 }
 
-Block::~Block()
+Brick::~Brick()
 {
 }
 
-void Block::configureBlock(BrickBuster::BlockColor bc)
+void Brick::configureBrick(BrickBuster::BrickColor bc)
 {
 	score = static_cast<int>(bc);
 
 	switch (bc)
 	{
-		case BrickBuster::BlockColor::RED:
+		case BrickBuster::BrickColor::RED:
 			color = { 255,0,0 };
 			break;
-		case BrickBuster::BlockColor::ORANGE:
+		case BrickBuster::BrickColor::ORANGE:
 			color = { 255,128,0 };
 			break;
-		case BrickBuster::BlockColor::YELLOW:
+		case BrickBuster::BrickColor::YELLOW:
 			color = { 255,255,0 };
 			break;
-		case BrickBuster::BlockColor::GREEN:
+		case BrickBuster::BrickColor::GREEN:
 			color = { 0,255,0 };
 			break;
-		case BrickBuster::BlockColor::BLUE:
+		case BrickBuster::BrickColor::BLUE:
 			color = { 0,0,255 };
 			break;
-		case BrickBuster::BlockColor::PURPLE:
+		case BrickBuster::BrickColor::PURPLE:
 			color = { 128,0,255 };
 			break;
-		case BrickBuster::BlockColor::GREY:
+		case BrickBuster::BrickColor::GREY:
 			color = { 192,192,192 };
 			destructible = false;
 			break;
 	}
 }
 
-void Block::hitByBall()
+void Brick::hitByBall()
 {
 	if (destructible)
 	{

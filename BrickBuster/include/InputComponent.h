@@ -13,7 +13,7 @@ public:
 	void handleEvents(GameObject& obj, SDL_Event &e);
 };
 
-class BlockInputComponent : public InputComponent {
+class BrickInputComponent : public InputComponent {
 public:
 	virtual void handleEvents(GameObject&, SDL_Event&) {}
 };

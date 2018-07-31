@@ -125,8 +125,8 @@
     <ClInclude Include="include\AudioCache.h" />
     <ClInclude Include="include\Ball.h" />
     <ClInclude Include="include\Bat.h" />
-    <ClInclude Include="include\Block.h" />
-    <ClInclude Include="include\BlockLoader.h" />
+    <ClInclude Include="include\Brick.h" />
+    <ClInclude Include="include\BrickLoader.h" />
     <ClInclude Include="include\BrickBuster.h" />
     <ClInclude Include="include\ChooseLevel.h" />
     <ClInclude Include="include\CollisionEngine.h" />
@@ -152,8 +152,8 @@
     <ClCompile Include="source\AudioCache.cpp" />
     <ClCompile Include="source\Ball.cpp" />
     <ClCompile Include="source\Bat.cpp" />
-    <ClCompile Include="source\Block.cpp" />
-    <ClCompile Include="source\BlockLoader.cpp" />
+    <ClCompile Include="source\Brick.cpp" />
+    <ClCompile Include="source\BrickLoader.cpp" />
     <ClCompile Include="source\ChooseLevel.cpp" />
     <ClCompile Include="source\CollisionEngine.cpp" />
     <ClCompile Include="source\Engine.cpp" />

@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "BrickBuster.h"
 
-class Block : public GameObject {
+class Brick : public GameObject {
 private:
 	const int blockWidth = 80;
 	const int blockHeight = 20;
@@ -10,11 +10,11 @@ private:
 	bool alive = true;
 	int score;
 
-	void configureBlock(BrickBuster::BlockColor bc);
+	void configureBrick(BrickBuster::BrickColor bc);
 
 public:
-	Block(std::unique_ptr<InputComponent> ic, std::unique_ptr<GraphicsComponent> gc, const Point2D& p, BrickBuster::BlockColor bc);
-	~Block();
+	Brick(std::unique_ptr<InputComponent> ic, std::unique_ptr<GraphicsComponent> gc, const Point2D& p, BrickBuster::BrickColor bc);
+	~Brick();
 
 	void hitByBall();
 	const bool isAlive() const { return alive; }

@@ -81,12 +81,6 @@
     <ClInclude Include="include\ChooseLevel.h">
       <Filter>Header Files\State</Filter>
     </ClInclude>
-    <ClInclude Include="include\Block.h">
-      <Filter>Header Files\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="include\BlockLoader.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="include\GameObject.h">
       <Filter>Header Files\Object</Filter>
     </ClInclude>
@@ -120,6 +114,12 @@
     <ClInclude Include="include\AudioCache.h">
       <Filter>Header Files\Engine\Media</Filter>
     </ClInclude>
+    <ClInclude Include="include\Brick.h">
+      <Filter>Header Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BrickLoader.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CollisionEngine.cpp">
@@ -152,12 +152,6 @@
     <ClCompile Include="source\ChooseLevel.cpp">
       <Filter>Source Files\State</Filter>
     </ClCompile>
-    <ClCompile Include="source\Block.cpp">
-      <Filter>Source Files\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="source\BlockLoader.cpp">
-      <Filter>Source Files\Engine</Filter>
-    </ClCompile>
     <ClCompile Include="source\GameObject.cpp">
       <Filter>Source Files\Object</Filter>
     </ClCompile>
@@ -187,6 +181,12 @@
     </ClCompile>
     <ClCompile Include="source\AudioCache.cpp">
       <Filter>Source Files\Engine\Media</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Brick.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BrickLoader.cpp">
+      <Filter>Source Files\Engine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

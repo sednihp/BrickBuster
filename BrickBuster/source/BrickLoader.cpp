@@ -1,9 +1,9 @@
-#include "BlockLoader.h"
+#include "BrickLoader.h"
 #include <fstream>
 #include <iostream>
 #include "InputComponent.h"
 
-void BlockLoader::loadBlocks(const int levelNum, std::vector<std::unique_ptr<Block>>& blocks)
+void BrickLoader::loadBricks(const int levelNum, std::vector<std::unique_ptr<Brick>>& blocks)
 {
 	std::string levelFile = "files/levels/" + std::to_string(levelNum) + ".lvl";
 
@@ -25,7 +25,7 @@ void BlockLoader::loadBlocks(const int levelNum, std::vector<std::unique_ptr<Blo
 		{
 			eof = true;
 		}
-		BrickBuster::BlockColor bc = static_cast<BrickBuster::BlockColor>(colour);
+		BrickBuster::BrickColor bc = static_cast<BrickBuster::BrickColor>(colour);
 
 		double x, y;
 		infile >> x;
@@ -42,8 +42,8 @@ void BlockLoader::loadBlocks(const int levelNum, std::vector<std::unique_ptr<Blo
 
 		Point2D p{ x,y };
 
-		blocks.push_back(std::make_unique<Block>(std::make_unique<BlockInputComponent>(), 
-													std::make_unique<BlockGraphicsComponent>(), 
+		blocks.push_back(std::make_unique<Brick>(std::make_unique<BrickInputComponent>(), 
+													std::make_unique<BrickGraphicsComponent>(), 
 													p, 
 													bc));
 	}

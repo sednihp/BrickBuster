@@ -2,7 +2,7 @@
 
 namespace BrickBuster
 {
-	enum class BlockColor
+	enum class BrickColor
 	{
 		GREY = 0,
 		PURPLE,

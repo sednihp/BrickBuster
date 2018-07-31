@@ -27,7 +27,7 @@ const Point2D Ball::getPosition()
 	return { position.x - radius, position.y - radius };
 }
 
-int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<Bat>& bat, const std::vector<std::unique_ptr<Block>>& blocks)
+int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<Bat>& bat, const std::vector<std::unique_ptr<Brick>>& blocks)
 {
 	if (!isMoving() && bat->getDirection().x != 0)
 	{

@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "Block.h"
+#include "Brick.h"
 #include "Bat.h"
 
 class Ball : public GameObject {
@@ -26,6 +26,6 @@ public:
 	void startMoving(const double xDir, const double yDir);
 	bool hasCollided(const SDL_Rect& rect);
 	const double distance(const double x1, const double y1, const double x2, const double y2);
-	int update(const int scrWidth, const int scrHeight, const std::unique_ptr<Bat>& bat, const std::vector<std::unique_ptr<Block>>& blocks);
+	int update(const int scrWidth, const int scrHeight, const std::unique_ptr<Bat>& bat, const std::vector<std::unique_ptr<Brick>>& blocks);
 	void reset(const int scrWidth, const double topOfBat);
 };
