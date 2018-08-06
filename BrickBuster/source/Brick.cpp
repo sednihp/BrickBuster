@@ -8,7 +8,7 @@ Brick::Brick(std::unique_ptr<InputComponent> ic,
 {
 	configureBrick(bc);
 	position = p;
-	setBox({ static_cast<int>(position.x), static_cast<int>(position.y), brickWidth, brickHeight });
+	setBox({ static_cast<int>(position.x), static_cast<int>(position.y), width, height });
 }
 
 Brick::~Brick()

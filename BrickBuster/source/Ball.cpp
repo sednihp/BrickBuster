@@ -35,7 +35,6 @@ int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<
 	}
 	else
 	{
-
 		direction.normalize();
 
 		//move across, then check if it's hit the bat, a brick or the edge of the screen
@@ -54,6 +53,7 @@ int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<
 			}
 			direction.x *= -1;
 			direction.x += bat->getDirection().x;
+			direction.y = -1;
 			speed *= speedIncrement;
 		}
 

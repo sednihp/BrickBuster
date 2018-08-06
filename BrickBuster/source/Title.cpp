@@ -34,11 +34,11 @@ void Title::update(Engine*)
 
 void Title::render()
 {
-	mediaCache.renderTexture(titleTex, titleTex->getX(), titleTex->getY());
+	mediaCache.render(titleTex, titleTex->getX(), titleTex->getY());
 
 	for(auto &item : menu)
 	{
-		mediaCache.renderTexture(item, item->getX(), item->getY());
+		mediaCache.render(item, item->getX(), item->getY());
 	}
 }
 

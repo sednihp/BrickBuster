@@ -27,6 +27,7 @@ private:
 	void keyPressed(SDL_Event& e, Engine* engine);
 	void updateBricks();
 	void updatePowerUps();
+	void updateBrickScores();
 	
 public:
 	Level(MediaCache& mc, const int level);

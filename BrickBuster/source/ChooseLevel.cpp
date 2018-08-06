@@ -50,10 +50,10 @@ void ChooseLevel::render()
 {
 	for (const auto& tex : levelTex)
 	{
-		mediaCache.renderTexture(tex, tex->getX(), tex->getY());
+		mediaCache.render(tex, tex->getX(), tex->getY());
 	}
 
-	mediaCache.renderTexture(menu, menu->getX(), menu->getY());
+	mediaCache.render(menu, menu->getX(), menu->getY());
 }
 
 void ChooseLevel::exit(Engine* )

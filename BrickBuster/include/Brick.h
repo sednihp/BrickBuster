@@ -14,8 +14,8 @@ enum class BrickColor
 
 class Brick : public GameObject {
 private:
-	const int brickWidth = 80;
-	const int brickHeight = 20;
+	const int width = 80;
+	const int height = 20;
 	bool destructible = true;
 	bool alive = true;
 	int score;

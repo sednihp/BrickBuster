@@ -25,6 +25,7 @@ class GameObject
 
 		virtual const Point2D getPosition() { return position; }
 		virtual const SDL_Rect& getBox() { return box; }
+
 		const Vector2D& getDirection() const { return direction; }
 		const std::string& getImage() const { return image; }
 		const SDL_Color& getColor() const { return color; }

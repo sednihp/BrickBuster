@@ -65,6 +65,7 @@ void Level::update(Engine* engine)
 
 		updateBricks();
 		updatePowerUps();
+		updateBrickScores();
 	}
 
 	if (player->getLives() == 0)
@@ -73,15 +74,17 @@ void Level::update(Engine* engine)
 	}
 }
 
+
+
 void Level::render()
 {
 	scoreTex = mediaCache.getText(player->getScore(), font);
-	mediaCache.renderTexture(scoreTex, 0, 5);
+	mediaCache.render(scoreTex, 0, 5);
 
-	mediaCache.renderTexture(levelTex, levelTex->getX(), levelTex->getY());
+	mediaCache.render(levelTex, levelTex->getX(), levelTex->getY());
 
 	livesTex = mediaCache.getText(player->getLives(), font);
-	mediaCache.renderTexture(livesTex, mediaCache.getScrWidth() - livesTex->getW(), 5);
+	mediaCache.render(livesTex, mediaCache.getScrWidth() - livesTex->getW(), 5);
 
 	bat->render(mediaCache);
 
@@ -104,7 +107,7 @@ void Level::render()
 
 	if (paused)
 	{
-		mediaCache.renderTexture(pausedTex, pausedTex->getX(), pausedTex->getY());
+		mediaCache.render(pausedTex, pausedTex->getX(), pausedTex->getY());
 	}
 }
 
@@ -130,7 +133,7 @@ void Level::keyPressed(SDL_Event& e, Engine*)
 }
 
 //iterate through all the bricks
-//if a brick is not alive then it has been hit, so assign it's score to the player and remove it
+//if a brick is no longer alive then it has been hit, so assign it's score to the player and remove it
 void Level::updateBricks()
 {
 	auto b = bricks.begin();
@@ -177,6 +180,22 @@ void Level::updatePowerUps()
 				(*p)->collected(bat, ball, player);
 			}
 			++p;
+		}
+	}
+}
+
+void Level::updateBrickScores()
+{
+	auto b = brickScores.begin();
+	while (b != brickScores.end())
+	{
+		if (!(*b)->isActive())
+		{
+			b = brickScores.erase(b);
+		}
+		else
+		{
+			++b;
 		}
 	}
 }

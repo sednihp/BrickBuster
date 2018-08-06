@@ -55,7 +55,7 @@ GameTex MediaCache::getText(const int text, TTF_Font* font)
 	return txtCache.getText(text, font, textColor);
 }
 
-void MediaCache::renderTexture(GameTex tex, const int x, const int y)
+void MediaCache::render(GameTex tex, const int x, const int y)
 {
     SDL_Rect pos;
     pos.x = x;
@@ -72,17 +72,17 @@ void MediaCache::renderTexture(GameTex tex, const int x, const int y)
 	}
 }
 
-void MediaCache::renderTexture(GameTex tex, const double x, const double y)
+void MediaCache::render(GameTex tex, const double x, const double y)
 {
-	renderTexture(tex, static_cast<int>(x), static_cast<int>(y));
+	render(tex, static_cast<int>(x), static_cast<int>(y));
 }
 
-void MediaCache::renderTexture(GameTex tex, const Point2D& position)
+void MediaCache::render(GameTex tex, const Point2D& position)
 {
-	renderTexture(tex, static_cast<int>(position.x), static_cast<int>(position.y));
+	render(tex, static_cast<int>(position.x), static_cast<int>(position.y));
 }
 
-void MediaCache::drawRectangle(const SDL_Rect& rect, const SDL_Color& c)
+void MediaCache::render(const SDL_Rect& rect, const SDL_Color& c)
 {
 	if (SDL_SetRenderDrawColor(ren, c.r, c.g, c.b, SDL_ALPHA_OPAQUE) < 0)
 	{

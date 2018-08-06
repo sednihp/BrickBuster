@@ -31,10 +31,10 @@ class MediaCache
 		GameTex getText(const std::string& text, TTF_Font* font);
 		GameTex getText(const int text, TTF_Font* font);
 
-		void renderTexture(GameTex tex, const int x, const int y);
-		void renderTexture(GameTex tex, const double x, const double y);
-		void renderTexture(GameTex tex, const Point2D& position);
-		void drawRectangle(const SDL_Rect& rect, const SDL_Color& color);
+		void render(GameTex tex, const int x, const int y);
+		void render(GameTex tex, const double x, const double y);
+		void render(GameTex tex, const Point2D& position);
+		void render(const SDL_Rect& rect, const SDL_Color& color);
 
 		void clearScreen();
 		void updateScreen();
