@@ -43,6 +43,12 @@
     <Filter Include="Source Files\Engine\Media">
       <UniqueIdentifier>{99bb9d0f-3364-4d1f-86dc-e0a94f54d166}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Object\Managers">
+      <UniqueIdentifier>{3a54b1c3-3fe7-43fb-8b10-ad65350f73a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object\Managers">
+      <UniqueIdentifier>{8bf1ace5-04d6-4d0e-9fd6-3a20c23bf21e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CollisionEngine.h">
@@ -117,11 +123,14 @@
     <ClInclude Include="include\BrickLoader.h">
       <Filter>Header Files\Engine</Filter>
     </ClInclude>
-    <ClInclude Include="include\GameException.h">
-      <Filter>Source Files\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="include\BrickScore.h">
       <Filter>Header Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameException.h">
+      <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BrickManager.h">
+      <Filter>Header Files\Object\Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -195,7 +204,10 @@
       <Filter>Source Files\Object</Filter>
     </ClCompile>
     <ClCompile Include="source\BrickScore.cpp">
-      <Filter>Source Files\Object\Components</Filter>
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BrickManager.cpp">
+      <Filter>Source Files\Object\Managers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

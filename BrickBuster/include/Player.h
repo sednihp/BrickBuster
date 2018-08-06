@@ -8,12 +8,13 @@ public:
 	Player() : score(0), lives(3) {}
 	~Player() {}
 
-	void hasScored(const int s) { score += s; }
+	void addScore(const int s) { score += s; }
 	void loseLife() { --lives; }
 	void addLife() { ++lives; }
 	
 	const int getScore() const { return score; }
 	const int getLives() const { return lives; }
 
-	void reset() { score = 0; }
+	void resetScore() { score = 0; }
+	void reset() { score = 0; lives = 3; }
 };

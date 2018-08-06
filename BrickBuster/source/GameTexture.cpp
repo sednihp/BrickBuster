@@ -8,6 +8,7 @@ GameTexture::GameTexture(SDL_Texture* texture) : tex(texture)
 	{
 		std::string msg = "SDL_QueryTexture error: ";
 		msg += SDL_GetError();
+
 		GameException e(msg);
 		throw e;
 	}

@@ -4,6 +4,11 @@
 #include <iostream>
 #include "InputComponent.h"
 
+BrickLoader::BrickLoader(const int levelNum, std::vector<std::unique_ptr<Brick>>& bricks)
+{
+	loadBricks(levelNum, bricks);
+}
+
 void BrickLoader::loadBricks(const int levelNum, std::vector<std::unique_ptr<Brick>>& bricks)
 {
 	std::string levelFile = "files/levels/" + std::to_string(levelNum) + ".lvl";
@@ -12,6 +17,7 @@ void BrickLoader::loadBricks(const int levelNum, std::vector<std::unique_ptr<Bri
 	if (!infile)
 	{
 		std::string msg = "File " +std::to_string(levelNum) +".lvl not loaded.";
+
 		GameException e(msg);
 		throw e;
 	}

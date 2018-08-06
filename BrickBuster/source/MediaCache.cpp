@@ -9,19 +9,21 @@ MediaCache::MediaCache() :	window(nullptr), ren(nullptr),
 							imgCache(ren), fontCache(ren, "files/fonts/LCDPHONE.TTF"), txtCache(ren)
 {
 	window = SDL_CreateWindow("Brick Buster", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, mScrWidth, mScrHeight, SDL_WINDOW_SHOWN);
-	if(!window)
+	if(window == NULL)
 	{
 		std::string msg = "SDL_CreateWindow error: ";
 		msg += SDL_GetError();
+
 		GameException e(msg);
 		throw e;
 	}
 
 	ren = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if(!ren)
+	if(ren == NULL)
 	{
 		std::string msg = "SDL_CreateRenderer error: ";
 		msg += SDL_GetError();
+
 		GameException e(msg);
 		throw e;
 	}
@@ -67,6 +69,7 @@ void MediaCache::render(GameTex tex, const int x, const int y)
 	{
 		std::string msg = "SDL_RenderCopy error: ";
 		msg += SDL_GetError();
+
 		GameException e(msg);
 		throw e;
 	}
@@ -88,6 +91,7 @@ void MediaCache::render(const SDL_Rect& rect, const SDL_Color& c)
 	{
 		std::string msg = "SDL_SetRenderDrawColor error: ";
 		msg += SDL_GetError();
+
 		GameException e(msg);
 		throw e;
 	}
@@ -95,6 +99,7 @@ void MediaCache::render(const SDL_Rect& rect, const SDL_Color& c)
 	{
 		std::string msg = "SDL_RenderFillRect error: ";
 		msg += SDL_GetError();
+
 		GameException e(msg);
 		throw e;
 	}
@@ -106,6 +111,7 @@ void MediaCache::clearScreen()
 	{
 		std::string msg = "SDL_SetRenderDrawColor error: ";
 		msg += SDL_GetError();
+
 		GameException e(msg);
 		throw e;
 	}
@@ -113,14 +119,10 @@ void MediaCache::clearScreen()
 	{
 		std::string msg = "SDL_RenderClear error: ";
 		msg += SDL_GetError();
+
 		GameException e(msg);
 		throw e;
 	}
-}
-
-void MediaCache::updateScreen() 
-{ 
-	SDL_RenderPresent(ren); 
 }
 
 const int MediaCache::centreX(const int gtWidth) const
@@ -131,9 +133,4 @@ const int MediaCache::centreX(const int gtWidth) const
 const int MediaCache::centreY(const int gtHeight) const
 {
 	return (mScrHeight - gtHeight) / 2;
-}
-
-const SDL_Color& MediaCache::getTextColor()
-{
-	return textColor;
 }

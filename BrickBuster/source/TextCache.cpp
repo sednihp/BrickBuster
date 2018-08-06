@@ -9,6 +9,7 @@ TextCache::TextCache(SDL_Renderer* &renderer) : ren(renderer)
 	{
 		std::string msg = "TTF_Init error: ";
 		msg += TTF_GetError();
+
 		GameException e(msg);
 		throw e;
 	}
@@ -36,18 +37,20 @@ GameTex TextCache::getText(const std::string& message, TTF_Font* font, const SDL
 	if(i == words.end())
 	{
 		SDL_Surface* surf = TTF_RenderText_Blended(font, message.c_str(), color);
-		if (!surf)
+		if (surf == NULL)
 		{
 			std::string msg = "TTF_RenderText_Blended error: ";
 			msg += TTF_GetError();
+
 			GameException e(msg);
 			throw e;
 		}
 		SDL_Texture* texture = SDL_CreateTextureFromSurface(ren, surf);
-		if (!texture) 
+		if (texture == NULL) 
 		{
 			std::string msg = "SDL_CreateTextureFromSurface error: ";
 			msg += TTF_GetError();
+
 			GameException e(msg);
 			throw e;
 		}

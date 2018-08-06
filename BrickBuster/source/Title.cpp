@@ -7,7 +7,7 @@
 
 Title::Title(MediaCache &mc) : State(mc), 
 								font(mediaCache.getFont(100)),
-								menuFont(mediaCache.getFont(60))
+								menuFont(mediaCache.getFont(75))
 {
 	generateTextures();
 }

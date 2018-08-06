@@ -33,10 +33,11 @@ TTF_Font* FontCache::getFont(const int size)
     if(i == fonts.end())
     {
 		TTF_Font* font = TTF_OpenFont(fontFile.c_str(), size);
-		if (!font)
+		if (font == NULL)
 		{
 			std::string msg = "TTF_OpenFont error: ";
 			msg += TTF_GetError();
+
 			GameException e(msg);
 			throw e;
 		}

@@ -6,28 +6,35 @@
 #include "Player.h"
 #include <memory>
 #include <vector>
-#include <BrickLoader.h>
+#include "BrickManager.h"
+#include "BrickLoader.h"
 #include "PowerUp.h"
 #include "BrickScore.h"
+
+enum class LevelState {
+	PLAYING,
+	PAUSED,
+	COMPLETE,
+	DEAD
+};
 
 class Level : public State {
 private:
 	std::unique_ptr<Player> player;
 	std::unique_ptr<Bat> bat;
 	std::unique_ptr<Ball> ball;
-	std::vector<std::unique_ptr<Brick>> bricks;
+	std::unique_ptr<BrickManager> brickManager;
 	std::vector<std::unique_ptr<PowerUp>> powerUps;
-	std::vector<std::unique_ptr<BrickScore>> brickScores;
-	std::unique_ptr<BrickLoader> brickLoader;
 	TTF_Font * font;
-	GameTex pausedTex, levelTex, livesTex, scoreTex;
+	GameTex pausedTex, levelTex, livesTex, scoreTex, completeTex, playerDeadTex, mainMenuTex, nextLevelTex, restartTex;
 	int levelNum;
-	bool paused = false;
+	const int levelCount = 15;
+	LevelState state = LevelState::PLAYING;
 
+	void mouseClicked(SDL_Event& e, Engine* engine);
 	void keyPressed(SDL_Event& e, Engine* engine);
-	void updateBricks();
 	void updatePowerUps();
-	void updateBrickScores();
+	void changeState(LevelState newState);
 	
 public:
 	Level(MediaCache& mc, const int level);

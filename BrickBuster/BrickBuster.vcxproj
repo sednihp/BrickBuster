@@ -127,6 +127,7 @@
     <ClInclude Include="include\Bat.h" />
     <ClInclude Include="include\Brick.h" />
     <ClInclude Include="include\BrickLoader.h" />
+    <ClInclude Include="include\BrickManager.h" />
     <ClInclude Include="include\BrickScore.h" />
     <ClInclude Include="include\ChooseLevel.h" />
     <ClInclude Include="include\CollisionEngine.h" />
@@ -155,6 +156,7 @@
     <ClCompile Include="source\Bat.cpp" />
     <ClCompile Include="source\Brick.cpp" />
     <ClCompile Include="source\BrickLoader.cpp" />
+    <ClCompile Include="source\BrickManager.cpp" />
     <ClCompile Include="source\BrickScore.cpp" />
     <ClCompile Include="source\ChooseLevel.cpp" />
     <ClCompile Include="source\CollisionEngine.cpp" />

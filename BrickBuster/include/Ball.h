@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "Brick.h"
+#include "BrickManager.h"
 #include "Bat.h"
 
 enum class BallState

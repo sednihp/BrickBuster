@@ -24,31 +24,31 @@ void PowerUp::chooseType()
 	{
 		case 0: 
 			type = PowerUpType::ADD_LIFE;
-			setImage("files/images/powerups/add_life.bmp");
+			setImage("Add A Life");
 			break;
 		case 1: 
 			type = PowerUpType::LOSE_LIFE;
-			setImage("files/images/powerups/lose_life.bmp");
+			setImage("Lose A Life");
 			break;
 		case 2: 
 			type = PowerUpType::LARGE_BALL;
-			setImage("files/images/powerups/big_ball.bmp");
+			setImage("Larger Ball");
 			break;
 		case 3:
 			type = PowerUpType::SMALL_BALL;
-			setImage("files/images/powerups/small_ball.bmp");
+			setImage("Smaller Ball");
 			break;
 		case 4: 
 			type = PowerUpType::LARGE_BAT;
-			setImage("files/images/powerups/large_bat.bmp");
+			setImage("Larger Bat");
 			break;
 		case 5:
 			type = PowerUpType::SMALL_BAT;
-			setImage("files/images/powerups/small_bat.bmp");
+			setImage("Smaller Bat");
 			break;
 		case 6:
 			type = PowerUpType::MULTIBALL;
-			setImage("files/images/powerups/multiball.bmp");
+			setImage("Multiball");
 			break;
 	}
 }

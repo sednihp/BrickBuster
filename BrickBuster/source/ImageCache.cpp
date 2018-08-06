@@ -10,6 +10,7 @@ ImageCache::ImageCache(SDL_Renderer* &renderer) : ren(renderer)
 	{
 		std::string msg = "SDL_INIT_VIDEO error: ";
 		msg += SDL_GetError();
+
 		GameException e(msg);
 		throw e;
 	}
@@ -34,19 +35,21 @@ GameTex ImageCache::getImage(const std::string& file)
     if(i == images.end())
     {
 		SDL_Surface* loadedSurface = IMG_Load(file.c_str());
-		if (!loadedSurface)
+		if (loadedSurface == NULL)
 		{
 			std::string msg = "IMG_Load error: ";
 			msg += SDL_GetError();
+
 			GameException e(msg);
 			throw e;
 		}
 		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0xFF, 0, 0xFF));
 		SDL_Texture* tex = SDL_CreateTextureFromSurface(ren, loadedSurface);
-		if (!tex)
+		if (tex == NULL)
 		{
 			std::string msg = "SDL_CreateTextureFromSurface error: ";
 			msg += SDL_GetError();
+
 			GameException e(msg);
 			throw e;
 		}

@@ -10,7 +10,7 @@ Level::Level(MediaCache& mc,
 								font(mediaCache.getFont(60)),
 								levelNum(level), 
 								player(std::make_unique<Player>()),
-								brickLoader(std::make_unique<BrickLoader>()),
+								brickManager(std::make_unique<BrickManager>(level)),
 								bat(std::make_unique<Bat>(std::make_unique<BatInputComponent>(), 
 															std::make_unique<BatGraphicsComponent>(),
 															mediaCache.getScrWidth(),
@@ -20,13 +20,26 @@ Level::Level(MediaCache& mc,
 															mediaCache.getScrWidth(), 
 															bat->getPosition().y))
 {
-	brickLoader->loadBricks(levelNum, bricks);
-
 	pausedTex = mediaCache.getText("Paused", font);
 	pausedTex->setPosition(mediaCache.centreX(pausedTex->getW()), mediaCache.centreY(pausedTex->getH()));
 
 	levelTex = mediaCache.getText("Level " + std::to_string(levelNum), font);
 	levelTex->setPosition(mediaCache.centreX(levelTex->getW()), 5);
+
+	completeTex = mediaCache.getText("Level Complete", font);
+	completeTex->setPosition(mediaCache.centreX(completeTex->getW()), mediaCache.centreY(completeTex->getH()));
+
+	playerDeadTex = mediaCache.getText("No More Lives", font);
+	playerDeadTex->setPosition(mediaCache.centreX(playerDeadTex->getW()), mediaCache.centreY(playerDeadTex->getH()));
+
+	nextLevelTex = mediaCache.getText("Next Level", font);
+	nextLevelTex->setPosition(mediaCache.centreX(nextLevelTex->getW()), mediaCache.centreY(nextLevelTex->getH()) + 2*nextLevelTex->getH());
+	
+	restartTex = mediaCache.getText("Restart Level", font);
+	restartTex->setPosition(mediaCache.centreX(restartTex->getW()), mediaCache.centreY(nextLevelTex->getH()) + 2*restartTex->getH());
+
+	mainMenuTex = mediaCache.getText("Main Menu", font);
+	mainMenuTex->setPosition(mediaCache.centreX(mainMenuTex->getW()), mediaCache.centreY(mainMenuTex->getH()) + 3*mainMenuTex->getH());
 }
 
 Level::~Level()
@@ -41,62 +54,55 @@ void Level::enter(Engine* )
 void Level::handleEvents(SDL_Event &e, Engine* engine)
 {
 	keyPressed(e, engine);
+	mouseClicked(e, engine);
 
-	if (!paused)
+	if (state == LevelState::PLAYING)
 	{
 		bat->handleEvents(e);
 	}
 }
 
-void Level::update(Engine* engine)
+void Level::update(Engine* )
 {
-	if (!paused)
+	if (state == LevelState::PLAYING)
 	{
 		bat->update(mediaCache.getScrWidth());
 
-		//if ball->move() returns < 0 the ball has gone off the bottom of the screen so we need to lose and life and reset
-		//if we've lost all our lives then we're dead
-		if (ball->update(mediaCache.getScrWidth(), mediaCache.getScrHeight(), bat, bricks) < 0)
+		//if ball->move() returns < 0 the ball has gone off the bottom of the screen so we need to lose a life and reset
+		if (ball->update(mediaCache.getScrWidth(), mediaCache.getScrHeight(), bat, brickManager->getBricks()) < 0)
 		{
 			bat->reset(mediaCache.getScrWidth(), mediaCache.getScrHeight());
 			ball->reset(mediaCache.getScrWidth(), bat->getPosition().y);
 			player->loseLife();			
 		}
 
-		updateBricks();
+		player->addScore(brickManager->update(powerUps));
 		updatePowerUps();
-		updateBrickScores();
 	}
 
-	if (player->getLives() == 0)
+	if (brickManager->isEmpty())
 	{
-		engine->changeState(std::make_unique<Title>(mediaCache));
+		changeState(LevelState::COMPLETE);
+	}
+	else if (player->getLives() == 0)
+	{
+		changeState(LevelState::DEAD);
 	}
 }
-
-
 
 void Level::render()
 {
 	scoreTex = mediaCache.getText(player->getScore(), font);
 	mediaCache.render(scoreTex, 0, 5);
 
-	mediaCache.render(levelTex, levelTex->getX(), levelTex->getY());
+	mediaCache.render(levelTex, levelTex->getPosition());
 
 	livesTex = mediaCache.getText(player->getLives(), font);
 	mediaCache.render(livesTex, mediaCache.getScrWidth() - livesTex->getW(), 5);
 
 	bat->render(mediaCache);
 
-	for (const auto& brickScore : brickScores)
-	{
-		brickScore->render(mediaCache);
-	}
-
-	for (const auto& brick : bricks)
-	{
-		brick->render(mediaCache);
-	}
+	brickManager->render(mediaCache);
 
 	ball->render(mediaCache);
 	
@@ -105,9 +111,21 @@ void Level::render()
 		powerUp->render(mediaCache);
 	}
 
-	if (paused)
+	if (state == LevelState::PAUSED)
 	{
-		mediaCache.render(pausedTex, pausedTex->getX(), pausedTex->getY());
+		mediaCache.render(pausedTex, pausedTex->getPosition());
+	}
+	else if (state == LevelState::COMPLETE)
+	{
+		mediaCache.render(completeTex, completeTex->getPosition());
+		mediaCache.render(nextLevelTex, nextLevelTex->getPosition());
+		mediaCache.render(mainMenuTex, mainMenuTex->getPosition());
+	}
+	else if (state == LevelState::DEAD)
+	{
+		mediaCache.render(playerDeadTex, playerDeadTex->getPosition());
+		mediaCache.render(restartTex, restartTex->getPosition());
+		mediaCache.render(mainMenuTex, mainMenuTex->getPosition());
 	}
 }
 
@@ -119,6 +137,11 @@ void Level::exit(Engine* )
 // ===============
 // ===============
 
+void Level::changeState(LevelState newState)
+{
+	state = newState;
+}
+
 void Level::keyPressed(SDL_Event& e, Engine*)
 {
 	if (e.type == SDL_KEYDOWN)
@@ -126,38 +149,59 @@ void Level::keyPressed(SDL_Event& e, Engine*)
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_SPACE:
-			paused = !paused;
+			if (state == LevelState::PAUSED)
+			{
+				changeState(LevelState::PLAYING);
+			}
+			else if (state == LevelState::PLAYING)
+			{
+				changeState(LevelState::PAUSED);
+			}
 			break;
 		}
 	}
 }
 
-//iterate through all the bricks
-//if a brick is no longer alive then it has been hit, so assign it's score to the player and remove it
-void Level::updateBricks()
+void Level::mouseClicked(SDL_Event&, Engine* engine)
 {
-	auto b = bricks.begin();
-	while (b != bricks.end())
+	int x, y;
+	if (SDL_GetMouseState(&x, &y)&SDL_BUTTON(1))
 	{
-		if (!(*b)->isAlive())
+		if (CollisionEngine::haveCollided(mainMenuTex->getBox(), x, y))
 		{
-			player->hasScored((*b)->getScore());
-			if (rand() % 10 < 1)
+			if (state == LevelState::COMPLETE || state == LevelState::DEAD)
 			{
-				powerUps.push_back(std::make_unique<PowerUp>(std::make_unique<PowerUpInputComponent>(),
-																std::make_unique<PowerUpGraphicsComponent>(), 
-																(*b)->getPosition()));
+				engine->changeState(std::make_unique<Title>(mediaCache));
 			}
-
-			brickScores.push_back(std::make_unique<BrickScore>(std::make_unique<BrickScoreInputComponent>(),
-																std::make_unique<BrickScoreGraphicsComponent>(),
-																(*b)->getPosition(), (*b)->getScore()));
-
-			b = bricks.erase(b);
 		}
-		else
+
+		if(state == LevelState::COMPLETE)
 		{
-			++b;
+			if (CollisionEngine::haveCollided(nextLevelTex->getBox(), x, y))
+			{
+				player->reset();
+				bat->reset(mediaCache.getScrWidth(), mediaCache.getScrHeight());
+				ball->reset(mediaCache.getScrWidth(), bat->getPosition().y);
+				if (levelNum < levelCount)
+				{
+					++levelNum;
+					brickManager->loadBricks(levelNum);
+				}
+				powerUps.clear();
+				changeState(LevelState::PLAYING);
+			}
+		}
+		else if (state == LevelState::DEAD)
+		{
+			if (CollisionEngine::haveCollided(restartTex->getBox(), x, y))
+			{
+				player->reset();
+				bat->reset(mediaCache.getScrWidth(), mediaCache.getScrHeight());
+				ball->reset(mediaCache.getScrWidth(), bat->getPosition().y);
+				brickManager->loadBricks(levelNum);
+				powerUps.clear();
+				changeState(LevelState::PLAYING);
+			}
 		}
 	}
 }
@@ -180,22 +224,6 @@ void Level::updatePowerUps()
 				(*p)->collected(bat, ball, player);
 			}
 			++p;
-		}
-	}
-}
-
-void Level::updateBrickScores()
-{
-	auto b = brickScores.begin();
-	while (b != brickScores.end())
-	{
-		if (!(*b)->isActive())
-		{
-			b = brickScores.erase(b);
-		}
-		else
-		{
-			++b;
 		}
 	}
 }

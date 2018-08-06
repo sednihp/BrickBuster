@@ -75,7 +75,7 @@ int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<
 		}
 
 		//move up/down then check if it's hit the bat or a brick
-		//if its off the bottom of the screen then return -1
+		//if the ball is off the bottom of the screen return -1
 		const double moveY = direction.y * speed;
 		position.y += moveY;
 

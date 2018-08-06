@@ -19,7 +19,8 @@ void BrickGraphicsComponent::render(GameObject& obj, MediaCache& mc)
 
 void PowerUpGraphicsComponent::render(GameObject& obj, MediaCache& mc)
 {
-	mc.render(mc.getImage(obj.getImage()), obj.getPosition());
+	TTF_Font* font = mc.getFont(15);
+	mc.render(mc.getText(obj.getImage(), font), obj.getPosition());
 }
 
 void BrickScoreGraphicsComponent::render(GameObject& obj, MediaCache& mc)

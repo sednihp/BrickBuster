@@ -37,11 +37,11 @@ class MediaCache
 		void render(const SDL_Rect& rect, const SDL_Color& color);
 
 		void clearScreen();
-		void updateScreen();
+		void updateScreen() { SDL_RenderPresent(ren); }
 
 		const int getScrWidth() const { return mScrWidth; }
 		const int getScrHeight() const { return mScrHeight; }
 		const int centreX(const int gtWidth) const;
 		const int centreY(const int gtHeight) const;
-		const SDL_Color& getTextColor();	
+		const SDL_Color& getTextColor() const { return textColor; }
 };
