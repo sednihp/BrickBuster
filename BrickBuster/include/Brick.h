@@ -1,19 +1,29 @@
 #pragma once
 #include "GameObject.h"
-#include "BrickBuster.h"
+
+enum class BrickColor
+{
+	GREY = 0,
+	PURPLE,
+	BLUE,
+	GREEN,
+	YELLOW,
+	ORANGE,
+	RED
+};
 
 class Brick : public GameObject {
 private:
-	const int blockWidth = 80;
-	const int blockHeight = 20;
+	const int brickWidth = 80;
+	const int brickHeight = 20;
 	bool destructible = true;
 	bool alive = true;
 	int score;
 
-	void configureBrick(BrickBuster::BrickColor bc);
+	void configureBrick(BrickColor bc);
 
 public:
-	Brick(std::unique_ptr<InputComponent> ic, std::unique_ptr<GraphicsComponent> gc, const Point2D& p, BrickBuster::BrickColor bc);
+	Brick(std::unique_ptr<InputComponent> ic, std::unique_ptr<GraphicsComponent> gc, const Point2D& p, BrickColor bc);
 	~Brick();
 
 	void hitByBall();

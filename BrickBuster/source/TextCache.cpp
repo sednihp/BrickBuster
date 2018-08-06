@@ -1,4 +1,5 @@
 #include "TextCache.h"
+#include "GameException.h"
 #include <iostream>
 #include "Vectors.h"
 
@@ -6,8 +7,10 @@ TextCache::TextCache(SDL_Renderer* &renderer) : ren(renderer)
 {
 	if (TTF_Init() == -1)
 	{
-		std::cerr << TTF_GetError() << std::endl;
-		exit(2);
+		std::string msg = "TTF_Init error: ";
+		msg += TTF_GetError();
+		GameException e(msg);
+		throw e;
 	}
 }
 
@@ -35,12 +38,18 @@ GameTex TextCache::getText(const std::string& message, TTF_Font* font, const SDL
 		SDL_Surface* surf = TTF_RenderText_Blended(font, message.c_str(), color);
 		if (!surf)
 		{
-			std::cerr << "Surface not loaded: " << TTF_GetError() << "\n";
+			std::string msg = "TTF_RenderText_Blended error: ";
+			msg += TTF_GetError();
+			GameException e(msg);
+			throw e;
 		}
 		SDL_Texture* texture = SDL_CreateTextureFromSurface(ren, surf);
 		if (!texture) 
 		{
-			std::cerr << "Texture not loaded: " << TTF_GetError() << "\n";
+			std::string msg = "SDL_CreateTextureFromSurface error: ";
+			msg += TTF_GetError();
+			GameException e(msg);
+			throw e;
 		}
 		SDL_FreeSurface(surf);
 		auto gt = std::make_shared<GameTexture>(texture);

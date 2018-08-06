@@ -1,18 +1,19 @@
 #include "BrickLoader.h"
+#include "GameException.h"
 #include <fstream>
 #include <iostream>
 #include "InputComponent.h"
 
-void BrickLoader::loadBricks(const int levelNum, std::vector<std::unique_ptr<Brick>>& blocks)
+void BrickLoader::loadBricks(const int levelNum, std::vector<std::unique_ptr<Brick>>& bricks)
 {
 	std::string levelFile = "files/levels/" + std::to_string(levelNum) + ".lvl";
 
 	std::ifstream infile(levelFile);
 	if (!infile)
 	{
-		std::cerr << "Can't open " << levelNum << ".lvl";
-		levelFile = "files/levels/1.lvl";
-		infile.open(levelFile);
+		std::string msg = "File " +std::to_string(levelNum) +".lvl not loaded.";
+		GameException e(msg);
+		throw e;
 	}
 
 	infile.seekg(0, std::ios::beg);
@@ -25,7 +26,7 @@ void BrickLoader::loadBricks(const int levelNum, std::vector<std::unique_ptr<Bri
 		{
 			eof = true;
 		}
-		BrickBuster::BrickColor bc = static_cast<BrickBuster::BrickColor>(colour);
+		BrickColor bc = static_cast<BrickColor>(colour);
 
 		double x, y;
 		infile >> x;
@@ -42,7 +43,7 @@ void BrickLoader::loadBricks(const int levelNum, std::vector<std::unique_ptr<Bri
 
 		Point2D p{ x,y };
 
-		blocks.push_back(std::make_unique<Brick>(std::make_unique<BrickInputComponent>(), 
+		bricks.push_back(std::make_unique<Brick>(std::make_unique<BrickInputComponent>(), 
 													std::make_unique<BrickGraphicsComponent>(), 
 													p, 
 													bc));

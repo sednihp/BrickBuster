@@ -10,6 +10,7 @@ public:
 
 	void hasScored(const int s) { score += s; }
 	void loseLife() { --lives; }
+	void addLife() { ++lives; }
 	
 	const int getScore() const { return score; }
 	const int getLives() const { return lives; }

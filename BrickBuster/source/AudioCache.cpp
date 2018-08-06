@@ -1,18 +1,25 @@
 #include "AudioCache.h"
+#include "GameException.h"
 #include <iostream>
 
 AudioCache::AudioCache() : muted(false), paused(false)
 {
 	if (SDL_Init(SDL_INIT_AUDIO) < 0) 
 	{
-		std::cerr << "SDL_Init_Audio error: " << SDL_GetError() << "\n";
-		exit(1);
+		std::string msg = "SDL_INIT_AUDIO error: ";
+		msg += SDL_GetError();
+
+		GameException e(msg);
+		throw e;
 	}
 
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) < 0) 
 	{
-		std::cerr << "Mix_OpenAudio error: " << Mix_GetError() << "\n";
-		exit(2);
+		std::string msg = "Mix_OpenAudio error: ";
+		msg += Mix_GetError();
+		
+		GameException e(msg);
+		throw e;
 	}
 }
 
@@ -66,7 +73,11 @@ Mix_Music* AudioCache::loadMusic(const std::string file)
 
 	if(temp == NULL)
 	{
-		std::cerr << "Mix_LoadMUS error: " << Mix_GetError() << "\n";
+		std::string msg = "Mix_LoadMUS error: ";
+		msg += Mix_GetError();
+
+		GameException e(msg);
+		throw e;
 	}
 		
 	return temp;
@@ -93,7 +104,11 @@ Mix_Chunk* AudioCache::loadEffect(const std::string file)
 
 	if (temp == NULL)
 	{
-		std::cerr << "Mix_LoadWAV error: " << Mix_GetError() << "\n";
+		std::string msg = "Mix_LoadWAV error: ";
+		msg += Mix_GetError();
+
+		GameException e(msg);
+		throw e;
 	}
 		
 	return temp;
@@ -117,7 +132,11 @@ void AudioCache::playMusic(Mix_Music* m, const int loops)
 {
 	if (Mix_PlayMusic(m, loops) < 0)
 	{
-		std::cerr << "Mix_PlayMusic error: " << Mix_GetError() << "\n";
+		std::string msg = "Mix_PlayMusic error: ";
+		msg += Mix_GetError();
+
+		GameException e(msg);
+		throw e;
 	}
 }
 
@@ -127,7 +146,11 @@ void AudioCache::playEffect(const int channel, Mix_Chunk* effect, const int loop
 {
 	if(Mix_PlayChannel(channel, effect, loops) < 0)
 	{
-		std::cerr << "Mix_PlayMusic error: " << Mix_GetError() << "\n";
+		std::string msg = "Mix_PlayChannel error: ";
+		msg += Mix_GetError();
+
+		GameException e(msg);
+		throw e;
 	}
 }
 
@@ -148,7 +171,11 @@ void AudioCache::fadeOutMusic(const int ms)
 {
 	if (Mix_FadeOutMusic(ms) == 0)
 	{
-		std::cerr << "Mix_FadeOutMusic error: " << Mix_GetError() << "\n";
+		std::string msg = "Mix_FadeOutMusic error: ";
+		msg += Mix_GetError();
+
+		GameException e(msg);
+		throw e;
 	}
 }
 

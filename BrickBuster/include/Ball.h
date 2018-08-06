@@ -3,16 +3,28 @@
 #include "Brick.h"
 #include "Bat.h"
 
+enum class BallState
+{
+	REGULAR,
+	LARGE,
+	SMALL
+};
+
 class Ball : public GameObject {
 private:
 	bool moving = false;
-	const int ballWidth = 20;
-	const int radius = ballWidth / 2;
-	const double speedIncrement = 1.005;
+	const int regularWidth = 20;
+	const int largeWidth = 30;
+	const int smallWidth = 10;
+	int width = regularWidth;
+	int radius = width / 2;
+	const double speedIncrement = 1.001;
 	const double startSpeed = 7;
-	double speed;
+	double speed = startSpeed;
+	BallState state = BallState::REGULAR;
 
 	void setToStartPosition(const int scrWidth, const double topOfBat);
+	void changeState(BallState newState);
 
 public:
 	Ball(std::unique_ptr<InputComponent> ic, 
@@ -26,6 +38,8 @@ public:
 	void startMoving(const double xDir, const double yDir);
 	bool hasCollided(const SDL_Rect& rect);
 	const double distance(const double x1, const double y1, const double x2, const double y2);
-	int update(const int scrWidth, const int scrHeight, const std::unique_ptr<Bat>& bat, const std::vector<std::unique_ptr<Brick>>& blocks);
+	int update(const int scrWidth, const int scrHeight, const std::unique_ptr<Bat>& bat, const std::vector<std::unique_ptr<Brick>>& bricks);
 	void reset(const int scrWidth, const double topOfBat);
+	void largeBall();
+	void smallBall();
 };

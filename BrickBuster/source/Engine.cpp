@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include "GameException.h"
 #include "Title.h"
 #include <time.h>
 
@@ -8,7 +9,6 @@ Engine::Engine() :	previous(SDL_GetTicks()), lag(0.0),
 	srand(static_cast<unsigned int>(time(nullptr)));
 
 	stateMachine = std::make_unique<StateMachine>(this, std::make_unique<Title>(mediaCache));
-	//stateMachine->setCurrentState(nullptr);
 }
 
 Engine::~Engine()
@@ -17,24 +17,31 @@ Engine::~Engine()
 
 void Engine::run()
 {
-	while(running)
+	try
 	{
-		double current = SDL_GetTicks();
-		double elapsed = current - previous;
-		previous = current;
-		lag += elapsed;
-
-		handleEvents();
-		if (!running)
-			break;
-
-		while (lag >= frameLength)
+		while (running)
 		{
-			update();
-			lag -= frameLength;
-		}
+			double current = SDL_GetTicks();
+			double elapsed = current - previous;
+			previous = current;
+			lag += elapsed;
 
-		render();
+			handleEvents();
+			if (!running)
+				break;
+
+			while (lag >= frameLength)
+			{
+				update();
+				lag -= frameLength;
+			}
+
+			render();
+		}
+	}
+	catch (GameException e)
+	{
+		throw e;
 	}
 }
 
@@ -63,7 +70,6 @@ void Engine::update()
 	stateMachine->getCurrentState()->update(this);
 }
 
-//clear the screen, render the currentState then update the screen
 void Engine::render()
 {
 	mediaCache.clearScreen();

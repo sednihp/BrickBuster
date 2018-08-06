@@ -84,9 +84,6 @@
     <ClInclude Include="include\GameObject.h">
       <Filter>Header Files\Object</Filter>
     </ClInclude>
-    <ClInclude Include="include\BrickBuster.h">
-      <Filter>Header Files\Engine</Filter>
-    </ClInclude>
     <ClInclude Include="include\GraphicsComponent.h">
       <Filter>Header Files\Object\Components</Filter>
     </ClInclude>
@@ -119,6 +116,12 @@
     </ClInclude>
     <ClInclude Include="include\BrickLoader.h">
       <Filter>Header Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameException.h">
+      <Filter>Source Files\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BrickScore.h">
+      <Filter>Header Files\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -187,6 +190,12 @@
     </ClCompile>
     <ClCompile Include="source\BrickLoader.cpp">
       <Filter>Source Files\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\PowerUp.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BrickScore.cpp">
+      <Filter>Source Files\Object\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 #include "FontCache.h"
 #include "Vectors.h"
+#include "GameException.h"
 #include <iostream>
 
 FontCache::FontCache(SDL_Renderer* &renderer, const std::string &f) : ren(renderer), fontFile(f)
@@ -34,7 +35,10 @@ TTF_Font* FontCache::getFont(const int size)
 		TTF_Font* font = TTF_OpenFont(fontFile.c_str(), size);
 		if (!font)
 		{
-			std::cerr << "No font loaded: " << TTF_GetError() << "\n";
+			std::string msg = "TTF_OpenFont error: ";
+			msg += TTF_GetError();
+			GameException e(msg);
+			throw e;
 		}
 		i = fonts.insert(i, std::make_pair(size, font));
 }

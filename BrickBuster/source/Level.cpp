@@ -10,7 +10,7 @@ Level::Level(MediaCache& mc,
 								font(mediaCache.getFont(60)),
 								levelNum(level), 
 								player(std::make_unique<Player>()),
-								blockLoader(std::make_unique<BrickLoader>()),
+								brickLoader(std::make_unique<BrickLoader>()),
 								bat(std::make_unique<Bat>(std::make_unique<BatInputComponent>(), 
 															std::make_unique<BatGraphicsComponent>(),
 															mediaCache.getScrWidth(),
@@ -20,7 +20,7 @@ Level::Level(MediaCache& mc,
 															mediaCache.getScrWidth(), 
 															bat->getPosition().y))
 {
-	blockLoader->loadBricks(levelNum, blocks);
+	brickLoader->loadBricks(levelNum, bricks);
 
 	pausedTex = mediaCache.getText("Paused", font);
 	pausedTex->setPosition(mediaCache.centreX(pausedTex->getW()), mediaCache.centreY(pausedTex->getH()));
@@ -56,7 +56,7 @@ void Level::update(Engine* engine)
 
 		//if ball->move() returns < 0 the ball has gone off the bottom of the screen so we need to lose and life and reset
 		//if we've lost all our lives then we're dead
-		if (ball->update(mediaCache.getScrWidth(), mediaCache.getScrHeight(), bat, blocks) < 0)
+		if (ball->update(mediaCache.getScrWidth(), mediaCache.getScrHeight(), bat, bricks) < 0)
 		{
 			bat->reset(mediaCache.getScrWidth(), mediaCache.getScrHeight());
 			ball->reset(mediaCache.getScrWidth(), bat->getPosition().y);
@@ -64,6 +64,7 @@ void Level::update(Engine* engine)
 		}
 
 		updateBricks();
+		updatePowerUps();
 	}
 
 	if (player->getLives() == 0)
@@ -83,11 +84,23 @@ void Level::render()
 	mediaCache.renderTexture(livesTex, mediaCache.getScrWidth() - livesTex->getW(), 5);
 
 	bat->render(mediaCache);
-	for (const auto& block : blocks)
+
+	for (const auto& brickScore : brickScores)
 	{
-		block->render(mediaCache);
+		brickScore->render(mediaCache);
 	}
+
+	for (const auto& brick : bricks)
+	{
+		brick->render(mediaCache);
+	}
+
 	ball->render(mediaCache);
+	
+	for (auto& powerUp : powerUps)
+	{
+		powerUp->render(mediaCache);
+	}
 
 	if (paused)
 	{
@@ -116,21 +129,54 @@ void Level::keyPressed(SDL_Event& e, Engine*)
 	}
 }
 
-//iterate through all the blocks
-//if a block is not alive then it has been hit, so assign it's score to the player and remove it
+//iterate through all the bricks
+//if a brick is not alive then it has been hit, so assign it's score to the player and remove it
 void Level::updateBricks()
 {
-	auto b = blocks.begin();
-	while (b != blocks.end())
+	auto b = bricks.begin();
+	while (b != bricks.end())
 	{
 		if (!(*b)->isAlive())
 		{
 			player->hasScored((*b)->getScore());
-			b = blocks.erase(b);
+			if (rand() % 10 < 1)
+			{
+				powerUps.push_back(std::make_unique<PowerUp>(std::make_unique<PowerUpInputComponent>(),
+																std::make_unique<PowerUpGraphicsComponent>(), 
+																(*b)->getPosition()));
+			}
+
+			brickScores.push_back(std::make_unique<BrickScore>(std::make_unique<BrickScoreInputComponent>(),
+																std::make_unique<BrickScoreGraphicsComponent>(),
+																(*b)->getPosition(), (*b)->getScore()));
+
+			b = bricks.erase(b);
 		}
 		else
 		{
 			++b;
+		}
+	}
+}
+
+void Level::updatePowerUps()
+{
+	auto p = powerUps.begin();
+	while (p != powerUps.end())
+	{
+		if (!(*p)->isActive())
+		{
+			p = powerUps.erase(p);
+		}
+		else
+		{
+			(*p)->update(mediaCache.getScrHeight());
+
+			if (CollisionEngine::haveCollided(bat->getBox(), (*p)->getBox()))
+			{
+				(*p)->collected(bat, ball, player);
+			}
+			++p;
 		}
 	}
 }

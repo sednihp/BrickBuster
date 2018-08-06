@@ -8,5 +8,5 @@ public:
 	BrickLoader() {}
 	~BrickLoader() {}
 
-	void loadBricks(const int levelNum, std::vector<std::unique_ptr<Brick>>& blocks);
+	void loadBricks(const int levelNum, std::vector<std::unique_ptr<Brick>>& bricks);
 };

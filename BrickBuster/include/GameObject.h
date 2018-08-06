@@ -20,7 +20,7 @@ class GameObject
 
 	public:
 		GameObject(std::unique_ptr<InputComponent> ic, 
-				std::unique_ptr<GraphicsComponent> gc);
+					std::unique_ptr<GraphicsComponent> gc);
 		~GameObject();
 
 		virtual const Point2D getPosition() { return position; }

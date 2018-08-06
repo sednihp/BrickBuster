@@ -5,9 +5,9 @@
 class Title : public State
 {
 	private:
-		TTF_Font* titleFont;
+		TTF_Font* font;
 		TTF_Font* menuFont;
-		std::vector<GameTex> titleTex;
+		GameTex titleTex;
 		std::vector<GameTex> menu;
 
 		void generateTextures();

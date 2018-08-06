@@ -66,14 +66,14 @@ void ChooseLevel::mouseClicked(SDL_Event &, Engine* engine)
 	int x, y;
 	if (SDL_GetMouseState(&x, &y)&SDL_BUTTON(1))
 	{
-		if (CollisionEngine::checkCollision(menu->getBox(), x, y))
+		if (CollisionEngine::haveCollided(menu->getBox(), x, y))
 		{
 			engine->changeState(std::make_unique<Title>(mediaCache));
 		}
 
 		for (int i=0; i<numLevels; i++)
 		{
-			if (CollisionEngine::checkCollision(levelTex[i]->getBox(), x, y))
+			if (CollisionEngine::haveCollided(levelTex[i]->getBox(), x, y))
 			{
 				engine->changeState(std::make_unique<Level>(mediaCache, i+1));
 				break;

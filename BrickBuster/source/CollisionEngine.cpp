@@ -2,7 +2,7 @@
 
 namespace CollisionEngine
 {
-	const bool checkCollision(const SDL_Rect& box, const int x, const int y)
+	const bool haveCollided(const SDL_Rect& box, const int x, const int y)
 	{
 		//x is to the left of box
 		if (x < box.x)
@@ -23,7 +23,7 @@ namespace CollisionEngine
 		return true;
 	}
 
-    const bool checkCollision(const SDL_Rect& firstBox, const SDL_Rect& secondBox)
+    const bool haveCollided(const SDL_Rect& firstBox, const SDL_Rect& secondBox)
     {
 		//firstBox to the right of the second
 		if (firstBox.x + firstBox.w < secondBox.x)
@@ -35,14 +35,12 @@ namespace CollisionEngine
 
 		//firstBox below the second
         if (firstBox.y > secondBox.y + secondBox.h)
-            return false;
+			return false;
 
 		//firstBox above the second
         if (firstBox.y + firstBox.h < secondBox.y)
-            return false;
+			return false;
 
         return true;
     }
-
-
 }

@@ -1,3 +1,4 @@
+#include "GameException.h"
 #include "ImageCache.h"
 #include "SDL_image.h"
 #include <iostream>
@@ -7,8 +8,10 @@ ImageCache::ImageCache(SDL_Renderer* &renderer) : ren(renderer)
 {
 	if(SDL_InitSubSystem(SDL_INIT_VIDEO) != 0)
 	{
-		std::cerr << SDL_GetError() << std::endl;
-		exit(1);
+		std::string msg = "SDL_INIT_VIDEO error: ";
+		msg += SDL_GetError();
+		GameException e(msg);
+		throw e;
 	}
 }
 
@@ -33,13 +36,19 @@ GameTex ImageCache::getImage(const std::string& file)
 		SDL_Surface* loadedSurface = IMG_Load(file.c_str());
 		if (!loadedSurface)
 		{
-			std::cerr << "Emtpy surface: " << IMG_GetError() << "\n";
+			std::string msg = "IMG_Load error: ";
+			msg += SDL_GetError();
+			GameException e(msg);
+			throw e;
 		}
 		SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 0xFF, 0, 0xFF));
 		SDL_Texture* tex = SDL_CreateTextureFromSurface(ren, loadedSurface);
 		if (!tex)
 		{
-			std::cerr << "Empty texture: " << IMG_GetError() << "\n";
+			std::string msg = "SDL_CreateTextureFromSurface error: ";
+			msg += SDL_GetError();
+			GameException e(msg);
+			throw e;
 		}
 		auto gt = std::make_shared<GameTexture>(tex);
 		i = images.insert(i, std::make_pair(file, gt));

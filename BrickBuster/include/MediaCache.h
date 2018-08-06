@@ -4,11 +4,12 @@
 #include "ImageCache.h"
 #include "FontCache.h"
 #include "TextCache.h"
+#include "Vectors.h"
 
 class MediaCache
 {
 	private:
-		const int mScrWidth = 600;
+		const int mScrWidth = 1000;
 		const int mScrHeight = 750;
 		const SDL_Color textColor = { 255,255,255 };
 		const SDL_Color bgColor = { 91,173,255 };
@@ -32,6 +33,7 @@ class MediaCache
 
 		void renderTexture(GameTex tex, const int x, const int y);
 		void renderTexture(GameTex tex, const double x, const double y);
+		void renderTexture(GameTex tex, const Point2D& position);
 		void drawRectangle(const SDL_Rect& rect, const SDL_Color& color);
 
 		void clearScreen();

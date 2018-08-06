@@ -4,8 +4,7 @@ Ball::Ball(std::unique_ptr<InputComponent> ic,
 			std::unique_ptr<GraphicsComponent> gc,
 			const int scrWidth, 
 			const double topOfBat) : GameObject(std::move(ic), 
-												std::move(gc)),
-										speed(startSpeed)
+												std::move(gc))
 {
 	setImage("files/images/ball/ball.bmp");
 	setToStartPosition(scrWidth, topOfBat);
@@ -18,7 +17,7 @@ Ball::~Ball()
 
 void Ball::setToStartPosition(const int scrWidth, const double topOfBat)
 {
-	position.x = ((scrWidth - ballWidth) / 2) + radius;
+	position.x = ((scrWidth - width) / 2) + radius;
 	position.y = topOfBat - radius;
 }
 
@@ -27,7 +26,7 @@ const Point2D Ball::getPosition()
 	return { position.x - radius, position.y - radius };
 }
 
-int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<Bat>& bat, const std::vector<std::unique_ptr<Brick>>& blocks)
+int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<Bat>& bat, const std::vector<std::unique_ptr<Brick>>& bricks)
 {
 	if (!isMoving() && bat->getDirection().x != 0)
 	{
@@ -39,7 +38,7 @@ int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<
 
 		direction.normalize();
 
-		//move across, then check if it's hit the bat, a block or the edge of the screen
+		//move across, then check if it's hit the bat, a brick or the edge of the screen
 		const double moveX = direction.x * speed;
 		position.x += moveX;
 
@@ -58,14 +57,14 @@ int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<
 			speed *= speedIncrement;
 		}
 
-		for (auto& block : blocks)
+		for (auto& brick : bricks)
 		{
-			if (hasCollided(block->getBox()))
+			if (hasCollided(brick->getBox()))
 			{
 				position.x -= moveX;
 				direction.x *= -1;
 				speed *= speedIncrement;
-				block->hitByBall();
+				brick->hitByBall();
 			}
 		}
 
@@ -75,7 +74,7 @@ int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<
 			direction.x *= -1;
 		}
 
-		//move up/down then check if it's hit the bat or a block
+		//move up/down then check if it's hit the bat or a brick
 		//if its off the bottom of the screen then return -1
 		const double moveY = direction.y * speed;
 		position.y += moveY;
@@ -88,14 +87,14 @@ int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<
 			direction.x += bat->getDirection().x;
 		}
 
-		for (auto& block : blocks)
+		for (auto& brick : bricks)
 		{
-			if (hasCollided(block->getBox()))
+			if (hasCollided(brick->getBox()))
 			{
 				position.y -= moveY;
 				direction.y *= -1;
 				speed *= speedIncrement;
-				block->hitByBall();
+				brick->hitByBall();
 			}
 		}
 
@@ -155,8 +154,42 @@ void Ball::startMoving(const double xDir, const double yDir)
 
 void Ball::reset(const int scrWidth, const double topOfBat)
 {
+	changeState(BallState::REGULAR);
 	direction = { 0,0 };
 	setToStartPosition(scrWidth, topOfBat);
 	speed = startSpeed;
 	moving = false;
+}
+
+void Ball::largeBall()
+{
+	changeState(BallState::LARGE);
+}
+
+void Ball::smallBall()
+{
+	changeState(BallState::SMALL);
+}
+
+void Ball::changeState(BallState newState)
+{
+	state = newState;
+
+	switch (state)
+	{
+		case BallState::REGULAR:
+			width = regularWidth;
+			setImage("files/images/ball/ball.bmp");
+			break;
+		case BallState::LARGE:
+			width = largeWidth;
+			setImage("files/images/ball/large_ball.bmp");
+			break;
+		case BallState::SMALL:
+			width = smallWidth;
+			setImage("files/images/ball/small_ball.bmp");
+			break;
+	}
+
+	radius = width / 2;
 }

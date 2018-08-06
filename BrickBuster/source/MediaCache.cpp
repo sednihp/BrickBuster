@@ -1,4 +1,5 @@
 #include "MediaCache.h"
+#include "GameException.h"
 #include <iostream>
 #include "SDL_image.h"
 #include "SDL_ttf.h"
@@ -10,15 +11,19 @@ MediaCache::MediaCache() :	window(nullptr), ren(nullptr),
 	window = SDL_CreateWindow("Brick Buster", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, mScrWidth, mScrHeight, SDL_WINDOW_SHOWN);
 	if(!window)
 	{
-		std::cerr << "CreateWindow error: " << SDL_GetError() << "\n";
-		exit(2);
+		std::string msg = "SDL_CreateWindow error: ";
+		msg += SDL_GetError();
+		GameException e(msg);
+		throw e;
 	}
 
 	ren = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if(!ren)
 	{
-		std::cerr << "CreateRenderer error: " << SDL_GetError() << "\n";
-		exit(3);
+		std::string msg = "SDL_CreateRenderer error: ";
+		msg += SDL_GetError();
+		GameException e(msg);
+		throw e;
 	}
 }
 
@@ -60,7 +65,10 @@ void MediaCache::renderTexture(GameTex tex, const int x, const int y)
  
 	if (SDL_RenderCopy(ren, tex->texture(), NULL, &pos) < 0)
 	{
-		std::cerr << "RenderCopy error: " << SDL_GetError() << "\n";
+		std::string msg = "SDL_RenderCopy error: ";
+		msg += SDL_GetError();
+		GameException e(msg);
+		throw e;
 	}
 }
 
@@ -69,15 +77,26 @@ void MediaCache::renderTexture(GameTex tex, const double x, const double y)
 	renderTexture(tex, static_cast<int>(x), static_cast<int>(y));
 }
 
+void MediaCache::renderTexture(GameTex tex, const Point2D& position)
+{
+	renderTexture(tex, static_cast<int>(position.x), static_cast<int>(position.y));
+}
+
 void MediaCache::drawRectangle(const SDL_Rect& rect, const SDL_Color& c)
 {
 	if (SDL_SetRenderDrawColor(ren, c.r, c.g, c.b, SDL_ALPHA_OPAQUE) < 0)
 	{
-		std::cerr << "SetRenderDrawColor error: " << SDL_GetError() << "\n";
+		std::string msg = "SDL_SetRenderDrawColor error: ";
+		msg += SDL_GetError();
+		GameException e(msg);
+		throw e;
 	}
 	if (SDL_RenderFillRect(ren, &rect) < 0)
 	{
-		std::cerr << "RenderFillRect error: " << SDL_GetError() << "\n";
+		std::string msg = "SDL_RenderFillRect error: ";
+		msg += SDL_GetError();
+		GameException e(msg);
+		throw e;
 	}
 }
 
@@ -85,11 +104,17 @@ void MediaCache::clearScreen()
 { 
 	if (SDL_SetRenderDrawColor(ren, bgColor.r, bgColor.g, bgColor.b, SDL_ALPHA_OPAQUE) < 0)
 	{
-		std::cerr << "SetRenderDrawColor error: " << SDL_GetError() << "\n";
+		std::string msg = "SDL_SetRenderDrawColor error: ";
+		msg += SDL_GetError();
+		GameException e(msg);
+		throw e;
 	}
 	if(SDL_RenderClear(ren) < 0)
 	{
-		std::cerr << "RenderClear error: " << SDL_GetError() << "\n";
+		std::string msg = "SDL_RenderClear error: ";
+		msg += SDL_GetError();
+		GameException e(msg);
+		throw e;
 	}
 }
 

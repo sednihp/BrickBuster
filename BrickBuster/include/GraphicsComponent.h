@@ -22,3 +22,13 @@ class BrickGraphicsComponent : public GraphicsComponent {
 public:
 	virtual void render(GameObject& obj, MediaCache& mc);
 };
+
+class PowerUpGraphicsComponent : public GraphicsComponent {
+public:
+	virtual void render(GameObject& obj, MediaCache& mc);
+};
+
+class BrickScoreGraphicsComponent : public GraphicsComponent {
+public:
+	virtual void render(GameObject& obj, MediaCache& mc);
+};

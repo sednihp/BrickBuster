@@ -14,7 +14,7 @@ Bat::Bat(std::unique_ptr<InputComponent> ic,
 
 void Bat::setBatToStartPos(const int scrWidth, const int scrHeight)
 {
-	setBox({(scrWidth - batWidth) / 2, scrHeight - batMargin, batWidth, batHeight });
+	setBox({(scrWidth - width) / 2, scrHeight - bottomMargin, width, height });
 }
 
 Bat::~Bat()
@@ -30,21 +30,23 @@ void Bat::update(const int scrWidth)
 	{
 		position.x = 0;
 	}
-	else if (position.x + batWidth > scrWidth)
+	else if (position.x + width > scrWidth)
 	{
-		position.x = scrWidth - batWidth;
+		position.x = scrWidth - width;
 	}
 }
 
 const SDL_Rect& Bat::getBox()
 {
-	setBox({ static_cast<int>(position.x),static_cast<int>(position.y),box.w,box.h });
+	box.x = static_cast<int>(position.x);
+	box.y = static_cast<int>(position.y);
 	
 	return box;
 }
 
 void Bat::reset(const int scrWidth, const int scrHeight)
 {
+	changeState(BatState::REGULAR);
 	setDirection({ 0,0 });
 	setBatToStartPos(scrWidth, scrHeight);
 	position.x = box.x;
@@ -61,4 +63,34 @@ void Bat::startMoving()
 			setDirection({ 0,1 });
 			break;
 	}
+}
+
+void Bat::largeBat()
+{
+	changeState(BatState::LARGE);
+}
+
+void Bat::smallBat()
+{
+	changeState(BatState::SMALL);
+}
+
+void Bat::changeState(BatState newState)
+{
+	state = newState;
+
+	switch(state)
+	{ 
+		case BatState::REGULAR:
+			width = regularWidth;
+			break;
+		case BatState::LARGE:
+			width = largeWidth;
+			break;
+		case BatState::SMALL:
+			width = smallWidth;
+			break;
+	}
+
+	box.w = width;
 }

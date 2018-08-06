@@ -22,3 +22,13 @@ class BallInputComponent : public InputComponent {
 public:
 	virtual void handleEvents(GameObject&, SDL_Event&) {}
 };
+
+class PowerUpInputComponent : public InputComponent {
+public:
+	virtual void handleEvents(GameObject&, SDL_Event&) {}
+};
+
+class BrickScoreInputComponent : public InputComponent {
+public:
+	virtual void handleEvents(GameObject&, SDL_Event&) {}
+};

@@ -7,14 +7,18 @@
 #include <memory>
 #include <vector>
 #include <BrickLoader.h>
+#include "PowerUp.h"
+#include "BrickScore.h"
 
 class Level : public State {
 private:
 	std::unique_ptr<Player> player;
 	std::unique_ptr<Bat> bat;
-	std::vector<std::unique_ptr<Brick>> blocks;
 	std::unique_ptr<Ball> ball;
-	std::unique_ptr<BrickLoader> blockLoader;
+	std::vector<std::unique_ptr<Brick>> bricks;
+	std::vector<std::unique_ptr<PowerUp>> powerUps;
+	std::vector<std::unique_ptr<BrickScore>> brickScores;
+	std::unique_ptr<BrickLoader> brickLoader;
 	TTF_Font * font;
 	GameTex pausedTex, levelTex, livesTex, scoreTex;
 	int levelNum;
@@ -22,6 +26,7 @@ private:
 
 	void keyPressed(SDL_Event& e, Engine* engine);
 	void updateBricks();
+	void updatePowerUps();
 	
 public:
 	Level(MediaCache& mc, const int level);
