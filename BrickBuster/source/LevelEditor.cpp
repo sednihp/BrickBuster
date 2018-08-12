@@ -2,6 +2,8 @@
 #include "CollisionEngine.h"
 #include "Engine.h"
 #include "Title.h"
+#include <fstream>
+#include "GameException.h"
 
 LevelEditor::LevelEditor(MediaCache& mc) :State(mc), 
 											brickManager(std::make_unique<BrickManager>(0)),
@@ -68,7 +70,7 @@ void LevelEditor::update(Engine* )
 
 	brick->setPosition({ x,y });
 
-	brickManager->update();
+	brickManager->update(mediaCache.getScrWidth(), mediaCache.getScrHeight());
 }
 
 void LevelEditor::render(const double dTime)
@@ -108,7 +110,7 @@ void LevelEditor::mouseClicked(SDL_Event&, Engine* engine)
 	{
 		if (CollisionEngine::haveCollided(menu[0]->getBox(), x, y))
 		{
-
+			saveLevel();
 		}
 		else if (CollisionEngine::haveCollided(menu[1]->getBox(), x, y))
 		{
@@ -155,4 +157,32 @@ void LevelEditor::mouseWheelScrolled(SDL_Event& e)
 	}
 
 	brick->changeColour(brickColour);
+}
+
+void LevelEditor::saveLevel()
+{
+	std::ofstream outputFile("files/levels/0.lvl");
+
+	if (!outputFile)
+	{
+		std::string msg = "Output file not opened";
+		GameException e(msg);
+		throw e;
+	}
+
+	//ensure there is no newline char on the last line as this causes issues with destroying the last brick
+	for (size_t i = 0; i < brickManager->getBricks().size(); i++)
+	{
+		const std::unique_ptr<Brick>& b = brickManager->getBricks()[i];
+		if (i == brickManager->getBricks().size() - 1)
+		{
+			outputFile << b->getBrickColour() << " " << b->getPosition().x << " " << b->getPosition().y;
+		}
+		else
+		{
+			outputFile << b->getBrickColour() << " " << b->getPosition().x << " " << b->getPosition().y << "\n";
+		}
+	}
+
+	outputFile.close();
 }

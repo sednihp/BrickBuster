@@ -15,9 +15,9 @@ ChooseLevel::ChooseLevel(MediaCache& mc) : State(mc),
 		levelTex.push_back(tex);
 	}
 
-	GameTex userlvlTex = mediaCache.getText("User Level", lvlFont);
-	userlvlTex->setPosition(mediaCache.centreX(userlvlTex->getW()), topMargin + numLevels*userlvlTex->getH());
-	levelTex.push_back(userlvlTex);
+	userLvlTex = mediaCache.getText("User Level", lvlFont);
+	userLvlTex->setPosition(mediaCache.centreX(userLvlTex->getW()), topMargin + numLevels*userLvlTex->getH());
+	levelTex.push_back(userLvlTex);
 
 	menu = mediaCache.getText("Main Menu", f2);
 	menu->setPosition(mediaCache.centreX(menu->getW()), mediaCache.getScrHeight() - menu->getH());
@@ -70,13 +70,19 @@ void ChooseLevel::mouseClicked(SDL_Event&, Engine* engine)
 		{
 			engine->changeState(std::make_unique<Title>(mediaCache));
 		}
-
-		for (int i=0; i<numLevels; i++)
+		else if (CollisionEngine::haveCollided(userLvlTex->getBox(), x, y))
 		{
-			if (CollisionEngine::haveCollided(levelTex[i]->getBox(), x, y))
+			engine->changeState(std::make_unique<Level>(mediaCache, 0));
+		}
+		else
+		{
+			for (int i = 0; i < numLevels; i++)
 			{
-				engine->changeState(std::make_unique<Level>(mediaCache, i+1));
-				break;
+				if (CollisionEngine::haveCollided(levelTex[i]->getBox(), x, y))
+				{
+					engine->changeState(std::make_unique<Level>(mediaCache, i + 1));
+					break;
+				}
 			}
 		}
 	}

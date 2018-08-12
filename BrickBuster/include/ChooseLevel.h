@@ -9,7 +9,7 @@ private:
 	const int numLevels = 15;
 	const int topMargin = 20;
 	std::vector<GameTex> levelTex;
-	GameTex menu;
+	GameTex menu, userLvlTex;
 
 	void mouseClicked(SDL_Event& e, Engine* engine);
 

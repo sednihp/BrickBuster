@@ -12,6 +12,7 @@ private:
 
 	void mouseClicked(SDL_Event&, Engine* engine);
 	void mouseWheelScrolled(SDL_Event& e);
+	void saveLevel();
 
 public:
 	LevelEditor(MediaCache& mc);

@@ -22,7 +22,7 @@ public:
 	void loadBricks(const int levelNum);
 	void add(std::unique_ptr<Brick> b);
 	void clear() { bricks.clear(); }
-	int update(std::vector<std::unique_ptr<PowerUp>>& powerUps);
-	void update();
+	int update(const int scrWidth, const int scrHeight, std::vector<std::unique_ptr<PowerUp>>& powerUps);
+	void update(const int scrWidth, const int scrHeight);
 	void render(MediaCache& mc, const double dTime) const;
 };

@@ -25,7 +25,7 @@ void BrickManager::add(std::unique_ptr<Brick> b)
 //if a brick isn't alive, get it's score and randomly create a powerup
 //create the brickScore text and then erase the brick
 //otherwise just move on to the next element
-int BrickManager::update(std::vector<std::unique_ptr<PowerUp>>& powerUps)
+int BrickManager::update(const int scrWidth, const int scrHeight, std::vector<std::unique_ptr<PowerUp>>& powerUps)
 {
 	int score = 0;
 
@@ -67,22 +67,33 @@ int BrickManager::update(std::vector<std::unique_ptr<PowerUp>>& powerUps)
 		}
 	}
 
+	for (const auto& brick : bricks)
+	{
+		brick->update(scrWidth, scrHeight);
+	}
+
 	return score;
 }
 
-void BrickManager::update()
+void BrickManager::update(const int scrWidth, const int scrHeight)
 {
 	auto b = bricks.begin();
 	while (b != bricks.end())
 	{
 		if (!(*b)->isAlive())
 		{
+			std::cout << "Brick erased, score " << (*b)->getScore() << std::endl;
 			b = bricks.erase(b);
 		}
 		else
 		{
 			++b;
 		}
+	}
+
+	for (const auto& brick : bricks)
+	{
+		brick->update(scrWidth, scrHeight);
 	}
 }
 

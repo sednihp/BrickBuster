@@ -7,7 +7,6 @@ BrickColour& operator++(BrickColour &c) {
 	return c;
 }
 
-// Special behavior for Colors++
 BrickColour operator++(BrickColour &c, int) {
 	BrickColour result = c;
 	++c;
@@ -21,9 +20,14 @@ BrickColour& operator--(BrickColour &c) {
 	return c;
 }
 
-// Special behavior for Colors--
 BrickColour operator--(BrickColour &c, int) {
 	BrickColour result = c;
 	--c;
 	return result;
+}
+
+std::ostream& operator<< (std::ostream& os, const BrickColour& bc)
+{
+	os << static_cast<int>(bc);
+	return os;
 }

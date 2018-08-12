@@ -76,7 +76,7 @@ void Level::update(Engine* )
 			player->loseLife();			
 		}
 
-		player->addScore(brickManager->update(powerUps));
+		player->addScore(brickManager->update(mediaCache.getScrWidth(), mediaCache.getScrHeight(), powerUps));
 		updatePowerUps();
 	}
 
