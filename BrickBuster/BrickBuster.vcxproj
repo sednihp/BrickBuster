@@ -139,6 +139,7 @@
     <ClInclude Include="include\Level.h" />
     <ClInclude Include="include\GameTexture.h" />
     <ClInclude Include="include\ImageCache.h" />
+    <ClInclude Include="include\LevelEditor.h" />
     <ClInclude Include="include\MediaCache.h" />
     <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\GameObject.h" />
@@ -155,6 +156,7 @@
     <ClCompile Include="source\Ball.cpp" />
     <ClCompile Include="source\Bat.cpp" />
     <ClCompile Include="source\Brick.cpp" />
+    <ClCompile Include="source\BrickColour.cpp" />
     <ClCompile Include="source\BrickLoader.cpp" />
     <ClCompile Include="source\BrickManager.cpp" />
     <ClCompile Include="source\BrickScore.cpp" />
@@ -167,6 +169,7 @@
     <ClCompile Include="source\Level.cpp" />
     <ClCompile Include="source\GameTexture.cpp" />
     <ClCompile Include="source\ImageCache.cpp" />
+    <ClCompile Include="source\LevelEditor.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\MediaCache.cpp" />
     <ClCompile Include="source\GameObject.cpp" />

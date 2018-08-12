@@ -9,6 +9,7 @@ public:
 
 	Point2D();
 	Point2D(const double _x, const double _y);
+	Point2D(const int _x, const int _y);
 
 	void set(const double newX, const double newY);
 };

@@ -35,14 +35,15 @@ private:
 	void keyPressed(SDL_Event& e, Engine* engine);
 	void updatePowerUps();
 	void changeState(LevelState newState);
+	void newGameReset();
 	
 public:
 	Level(MediaCache& mc, const int level);
 	~Level();
 
 	virtual void enter(Engine* engine);
-	virtual void handleEvents(SDL_Event &e, Engine* engine);
+	virtual void handleEvents(SDL_Event& e, Engine* engine);
 	virtual void update(Engine* engine);
-	virtual void render();
+	virtual void render(const double dTime);
 	virtual void exit(Engine* engine);
 };

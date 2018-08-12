@@ -51,7 +51,7 @@ void Level::enter(Engine* )
 
 }
 
-void Level::handleEvents(SDL_Event &e, Engine* engine)
+void Level::handleEvents(SDL_Event& e, Engine* engine)
 {
 	keyPressed(e, engine);
 	mouseClicked(e, engine);
@@ -90,7 +90,7 @@ void Level::update(Engine* )
 	}
 }
 
-void Level::render()
+void Level::render(const double dTime)
 {
 	scoreTex = mediaCache.getText(player->getScore(), font);
 	mediaCache.render(scoreTex, 0, 5);
@@ -100,15 +100,15 @@ void Level::render()
 	livesTex = mediaCache.getText(player->getLives(), font);
 	mediaCache.render(livesTex, mediaCache.getScrWidth() - livesTex->getW(), 5);
 
-	bat->render(mediaCache);
+	bat->render(mediaCache, dTime);
 
-	brickManager->render(mediaCache);
+	brickManager->render(mediaCache, dTime);
 
-	ball->render(mediaCache);
+	ball->render(mediaCache, dTime);
 	
 	for (auto& powerUp : powerUps)
 	{
-		powerUp->render(mediaCache);
+		powerUp->render(mediaCache, dTime);
 	}
 
 	if (state == LevelState::PAUSED)
@@ -167,43 +167,35 @@ void Level::mouseClicked(SDL_Event&, Engine* engine)
 	int x, y;
 	if (SDL_GetMouseState(&x, &y)&SDL_BUTTON(1))
 	{
-		if (CollisionEngine::haveCollided(mainMenuTex->getBox(), x, y))
+		if (CollisionEngine::haveCollided(nextLevelTex->getBox(), x, y) || CollisionEngine::haveCollided(restartTex->getBox(), x, y))
+		{
+			newGameReset();
+		}
+		else if (CollisionEngine::haveCollided(mainMenuTex->getBox(), x, y))
 		{
 			if (state == LevelState::COMPLETE || state == LevelState::DEAD)
 			{
 				engine->changeState(std::make_unique<Title>(mediaCache));
 			}
-		}
-
-		if(state == LevelState::COMPLETE)
-		{
-			if (CollisionEngine::haveCollided(nextLevelTex->getBox(), x, y))
-			{
-				player->reset();
-				bat->reset(mediaCache.getScrWidth(), mediaCache.getScrHeight());
-				ball->reset(mediaCache.getScrWidth(), bat->getPosition().y);
-				if (levelNum < levelCount)
-				{
-					++levelNum;
-					brickManager->loadBricks(levelNum);
-				}
-				powerUps.clear();
-				changeState(LevelState::PLAYING);
-			}
-		}
-		else if (state == LevelState::DEAD)
-		{
-			if (CollisionEngine::haveCollided(restartTex->getBox(), x, y))
-			{
-				player->reset();
-				bat->reset(mediaCache.getScrWidth(), mediaCache.getScrHeight());
-				ball->reset(mediaCache.getScrWidth(), bat->getPosition().y);
-				brickManager->loadBricks(levelNum);
-				powerUps.clear();
-				changeState(LevelState::PLAYING);
-			}
-		}
+		}		
 	}
+}
+
+
+void Level::newGameReset()
+{
+	player->reset();
+	bat->reset(mediaCache.getScrWidth(), mediaCache.getScrHeight());
+	ball->reset(mediaCache.getScrWidth(), bat->getPosition().y);
+	powerUps.clear();
+
+	if (state == LevelState::COMPLETE && levelNum < levelCount)
+	{
+		++levelNum;		
+	}
+
+	brickManager->loadBricks(levelNum);
+	changeState(LevelState::PLAYING);
 }
 
 void Level::updatePowerUps()

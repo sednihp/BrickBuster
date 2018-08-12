@@ -5,12 +5,12 @@ class GameObject;
 class InputComponent {
 public:
 	virtual ~InputComponent() {}
-	virtual void handleEvents(GameObject& obj, SDL_Event &e) = 0;
+	virtual void handleEvents(GameObject& obj, SDL_Event& e) = 0;
 };
 
 class BatInputComponent : public InputComponent {
 public:
-	void handleEvents(GameObject& obj, SDL_Event &e);
+	void handleEvents(GameObject& obj, SDL_Event& e);
 };
 
 class BrickInputComponent : public InputComponent {

@@ -6,6 +6,7 @@ Ball::Ball(std::unique_ptr<InputComponent> ic,
 			const double topOfBat) : GameObject(std::move(ic), 
 												std::move(gc))
 {
+	setSpeed(ballSpeed);
 	setImage("files/images/ball/ball.bmp");
 	setToStartPosition(scrWidth, topOfBat);
 }
@@ -157,7 +158,7 @@ void Ball::reset(const int scrWidth, const double topOfBat)
 	changeState(BallState::REGULAR);
 	direction = { 0,0 };
 	setToStartPosition(scrWidth, topOfBat);
-	speed = startSpeed;
+	setSpeed(ballSpeed);
 	moving = false;
 }
 

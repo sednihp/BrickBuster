@@ -13,6 +13,11 @@ Point2D::Point2D(double _x, double _y) : x(_x), y(_y)
 
 }
 
+Point2D::Point2D(const int _x, const int _y) : x(static_cast<double>(_x)), y(static_cast<double>(_y))
+{
+
+}
+
 void Point2D::set(double newX, double newY)
 {
 	x = newX;

@@ -19,8 +19,7 @@ private:
 	int width = regularWidth;
 	int radius = width / 2;
 	const double speedIncrement = 1.001;
-	const double startSpeed = 7;
-	double speed = startSpeed;
+	const double ballSpeed = 7;
 	BallState state = BallState::REGULAR;
 
 	void setToStartPosition(const int scrWidth, const double topOfBat);

@@ -7,9 +7,10 @@ Bat::Bat(std::unique_ptr<InputComponent> ic,
 			const int scrHeight) : GameObject(std::move(ic), 
 											std::move(gc))
 {
+	setSpeed(batSpeed);
 	setColor({ 160,64,32 });
 	setBatToStartPos(scrWidth, scrHeight);
-	setPosition({ static_cast<double>(box.x),static_cast<double>(box.y) });
+	setPosition({ box.x,box.y });
 }
 
 void Bat::setBatToStartPos(const int scrWidth, const int scrHeight)

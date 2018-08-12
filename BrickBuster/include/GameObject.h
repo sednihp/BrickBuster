@@ -14,6 +14,7 @@ class GameObject
 		Vector2D direction = { 0,0 };
 		SDL_Rect box = { 0,0,1,1 };
 		SDL_Color color = { 0,0,0 };
+		double speed = 0;
 		std::string image = "";
 		std::unique_ptr<InputComponent> input;
 		std::unique_ptr<GraphicsComponent> graphics;
@@ -29,13 +30,15 @@ class GameObject
 		const Vector2D& getDirection() const { return direction; }
 		const std::string& getImage() const { return image; }
 		const SDL_Color& getColor() const { return color; }
+		const double getSpeed() const { return speed; }
 
 		void setPosition(const Point2D& p) { position = p; }
 		void setBox(const SDL_Rect& r) { box = r; }
 		void setDirection(const Vector2D& d) { direction = d; }
 		void setImage(const std::string i) { image = i; }
-		void setColor(const SDL_Color& c) { color = c; }		
+		void setColor(const SDL_Color& c) { color = c; }	
+		void setSpeed(const double newSpeed) { speed = newSpeed; }
 
-		void handleEvents(SDL_Event &e) { input->handleEvents(*this, e); }
-		void render(MediaCache& mc) { graphics->render(*this, mc); }
+		void handleEvents(SDL_Event& e) { input->handleEvents(*this, e); }
+		void render(MediaCache& mc, const double dTime) { graphics->render(*this, dTime, mc); }
 };

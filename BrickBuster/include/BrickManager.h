@@ -20,6 +20,9 @@ public:
 	const bool isEmpty() const { return bricks.size() == 0; }
 
 	void loadBricks(const int levelNum);
+	void add(std::unique_ptr<Brick> b);
+	void clear() { bricks.clear(); }
 	int update(std::vector<std::unique_ptr<PowerUp>>& powerUps);
-	void render(MediaCache& mc) const;
+	void update();
+	void render(MediaCache& mc, const double dTime) const;
 };

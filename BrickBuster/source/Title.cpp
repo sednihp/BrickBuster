@@ -3,6 +3,7 @@
 #include "Level.h"
 #include "Engine.h"
 #include "Controls.h"
+#include "LevelEditor.h"
 #include "CollisionEngine.h"
 
 Title::Title(MediaCache &mc) : State(mc), 
@@ -20,7 +21,7 @@ void Title::enter(Engine*)
 {
 }
 
-void Title::handleEvents(SDL_Event &e, Engine* engine)
+void Title::handleEvents(SDL_Event& e, Engine* engine)
 {
 	if(e.type == SDL_MOUSEBUTTONDOWN)
 	{
@@ -32,7 +33,7 @@ void Title::update(Engine*)
 {
 }
 
-void Title::render()
+void Title::render(const double )
 {
 	mediaCache.render(titleTex, titleTex->getX(), titleTex->getY());
 
@@ -88,7 +89,7 @@ void Title::mouseClicked(SDL_Event&, Engine* engine)
 		}
 		else if (CollisionEngine::haveCollided(menu[3]->getBox(), x, y))
 		{
-			
+			engine->changeState(std::make_unique<LevelEditor>(mediaCache));
 		}
 		else if (CollisionEngine::haveCollided(menu[4]->getBox(), x, y))
 		{

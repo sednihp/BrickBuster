@@ -16,7 +16,7 @@ class Engine
 
 		void handleEvents();
 		void update();
-		void render();
+		void render(const double dTime);
 
 	public:
 		Engine();

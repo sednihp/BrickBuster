@@ -1,7 +1,7 @@
 #include "InputComponent.h"
 #include "GameObject.h"
 
-void BatInputComponent:: handleEvents(GameObject& obj, SDL_Event &e)
+void BatInputComponent:: handleEvents(GameObject& obj, SDL_Event& e)
 {
 	if (e.type == SDL_KEYDOWN)
 	{

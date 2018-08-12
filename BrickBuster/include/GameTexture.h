@@ -23,8 +23,8 @@ class GameTexture
 		const int getH() const { return box.h; }
 		const int getX() const { return box.x; }
 		const int getY() const { return box.y; }
-		const Point2D getPosition() { return { static_cast<double>(box.x), static_cast<double>(box.y) }; }
-		const SDL_Rect& getBox() const {	return box; }
+		const Point2D getPosition() { return { box.x, box.y }; }
+		const SDL_Rect& getBox() const { return box; }
 		SDL_Texture* texture() const { return tex; }
 
 		void setPosition(const int x, const int y);

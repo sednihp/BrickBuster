@@ -33,7 +33,7 @@ void ChooseLevel::enter(Engine* )
 
 }
 
-void ChooseLevel::handleEvents(SDL_Event &e, Engine* engine)
+void ChooseLevel::handleEvents(SDL_Event& e, Engine* engine)
 {
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
@@ -46,7 +46,7 @@ void ChooseLevel::update(Engine* )
 
 }
 
-void ChooseLevel::render()
+void ChooseLevel::render(const double )
 {
 	for (const auto& tex : levelTex)
 	{
@@ -61,7 +61,7 @@ void ChooseLevel::exit(Engine* )
 
 }
 
-void ChooseLevel::mouseClicked(SDL_Event &, Engine* engine)
+void ChooseLevel::mouseClicked(SDL_Event&, Engine* engine)
 {
 	int x, y;
 	if (SDL_GetMouseState(&x, &y)&SDL_BUTTON(1))

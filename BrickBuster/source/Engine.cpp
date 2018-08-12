@@ -36,7 +36,7 @@ void Engine::run()
 				lag -= frameLength;
 			}
 
-			render();
+			render(lag / frameLength);
 		}
 	}
 	catch (GameException e)
@@ -70,11 +70,11 @@ void Engine::update()
 	stateMachine->getCurrentState()->update(this);
 }
 
-void Engine::render()
+void Engine::render(const double dTime)
 {
 	mediaCache.clearScreen();
 
-	stateMachine->getCurrentState()->render();
+	stateMachine->getCurrentState()->render(dTime);
 
 	mediaCache.updateScreen();
 }

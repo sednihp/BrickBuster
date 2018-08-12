@@ -132,6 +132,9 @@
     <ClInclude Include="include\BrickManager.h">
       <Filter>Header Files\Object\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="include\LevelEditor.h">
+      <Filter>Header Files\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CollisionEngine.cpp">
@@ -208,6 +211,12 @@
     </ClCompile>
     <ClCompile Include="source\BrickManager.cpp">
       <Filter>Source Files\Object\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\LevelEditor.cpp">
+      <Filter>Source Files\State</Filter>
+    </ClCompile>
+    <ClCompile Include="source\BrickColour.cpp">
+      <Filter>Source Files\Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

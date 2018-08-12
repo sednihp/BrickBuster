@@ -17,11 +17,11 @@ void BrickLoader::loadBricks(const int levelNum, std::vector<std::unique_ptr<Bri
 	if (!infile)
 	{
 		std::string msg = "File " +std::to_string(levelNum) +".lvl not loaded.";
-
+		
 		GameException e(msg);
 		throw e;
 	}
-
+	
 	infile.seekg(0, std::ios::beg);
 	bool eof = false;
 	while (!eof)
@@ -32,7 +32,7 @@ void BrickLoader::loadBricks(const int levelNum, std::vector<std::unique_ptr<Bri
 		{
 			eof = true;
 		}
-		BrickColor bc = static_cast<BrickColor>(colour);
+		BrickColour bc = static_cast<BrickColour>(colour);
 
 		double x, y;
 		infile >> x;
@@ -54,6 +54,6 @@ void BrickLoader::loadBricks(const int levelNum, std::vector<std::unique_ptr<Bri
 													p, 
 													bc));
 	}
-
+	
 	infile.close();
 }

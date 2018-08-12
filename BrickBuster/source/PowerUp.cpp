@@ -5,9 +5,10 @@ PowerUp::PowerUp(std::unique_ptr<InputComponent> ic,
 					const Point2D p) : GameObject(std::move(ic), 
 													std::move(gc))
 {
+	setSpeed(puSpeed);
 	setPosition(p);
-	box.w = dimension;
-	box.h = dimension;
+	box.w = width;
+	box.h = height;
 	setDirection({ 0,1 });
 	chooseType();
 }
