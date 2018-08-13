@@ -5,10 +5,9 @@
 #include <fstream>
 #include "GameException.h"
 
-LevelEditor::LevelEditor(MediaCache& mc, int levelNum) : State(mc), 
+LevelEditor::LevelEditor(MediaCache& mc, int levelNum) : State(mc), level(levelNum),
 														brickManager(std::make_unique<BrickManager>(levelNum)),
-														font(mediaCache.getFont(40)),
-														brick(nullptr)
+														font(mediaCache.getFont(40))
 {
 	GameTex tex = mediaCache.getText("Save Level", font);
 	tex->setPosition(0, mediaCache.getScrHeight() - tex->getH());
@@ -22,8 +21,9 @@ LevelEditor::LevelEditor(MediaCache& mc, int levelNum) : State(mc),
 	tex->setPosition(mediaCache.centreX(tex->getW()), mediaCache.getScrHeight() - tex->getH());
 	menu.push_back(tex);
 
-	levelTex = mediaCache.getText("Level " + std::to_string(levelNum) + " Editor", font);
-	levelTex->setPosition(mediaCache.centreX(levelTex->getW()), 5);
+	tex = mediaCache.getText("Level " + std::to_string(levelNum) + " Editor", font);
+	tex->setPosition(mediaCache.centreX(tex->getW()), 5);
+	menu.push_back(tex);
 
 	int x, y;
 	SDL_GetMouseState(&x, &y);
@@ -56,51 +56,11 @@ void LevelEditor::handleEvents(SDL_Event& e, Engine* engine)
 	}
 }
 
-
 void LevelEditor::update(Engine* )
 {
 	brick->setPosition(getBrickPosition());
 
 	brickManager->update(mediaCache.getScrWidth(), mediaCache.getScrHeight());
-}
-
-const Point2D LevelEditor::getBrickPosition()
-{
-	int x, y;
-	SDL_GetMouseState(&x, &y);
-
-	if (x < 0)
-		x = 0;
-	else if (x + brick->getWidth() > mediaCache.getScrWidth())
-		x = mediaCache.getScrWidth() - brick->getWidth();
-	else if (y < 0)
-		y = 0;
-	else if (y + brick->getHeight() > mediaCache.getScrHeight())
-		y = mediaCache.getScrHeight() - brick->getHeight();
-
-
-	//the below implements snap-to-grid to make designing columsn and rows easier
-	int xDiff = x % 100;
-	if (xDiff < 10)
-	{
-		x -= xDiff;
-	}
-	else if (xDiff > 90)
-	{
-		x += (100 - xDiff);
-	}
-
-	int yDiff = y % 40;
-	if (yDiff < 10)
-	{
-		y -= yDiff;
-	}
-	else if (yDiff > 30)
-	{
-		y += (40 - yDiff);
-	}
-
-	return { x,y };
 }
 
 void LevelEditor::render(const double dTime)
@@ -109,8 +69,6 @@ void LevelEditor::render(const double dTime)
 	{
 		mediaCache.render(m, m->getPosition());
 	}
-
-	mediaCache.render(levelTex, levelTex->getPosition());
 
 	brickManager->render(mediaCache, dTime);
 
@@ -190,9 +148,48 @@ void LevelEditor::mouseWheelScrolled(SDL_Event& e)
 	brick->changeColour(brickColour);
 }
 
+const Point2D LevelEditor::getBrickPosition()
+{
+	int x, y;
+	SDL_GetMouseState(&x, &y);
+
+	if (x < 0)
+		x = 0;
+	else if (x + brick->getWidth() > mediaCache.getScrWidth())
+		x = mediaCache.getScrWidth() - brick->getWidth();
+	else if (y < 0)
+		y = 0;
+	else if (y + brick->getHeight() > mediaCache.getScrHeight())
+		y = mediaCache.getScrHeight() - brick->getHeight();
+
+
+	//the below implements snap-to-grid to make designing columsn and rows easier
+	int xDiff = x % 100;
+	if (xDiff < 10)
+	{
+		x -= xDiff;
+	}
+	else if (xDiff > 90)
+	{
+		x += (100 - xDiff);
+	}
+
+	int yDiff = y % 40;
+	if (yDiff < 10)
+	{
+		y -= yDiff;
+	}
+	else if (yDiff > 30)
+	{
+		y += (40 - yDiff);
+	}
+
+	return { x,y };
+}
+
 void LevelEditor::saveLevel()
 {
-	std::ofstream outputFile("files/levels/0.lvl");
+	std::ofstream outputFile("files/levels/" +std::to_string(level) +".lvl");
 
 	if (!outputFile)
 	{
@@ -201,7 +198,8 @@ void LevelEditor::saveLevel()
 		throw e;
 	}
 
-	//ensure there is no newline char on the last line as this causes issues with destroying the last brick
+	//ensure there is no newline char on the last line 
+	//that causes issues with destroying the last brick when the level is loaded to play
 	for (size_t i = 0; i < brickManager->getBricks().size(); i++)
 	{
 		const std::unique_ptr<Brick>& b = brickManager->getBricks()[i];

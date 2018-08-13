@@ -41,4 +41,6 @@ public:
 	void reset(const int scrWidth, const double topOfBat);
 	void largeBall();
 	void smallBall();
+	void slowBall();
+	void fastBall();
 };

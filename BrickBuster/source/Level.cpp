@@ -6,40 +6,21 @@
 #include <algorithm>
 
 Level::Level(MediaCache& mc, 
-			const int level) : State(mc), 
-								font(mediaCache.getFont(60)),
-								levelNum(level), 
-								player(std::make_unique<Player>()),
-								brickManager(std::make_unique<BrickManager>(level)),
-								bat(std::make_unique<Bat>(std::make_unique<BatInputComponent>(), 
-															std::make_unique<BatGraphicsComponent>(),
-															mediaCache.getScrWidth(),
-															mediaCache.getScrHeight())),
-								ball(std::make_unique<Ball>(std::make_unique<BallInputComponent>(),
-															std::make_unique<BallGraphicsComponent>(),
-															mediaCache.getScrWidth(), 
-															bat->getPosition().y))
+				const int level) : State(mc), 
+									font(mediaCache.getFont(60)),
+									levelNum(level), 
+									player(std::make_unique<Player>()),
+									brickManager(std::make_unique<BrickManager>(level)),
+									bat(std::make_unique<Bat>(std::make_unique<BatInputComponent>(), 
+																std::make_unique<BatGraphicsComponent>(),
+																mediaCache.getScrWidth(),
+																mediaCache.getScrHeight())),
+									ball(std::make_unique<Ball>(std::make_unique<BallInputComponent>(),
+																std::make_unique<BallGraphicsComponent>(),
+																mediaCache.getScrWidth(), 
+																bat->getPosition().y))
 {
-	pausedTex = mediaCache.getText("Paused", font);
-	pausedTex->setPosition(mediaCache.centreX(pausedTex->getW()), mediaCache.centreY(pausedTex->getH()));
-
-	levelTex = mediaCache.getText("Level " + std::to_string(levelNum), font);
-	levelTex->setPosition(mediaCache.centreX(levelTex->getW()), 5);
-
-	completeTex = mediaCache.getText("Level Complete", font);
-	completeTex->setPosition(mediaCache.centreX(completeTex->getW()), mediaCache.centreY(completeTex->getH()));
-
-	playerDeadTex = mediaCache.getText("No More Lives", font);
-	playerDeadTex->setPosition(mediaCache.centreX(playerDeadTex->getW()), mediaCache.centreY(playerDeadTex->getH()));
-
-	nextLevelTex = mediaCache.getText("Next Level", font);
-	nextLevelTex->setPosition(mediaCache.centreX(nextLevelTex->getW()), mediaCache.centreY(nextLevelTex->getH()) + 2*nextLevelTex->getH());
-	
-	restartTex = mediaCache.getText("Restart Level", font);
-	restartTex->setPosition(mediaCache.centreX(restartTex->getW()), mediaCache.centreY(nextLevelTex->getH()) + 2*restartTex->getH());
-
-	mainMenuTex = mediaCache.getText("Main Menu", font);
-	mainMenuTex->setPosition(mediaCache.centreX(mainMenuTex->getW()), mediaCache.centreY(mainMenuTex->getH()) + 3*mainMenuTex->getH());
+	generateTextures();
 }
 
 Level::~Level()
@@ -137,6 +118,30 @@ void Level::exit(Engine* )
 // ===============
 // ===============
 
+void Level::generateTextures()
+{
+	pausedTex = mediaCache.getText("Paused", font);
+	pausedTex->setPosition(mediaCache.centreX(pausedTex->getW()), mediaCache.centreY(pausedTex->getH()));
+
+	levelTex = mediaCache.getText("Level " + std::to_string(levelNum), font);
+	levelTex->setPosition(mediaCache.centreX(levelTex->getW()), 5);
+
+	completeTex = mediaCache.getText("Level Complete", font);
+	completeTex->setPosition(mediaCache.centreX(completeTex->getW()), mediaCache.centreY(completeTex->getH()));
+
+	playerDeadTex = mediaCache.getText("No More Lives", font);
+	playerDeadTex->setPosition(mediaCache.centreX(playerDeadTex->getW()), mediaCache.centreY(playerDeadTex->getH()));
+
+	nextLevelTex = mediaCache.getText("Next Level", font);
+	nextLevelTex->setPosition(mediaCache.centreX(nextLevelTex->getW()), mediaCache.centreY(nextLevelTex->getH()) + 2 * nextLevelTex->getH());
+
+	restartTex = mediaCache.getText("Restart Level", font);
+	restartTex->setPosition(mediaCache.centreX(restartTex->getW()), mediaCache.centreY(nextLevelTex->getH()) + 2 * restartTex->getH());
+
+	mainMenuTex = mediaCache.getText("Main Menu", font);
+	mainMenuTex->setPosition(mediaCache.centreX(mainMenuTex->getW()), mediaCache.centreY(mainMenuTex->getH()) + 3 * mainMenuTex->getH());
+}
+
 void Level::changeState(LevelState newState)
 {
 	state = newState;
@@ -195,6 +200,10 @@ void Level::newGameReset()
 	}
 
 	brickManager->loadBricks(levelNum);
+
+	levelTex = mediaCache.getText("Level " + std::to_string(levelNum), font);
+	levelTex->setPosition(mediaCache.centreX(levelTex->getW()), 5);
+
 	changeState(LevelState::PLAYING);
 }
 

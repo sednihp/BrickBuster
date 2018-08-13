@@ -48,8 +48,12 @@ void PowerUp::chooseType()
 			setImage("Smaller Bat");
 			break;
 		case 6:
-			type = PowerUpType::MULTIBALL;
-			setImage("Multiball");
+			type = PowerUpType::SLOW_BALL;
+			setImage("Slow Ball");
+			break;
+		case 7:
+			type = PowerUpType::FAST_BALL;
+			setImage("Fast Ball");
 			break;
 	}
 }
@@ -93,6 +97,12 @@ void PowerUp::collected(const std::unique_ptr<Bat>& bat, const std::unique_ptr<B
 			break;
 		case PowerUpType::SMALL_BAT:
 			bat->smallBat();
+			break;
+		case PowerUpType::SLOW_BALL:
+			ball->slowBall();
+			break;
+		case PowerUpType::FAST_BALL:
+			ball->fastBall();
 			break;
 	}
 

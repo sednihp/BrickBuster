@@ -31,6 +31,7 @@ private:
 	const int levelCount = 15;
 	LevelState state = LevelState::PLAYING;
 
+	void generateTextures();
 	void mouseClicked(SDL_Event& e, Engine* engine);
 	void keyPressed(SDL_Event& e, Engine* engine);
 	void updatePowerUps();

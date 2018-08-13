@@ -8,8 +8,9 @@ private:
 	TTF_Font* font;
 	std::vector<GameTex> menu;
 	GameTex levelTex;
-	std::unique_ptr<Brick> brick;
+	std::unique_ptr<Brick> brick = nullptr;
 	BrickColour brickColour = BrickColour::PURPLE;
+	const int level;
 
 	void mouseClicked(SDL_Event&, Engine* engine);
 	void mouseWheelScrolled(SDL_Event& e);

@@ -172,6 +172,16 @@ void Ball::smallBall()
 	changeState(BallState::SMALL);
 }
 
+void Ball::slowBall()
+{
+	speed /= 1.5;
+}
+
+void Ball::fastBall()
+{
+	speed *= 1.25;
+}
+
 void Ball::changeState(BallState newState)
 {
 	state = newState;

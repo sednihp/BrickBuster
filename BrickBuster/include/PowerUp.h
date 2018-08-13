@@ -12,7 +12,8 @@ enum class PowerUpType
 	SMALL_BALL,
 	LARGE_BAT,
 	SMALL_BAT,
-	MULTIBALL,
+	SLOW_BALL,
+	FAST_BALL,
 	LAST
 };
 
