@@ -42,6 +42,7 @@ public:
 	const BrickColour getBrickColour() const { return brickColour; }
 	void update(const int scrWidth, const int scrHeight);
 	void hitByBall();
+	void eraseBrick();
 	void changeColour(BrickColour bc);
 	const bool isAlive() const { return alive; }
 	const int getScore() const { return score; }

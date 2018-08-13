@@ -9,8 +9,8 @@
 class MediaCache
 {
 	private:
-		const int mScrWidth = 1000;
-		const int mScrHeight = 750;
+		const int mScrWidth = 880;
+		const int mScrHeight = 660;
 		const SDL_Color textColor = { 255,255,255 };
 		const SDL_Color bgColor = { 91,173,255 };
 		SDL_Window* window;

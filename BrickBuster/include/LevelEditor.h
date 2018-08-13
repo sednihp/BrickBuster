@@ -7,15 +7,17 @@ private:
 	std::unique_ptr<BrickManager> brickManager;
 	TTF_Font* font;
 	std::vector<GameTex> menu;
+	GameTex levelTex;
 	std::unique_ptr<Brick> brick;
 	BrickColour brickColour = BrickColour::PURPLE;
 
 	void mouseClicked(SDL_Event&, Engine* engine);
 	void mouseWheelScrolled(SDL_Event& e);
+	const Point2D getBrickPosition();
 	void saveLevel();
 
 public:
-	LevelEditor(MediaCache& mc);
+	LevelEditor(MediaCache& mc, int levelNum);
 	~LevelEditor();
 
 	virtual void enter(Engine* engine);

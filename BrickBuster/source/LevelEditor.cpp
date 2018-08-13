@@ -1,14 +1,14 @@
 #include "LevelEditor.h"
 #include "CollisionEngine.h"
 #include "Engine.h"
-#include "Title.h"
+#include "ChooseLevel.h"
 #include <fstream>
 #include "GameException.h"
 
-LevelEditor::LevelEditor(MediaCache& mc) :State(mc), 
-											brickManager(std::make_unique<BrickManager>(0)),
-											font(mediaCache.getFont(40)),
-											brick(nullptr)
+LevelEditor::LevelEditor(MediaCache& mc, int levelNum) : State(mc), 
+														brickManager(std::make_unique<BrickManager>(levelNum)),
+														font(mediaCache.getFont(40)),
+														brick(nullptr)
 {
 	GameTex tex = mediaCache.getText("Save Level", font);
 	tex->setPosition(0, mediaCache.getScrHeight() - tex->getH());
@@ -21,6 +21,9 @@ LevelEditor::LevelEditor(MediaCache& mc) :State(mc),
 	tex = mediaCache.getText("Menu", font);
 	tex->setPosition(mediaCache.centreX(tex->getW()), mediaCache.getScrHeight() - tex->getH());
 	menu.push_back(tex);
+
+	levelTex = mediaCache.getText("Level " + std::to_string(levelNum) + " Editor", font);
+	levelTex->setPosition(mediaCache.centreX(levelTex->getW()), 5);
 
 	int x, y;
 	SDL_GetMouseState(&x, &y);
@@ -56,9 +59,16 @@ void LevelEditor::handleEvents(SDL_Event& e, Engine* engine)
 
 void LevelEditor::update(Engine* )
 {
+	brick->setPosition(getBrickPosition());
+
+	brickManager->update(mediaCache.getScrWidth(), mediaCache.getScrHeight());
+}
+
+const Point2D LevelEditor::getBrickPosition()
+{
 	int x, y;
 	SDL_GetMouseState(&x, &y);
-	
+
 	if (x < 0)
 		x = 0;
 	else if (x + brick->getWidth() > mediaCache.getScrWidth())
@@ -68,9 +78,29 @@ void LevelEditor::update(Engine* )
 	else if (y + brick->getHeight() > mediaCache.getScrHeight())
 		y = mediaCache.getScrHeight() - brick->getHeight();
 
-	brick->setPosition({ x,y });
 
-	brickManager->update(mediaCache.getScrWidth(), mediaCache.getScrHeight());
+	//the below implements snap-to-grid to make designing columsn and rows easier
+	int xDiff = x % 100;
+	if (xDiff < 10)
+	{
+		x -= xDiff;
+	}
+	else if (xDiff > 90)
+	{
+		x += (100 - xDiff);
+	}
+
+	int yDiff = y % 40;
+	if (yDiff < 10)
+	{
+		y -= yDiff;
+	}
+	else if (yDiff > 30)
+	{
+		y += (40 - yDiff);
+	}
+
+	return { x,y };
 }
 
 void LevelEditor::render(const double dTime)
@@ -79,6 +109,8 @@ void LevelEditor::render(const double dTime)
 	{
 		mediaCache.render(m, m->getPosition());
 	}
+
+	mediaCache.render(levelTex, levelTex->getPosition());
 
 	brickManager->render(mediaCache, dTime);
 
@@ -118,14 +150,13 @@ void LevelEditor::mouseClicked(SDL_Event&, Engine* engine)
 		}
 		else if (CollisionEngine::haveCollided(menu[2]->getBox(), x, y))
 		{
-			engine->changeState(std::make_unique<Title>(mediaCache));
+			engine->changeState(std::make_unique<ChooseLevel>(ChooseLevelState::EDITOR, mediaCache));
 		}
 		else
 		{
-			Point2D p{ x,y };
 			brickManager->add(std::make_unique<Brick>(std::make_unique<BrickInputComponent>(),
 								std::make_unique<BrickGraphicsComponent>(),
-								p,
+								getBrickPosition(),
 								brickColour));
 		}
 	}
@@ -136,7 +167,7 @@ void LevelEditor::mouseClicked(SDL_Event&, Engine* engine)
 		{
 			if (CollisionEngine::haveCollided(b->getBox(), x, y))
 			{
-				b->hitByBall();
+				b->eraseBrick();
 			}
 		}
 	}

@@ -82,7 +82,6 @@ void BrickManager::update(const int scrWidth, const int scrHeight)
 	{
 		if (!(*b)->isAlive())
 		{
-			std::cout << "Brick erased, score " << (*b)->getScore() << std::endl;
 			b = bricks.erase(b);
 		}
 		else

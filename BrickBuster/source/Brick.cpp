@@ -95,9 +95,13 @@ void Brick::hitByBall()
 {
 	if (destructible)
 	{
-		std::cout << "Brick destroyed, score: " << score << std::endl;
 		alive = false;
 	}
+}
+
+void Brick::eraseBrick()
+{
+	alive = false;
 }
 
 const SDL_Rect& Brick::getBox()

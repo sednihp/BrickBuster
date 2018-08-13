@@ -2,10 +2,11 @@
 #include "Engine.h"
 #include "Title.h"
 #include "Level.h"
+#include "LevelEditor.h"
 #include"CollisionEngine.h"
 
-ChooseLevel::ChooseLevel(MediaCache& mc) : State(mc), 
-											lvlFont(mediaCache.getFont(40)), f2(mediaCache.getFont(50))
+ChooseLevel::ChooseLevel(ChooseLevelState cls, MediaCache& mc) : State(mc), state(cls),
+																lvlFont(mediaCache.getFont(35)), f2(mediaCache.getFont(50))
 {
 	for(int i = 0; i < numLevels; i++)
 	{
@@ -14,10 +15,6 @@ ChooseLevel::ChooseLevel(MediaCache& mc) : State(mc),
 		tex->setPosition(mediaCache.centreX(tex->getW()), topMargin + i*tex->getH());
 		levelTex.push_back(tex);
 	}
-
-	userLvlTex = mediaCache.getText("User Level", lvlFont);
-	userLvlTex->setPosition(mediaCache.centreX(userLvlTex->getW()), topMargin + numLevels*userLvlTex->getH());
-	levelTex.push_back(userLvlTex);
 
 	menu = mediaCache.getText("Main Menu", f2);
 	menu->setPosition(mediaCache.centreX(menu->getW()), mediaCache.getScrHeight() - menu->getH());
@@ -70,18 +67,22 @@ void ChooseLevel::mouseClicked(SDL_Event&, Engine* engine)
 		{
 			engine->changeState(std::make_unique<Title>(mediaCache));
 		}
-		else if (CollisionEngine::haveCollided(userLvlTex->getBox(), x, y))
-		{
-			engine->changeState(std::make_unique<Level>(mediaCache, 0));
-		}
 		else
 		{
 			for (int i = 0; i < numLevels; i++)
 			{
 				if (CollisionEngine::haveCollided(levelTex[i]->getBox(), x, y))
 				{
-					engine->changeState(std::make_unique<Level>(mediaCache, i + 1));
-					break;
+					if (state == ChooseLevelState::LEVEL)
+					{
+						engine->changeState(std::make_unique<Level>(mediaCache, i + 1));
+						break;
+					}
+					else if (state == ChooseLevelState::EDITOR)
+					{
+						engine->changeState(std::make_unique<LevelEditor>(mediaCache, i + 1));
+						break;
+					}
 				}
 			}
 		}

@@ -81,7 +81,7 @@ void Title::mouseClicked(SDL_Event&, Engine* engine)
 		}
 		else if (CollisionEngine::haveCollided(menu[1]->getBox(), x, y))
 		{
-			engine->changeState(std::make_unique<ChooseLevel>(mediaCache));
+			engine->changeState(std::make_unique<ChooseLevel>(ChooseLevelState::LEVEL, mediaCache));
 		}
 		else if (CollisionEngine::haveCollided(menu[2]->getBox(), x, y))
 		{
@@ -89,7 +89,7 @@ void Title::mouseClicked(SDL_Event&, Engine* engine)
 		}
 		else if (CollisionEngine::haveCollided(menu[3]->getBox(), x, y))
 		{
-			engine->changeState(std::make_unique<LevelEditor>(mediaCache));
+			engine->changeState(std::make_unique<ChooseLevel>(ChooseLevelState::EDITOR, mediaCache));
 		}
 		else if (CollisionEngine::haveCollided(menu[4]->getBox(), x, y))
 		{
