@@ -2,12 +2,12 @@
 #include "State.h"
 #include <vector>
 
-enum class ChooseLevelState {
+enum class LevelSelectorState {
 	LEVEL,
 	EDITOR
 };
 
-class ChooseLevel : public State {
+class LevelSelector : public State {
 private:
 	TTF_Font* lvlFont;
 	TTF_Font* f2;
@@ -15,13 +15,13 @@ private:
 	const int topMargin = 20;
 	std::vector<GameTex> levelTex;
 	GameTex menu;
-	ChooseLevelState state;
+	LevelSelectorState state;
 
 	void mouseClicked(SDL_Event& e, Engine* engine);
 
 public:
-	ChooseLevel(ChooseLevelState cls, MediaCache& mc);
-	~ChooseLevel();
+	LevelSelector(LevelSelectorState lss, MediaCache& mc);
+	~LevelSelector();
 
 	virtual void enter(Engine* engine);
 	virtual void handleEvents(SDL_Event& e, Engine* engine);

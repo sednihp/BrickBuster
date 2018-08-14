@@ -84,9 +84,6 @@
     <ClInclude Include="include\Bat.h">
       <Filter>Header Files\Object</Filter>
     </ClInclude>
-    <ClInclude Include="include\ChooseLevel.h">
-      <Filter>Header Files\State</Filter>
-    </ClInclude>
     <ClInclude Include="include\GameObject.h">
       <Filter>Header Files\Object</Filter>
     </ClInclude>
@@ -135,6 +132,9 @@
     <ClInclude Include="include\BrickLoader.h">
       <Filter>Header Files\Object\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="include\LevelSelector.h">
+      <Filter>Header Files\State</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\CollisionEngine.cpp">
@@ -163,9 +163,6 @@
     </ClCompile>
     <ClCompile Include="source\main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\ChooseLevel.cpp">
-      <Filter>Source Files\State</Filter>
     </ClCompile>
     <ClCompile Include="source\GameObject.cpp">
       <Filter>Source Files\Object</Filter>
@@ -217,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="source\BrickLoader.cpp">
       <Filter>Source Files\Object\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\LevelSelector.cpp">
+      <Filter>Source Files\State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

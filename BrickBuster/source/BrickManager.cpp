@@ -35,11 +35,11 @@ int BrickManager::update(const int scrWidth, const int scrHeight, std::vector<st
 		if (!(*b)->isAlive())
 		{
 			score += (*b)->getScore();
-			if (rand() % 10 < 9)
+			if (rand() % 10 < 2)
 			{
 				powerUps.push_back(std::make_unique<PowerUp>(std::make_unique<PowerUpInputComponent>(),
-									std::make_unique<PowerUpGraphicsComponent>(),
-									(*b)->getPosition()));
+																std::make_unique<PowerUpGraphicsComponent>(),
+																(*b)->getPosition()));
 			}
 
 			brickScores.push_back(std::make_unique<BrickScore>(std::make_unique<BrickScoreInputComponent>(),
@@ -98,9 +98,15 @@ void BrickManager::update(const int scrWidth, const int scrHeight)
 
 void BrickManager::render(MediaCache& mc, const double dTime) const
 {
-	for (const auto& brick : bricks)
+	//for (const auto& brick : bricks)
+	//{
+//		brick->render(mc, dTime);
+//	}
+
+	//render them backwards so that level 8 loads correctly
+	for (auto rit = bricks.rbegin(); rit != bricks.rend(); ++rit)
 	{
-		brick->render(mc, dTime);
+		(*rit)->render(mc, dTime);
 	}
 
 	for (const auto& score : brickScores)

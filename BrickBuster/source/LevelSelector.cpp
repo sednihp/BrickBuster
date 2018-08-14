@@ -1,11 +1,11 @@
-#include "ChooseLevel.h"
+#include "LevelSelector.h"
 #include "Engine.h"
 #include "Title.h"
 #include "Level.h"
 #include "LevelEditor.h"
 #include"CollisionEngine.h"
 
-ChooseLevel::ChooseLevel(ChooseLevelState cls, MediaCache& mc) : State(mc), state(cls),
+LevelSelector::LevelSelector(LevelSelectorState lss, MediaCache& mc) : State(mc), state(lss),
 																lvlFont(mediaCache.getFont(35)), f2(mediaCache.getFont(50))
 {
 	for(int i = 0; i < numLevels; i++)
@@ -20,17 +20,17 @@ ChooseLevel::ChooseLevel(ChooseLevelState cls, MediaCache& mc) : State(mc), stat
 	menu->setPosition(mediaCache.centreX(menu->getW()), mediaCache.getScrHeight() - menu->getH());
 }
 
-ChooseLevel::~ChooseLevel()
+LevelSelector::~LevelSelector()
 {
 
 }
 
-void ChooseLevel::enter(Engine* )
+void LevelSelector::enter(Engine* )
 {
 
 }
 
-void ChooseLevel::handleEvents(SDL_Event& e, Engine* engine)
+void LevelSelector::handleEvents(SDL_Event& e, Engine* engine)
 {
 	if (e.type == SDL_MOUSEBUTTONDOWN)
 	{
@@ -38,27 +38,27 @@ void ChooseLevel::handleEvents(SDL_Event& e, Engine* engine)
 	}
 }
 
-void ChooseLevel::update(Engine* )
+void LevelSelector::update(Engine* )
 {
 
 }
 
-void ChooseLevel::render(const double )
+void LevelSelector::render(const double )
 {
 	for (const auto& tex : levelTex)
 	{
-		mediaCache.render(tex, tex->getX(), tex->getY());
+		mediaCache.render(tex, tex->getPosition());
 	}
 
-	mediaCache.render(menu, menu->getX(), menu->getY());
+	mediaCache.render(menu, menu->getPosition());
 }
 
-void ChooseLevel::exit(Engine* )
+void LevelSelector::exit(Engine* )
 {
 
 }
 
-void ChooseLevel::mouseClicked(SDL_Event&, Engine* engine)
+void LevelSelector::mouseClicked(SDL_Event&, Engine* engine)
 {
 	int x, y;
 	if (SDL_GetMouseState(&x, &y)&SDL_BUTTON(1))
@@ -73,12 +73,12 @@ void ChooseLevel::mouseClicked(SDL_Event&, Engine* engine)
 			{
 				if (CollisionEngine::haveCollided(levelTex[i]->getBox(), x, y))
 				{
-					if (state == ChooseLevelState::LEVEL)
+					if (state == LevelSelectorState::LEVEL)
 					{
 						engine->changeState(std::make_unique<Level>(mediaCache, i + 1));
 						break;
 					}
-					else if (state == ChooseLevelState::EDITOR)
+					else if (state == LevelSelectorState::EDITOR)
 					{
 						engine->changeState(std::make_unique<LevelEditor>(mediaCache, i + 1));
 						break;

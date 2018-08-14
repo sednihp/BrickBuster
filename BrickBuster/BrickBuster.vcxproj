@@ -129,7 +129,7 @@
     <ClInclude Include="include\BrickLoader.h" />
     <ClInclude Include="include\BrickManager.h" />
     <ClInclude Include="include\BrickScore.h" />
-    <ClInclude Include="include\ChooseLevel.h" />
+    <ClInclude Include="include\LevelSelector.h" />
     <ClInclude Include="include\CollisionEngine.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\FontCache.h" />
@@ -160,7 +160,7 @@
     <ClCompile Include="source\BrickLoader.cpp" />
     <ClCompile Include="source\BrickManager.cpp" />
     <ClCompile Include="source\BrickScore.cpp" />
-    <ClCompile Include="source\ChooseLevel.cpp" />
+    <ClCompile Include="source\LevelSelector.cpp" />
     <ClCompile Include="source\CollisionEngine.cpp" />
     <ClCompile Include="source\Engine.cpp" />
     <ClCompile Include="source\FontCache.cpp" />

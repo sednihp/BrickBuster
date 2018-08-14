@@ -1,7 +1,7 @@
 #include "LevelEditor.h"
 #include "CollisionEngine.h"
 #include "Engine.h"
-#include "ChooseLevel.h"
+#include "LevelSelector.h"
 #include <fstream>
 #include "GameException.h"
 
@@ -108,7 +108,7 @@ void LevelEditor::mouseClicked(SDL_Event&, Engine* engine)
 		}
 		else if (CollisionEngine::haveCollided(menu[2]->getBox(), x, y))
 		{
-			engine->changeState(std::make_unique<ChooseLevel>(ChooseLevelState::EDITOR, mediaCache));
+			engine->changeState(std::make_unique<LevelSelector>(LevelSelectorState::EDITOR, mediaCache));
 		}
 		else
 		{

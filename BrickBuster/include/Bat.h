@@ -10,7 +10,7 @@ enum class BatState
 
 class Bat : public GameObject {
 private:
-	const double batSpeed = 12;
+	const double batSpeed = 10;
 	const int bottomMargin = 50;
 	const int height = 20;
 	const int regularWidth = 80;
