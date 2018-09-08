@@ -1,0 +1,57 @@
+﻿  AudioCache.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\audiocache.cpp(1): fatal error C1083: Cannot open include file: 'AudioCache.h': No such file or directory
+  Ball.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\ball.cpp(1): fatal error C1083: Cannot open include file: 'Ball.h': No such file or directory
+  Bat.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\bat.cpp(1): fatal error C1083: Cannot open include file: 'Bat.h': No such file or directory
+  Brick.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\brick.cpp(1): fatal error C1083: Cannot open include file: 'Brick.h': No such file or directory
+  BrickColour.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\brickcolour.cpp(1): fatal error C1083: Cannot open include file: 'Brick.h': No such file or directory
+  BrickLoader.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\brickloader.cpp(1): fatal error C1083: Cannot open include file: 'BrickLoader.h': No such file or directory
+  BrickManager.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\brickmanager.cpp(1): fatal error C1083: Cannot open include file: 'BrickManager.h': No such file or directory
+  BrickScore.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\brickscore.cpp(1): fatal error C1083: Cannot open include file: 'BrickScore.h': No such file or directory
+  LevelSelector.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\levelselector.cpp(1): fatal error C1083: Cannot open include file: 'LevelSelector.h': No such file or directory
+  CollisionEngine.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\collisionengine.cpp(1): fatal error C1083: Cannot open include file: 'CollisionEngine.h': No such file or directory
+  Engine.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\engine.cpp(1): fatal error C1083: Cannot open include file: 'Engine.h': No such file or directory
+  FontCache.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\fontcache.cpp(1): fatal error C1083: Cannot open include file: 'FontCache.h': No such file or directory
+  GraphicsComponent.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\graphicscomponent.cpp(1): fatal error C1083: Cannot open include file: 'GraphicsComponent.h': No such file or directory
+  InputComponent.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\inputcomponent.cpp(1): fatal error C1083: Cannot open include file: 'InputComponent.h': No such file or directory
+  Level.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\level.cpp(1): fatal error C1083: Cannot open include file: 'Level.h': No such file or directory
+  GameTexture.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\gametexture.cpp(1): fatal error C1083: Cannot open include file: 'GameTexture.h': No such file or directory
+  ImageCache.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\imagecache.cpp(1): fatal error C1083: Cannot open include file: 'GameException.h': No such file or directory
+  LevelEditor.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\leveleditor.cpp(1): fatal error C1083: Cannot open include file: 'LevelEditor.h': No such file or directory
+  main.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\main.cpp(1): fatal error C1083: Cannot open include file: 'Engine.h': No such file or directory
+  MediaCache.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\mediacache.cpp(1): fatal error C1083: Cannot open include file: 'MediaCache.h': No such file or directory
+  Generating Code...
+  Compiling...
+  GameObject.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\gameobject.cpp(1): fatal error C1083: Cannot open include file: 'GameObject.h': No such file or directory
+  PowerUp.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\powerup.cpp(1): fatal error C1083: Cannot open include file: 'PowerUp.h': No such file or directory
+  StateMachine.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\statemachine.cpp(1): fatal error C1083: Cannot open include file: 'StateMachine.h': No such file or directory
+  TextCache.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\textcache.cpp : fatal error C1041: cannot open program database 'D:\Dropbox\Code\C++\BrickBuster\BrickBuster\x64\Debug\vc141.idb'; if multiple CL.EXE write to the same .PDB file, please use /FS
+  Timer.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\timer.cpp(1): fatal error C1083: Cannot open include file: 'Timer.h': No such file or directory
+  Title.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\title.cpp(1): fatal error C1083: Cannot open include file: 'Title.h': No such file or directory
+  Vectors.cpp
+d:\dropbox\code\c++\brickbuster\brickbuster\source\vectors.cpp(1): fatal error C1083: Cannot open include file: 'Vectors.h': No such file or directory
+  Generating Code...

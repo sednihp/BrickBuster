@@ -1,2 +1,31 @@
-﻿  Title.cpp
+﻿  AudioCache.cpp
+  Ball.cpp
+  Bat.cpp
+  Brick.cpp
+  BrickColour.cpp
+  BrickLoader.cpp
+  BrickManager.cpp
+  BrickScore.cpp
+  LevelSelector.cpp
+  CollisionEngine.cpp
+  Engine.cpp
+  FontCache.cpp
+  GraphicsComponent.cpp
+  InputComponent.cpp
+  Level.cpp
+  GameTexture.cpp
+  ImageCache.cpp
+  LevelEditor.cpp
+  main.cpp
+  MediaCache.cpp
+  Generating Code...
+  Compiling...
+  GameObject.cpp
+  PowerUp.cpp
+  StateMachine.cpp
+  TextCache.cpp
+  Timer.cpp
+  Title.cpp
+  Vectors.cpp
+  Generating Code...
   BrickBuster.vcxproj -> D:\Dropbox\Code\C++\BrickBuster\Debug\BrickBuster.exe
