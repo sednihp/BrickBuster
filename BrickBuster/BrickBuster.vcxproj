@@ -134,12 +134,13 @@
     <ClInclude Include="include\BrickLoader.h" />
     <ClInclude Include="include\BrickManager.h" />
     <ClInclude Include="include\BrickScore.h" />
-    <ClInclude Include="include\LevelSelector.h" />
+    <ClInclude Include="include\EditorLevelSelector.h" />
     <ClInclude Include="include\CollisionEngine.h" />
     <ClInclude Include="include\Engine.h" />
     <ClInclude Include="include\FontCache.h" />
     <ClInclude Include="include\GameException.h" />
     <ClInclude Include="include\GraphicsComponent.h" />
+    <ClInclude Include="include\HighScore.h" />
     <ClInclude Include="include\InputComponent.h" />
     <ClInclude Include="include\Level.h" />
     <ClInclude Include="include\GameTexture.h" />
@@ -149,6 +150,7 @@
     <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\PowerUp.h" />
+    <ClInclude Include="include\PowerUpManager.h" />
     <ClInclude Include="include\State.h" />
     <ClInclude Include="include\StateMachine.h" />
     <ClInclude Include="include\TextCache.h" />
@@ -165,11 +167,12 @@
     <ClCompile Include="source\BrickLoader.cpp" />
     <ClCompile Include="source\BrickManager.cpp" />
     <ClCompile Include="source\BrickScore.cpp" />
-    <ClCompile Include="source\LevelSelector.cpp" />
+    <ClCompile Include="source\EditorLevelSelector.cpp" />
     <ClCompile Include="source\CollisionEngine.cpp" />
     <ClCompile Include="source\Engine.cpp" />
     <ClCompile Include="source\FontCache.cpp" />
     <ClCompile Include="source\GraphicsComponent.cpp" />
+    <ClCompile Include="source\HighScore.cpp" />
     <ClCompile Include="source\InputComponent.cpp" />
     <ClCompile Include="source\Level.cpp" />
     <ClCompile Include="source\GameTexture.cpp" />
@@ -179,6 +182,7 @@
     <ClCompile Include="source\MediaCache.cpp" />
     <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\PowerUp.cpp" />
+    <ClCompile Include="source\PowerUpManager.cpp" />
     <ClCompile Include="source\StateMachine.cpp" />
     <ClCompile Include="source\TextCache.cpp" />
     <ClCompile Include="source\Timer.cpp" />

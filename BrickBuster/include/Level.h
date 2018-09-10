@@ -8,7 +8,7 @@
 #include <vector>
 #include "BrickManager.h"
 #include "BrickLoader.h"
-#include "PowerUp.h"
+#include "PowerUpManager.h"
 #include "BrickScore.h"
 
 enum class LevelState {
@@ -24,18 +24,23 @@ private:
 	std::unique_ptr<Bat> bat;
 	std::unique_ptr<Ball> ball;
 	std::unique_ptr<BrickManager> brickManager;
-	std::vector<std::unique_ptr<PowerUp>> powerUps;
+	std::unique_ptr<PowerUpManager> powerUpManager;
+	//std::vector<std::unique_ptr<PowerUp>> powerUps;	
+	Mix_Music* music;
+	Mix_Chunk* hitBrick;
+	Mix_Chunk* hitWall;
+	Mix_Chunk* hitBat;
 	TTF_Font * font;
 	GameTex pausedTex, levelTex, livesTex, scoreTex, completeTex, playerDeadTex, mainMenuTex, nextLevelTex, restartTex;
 	int levelNum;
-	const int levelCount = 15;
 	LevelState state = LevelState::PLAYING;
+	bool newHighScore = false;
 
 	void generateTextures();
 	void mouseClicked(SDL_Event& e, Engine* engine);
 	void keyPressed(SDL_Event& e, Engine* engine);
-	void updatePowerUps();
 	void changeState(LevelState newState);
+	void newLevelReset();
 	void newGameReset();
 	
 public:
@@ -45,6 +50,6 @@ public:
 	virtual void enter(Engine* engine);
 	virtual void handleEvents(SDL_Event& e, Engine* engine);
 	virtual void update(Engine* engine);
-	virtual void render(const double dTime);
+	virtual void render(const double dt);
 	virtual void exit(Engine* engine);
 };

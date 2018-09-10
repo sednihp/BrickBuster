@@ -19,6 +19,6 @@ class State
         virtual void enter(Engine* engine) = 0;
 		virtual void handleEvents(SDL_Event& e, Engine* engine) = 0;
 		virtual void update(Engine* engine) = 0;
-		virtual void render(const double dTime) = 0;
+		virtual void render(const double dt) = 0;
 		virtual void exit(Engine* engine) = 0;
 };

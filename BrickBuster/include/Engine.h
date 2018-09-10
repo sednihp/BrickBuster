@@ -1,8 +1,8 @@
 #pragma once
-
 #include "MediaCache.h"
 #include "StateMachine.h"
 #include <memory>
+#include <random>
 
 class Engine
 {
@@ -16,7 +16,7 @@ class Engine
 
 		void handleEvents();
 		void update();
-		void render(const double dTime);
+		void render(const double dt);
 
 	public:
 		Engine();

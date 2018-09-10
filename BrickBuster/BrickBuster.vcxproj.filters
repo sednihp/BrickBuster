@@ -132,8 +132,14 @@
     <ClInclude Include="include\BrickLoader.h">
       <Filter>Header Files\Object\Managers</Filter>
     </ClInclude>
-    <ClInclude Include="include\LevelSelector.h">
+    <ClInclude Include="include\EditorLevelSelector.h">
       <Filter>Header Files\State</Filter>
+    </ClInclude>
+    <ClInclude Include="include\HighScore.h">
+      <Filter>Header Files\State</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PowerUpManager.h">
+      <Filter>Header Files\Object\Managers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -215,8 +221,14 @@
     <ClCompile Include="source\BrickLoader.cpp">
       <Filter>Source Files\Object\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="source\LevelSelector.cpp">
+    <ClCompile Include="source\EditorLevelSelector.cpp">
       <Filter>Source Files\State</Filter>
+    </ClCompile>
+    <ClCompile Include="source\HighScore.cpp">
+      <Filter>Source Files\State</Filter>
+    </ClCompile>
+    <ClCompile Include="source\PowerUpManager.cpp">
+      <Filter>Source Files\Object\Managers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #include "LevelEditor.h"
 #include "CollisionEngine.h"
 #include "Engine.h"
-#include "LevelSelector.h"
+#include "EditorLevelSelector.h"
 #include <fstream>
 #include "GameException.h"
 
@@ -60,17 +60,17 @@ void LevelEditor::update(Engine* )
 {
 	brick->setPosition(getBrickPosition());
 
-	brickManager->update(mediaCache.getScrWidth(), mediaCache.getScrHeight());
+//	brickManager->update(mediaCache.getScrWidth(), mediaCache.getScrHeight());
 }
 
-void LevelEditor::render(const double dTime)
+void LevelEditor::render(const double dt)
 {
 	for (const auto& m : menu)
 	{
 		mediaCache.render(m, m->getPosition());
 	}
 
-	brickManager->render(mediaCache, dTime);
+	brickManager->render(mediaCache, dt);
 
 	int x, y;
 	SDL_GetMouseState(&x, &y);
@@ -84,7 +84,7 @@ void LevelEditor::render(const double dTime)
 	}
 	if (!menuOverlap)
 	{
-		brick->render(mediaCache, dTime);
+		brick->render(mediaCache, dt);
 	}
 }
 
@@ -108,7 +108,7 @@ void LevelEditor::mouseClicked(SDL_Event&, Engine* engine)
 		}
 		else if (CollisionEngine::haveCollided(menu[2]->getBox(), x, y))
 		{
-			engine->changeState(std::make_unique<LevelSelector>(LevelSelectorState::EDITOR, mediaCache));
+			engine->changeState(std::make_unique<EditorLevelSelector>(mediaCache));
 		}
 		else
 		{

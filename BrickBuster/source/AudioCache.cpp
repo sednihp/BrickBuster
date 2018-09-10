@@ -228,3 +228,8 @@ const bool AudioCache::isMuted()
 		return false;
 	}
 }
+
+void AudioCache::setVolume(const int volume, const int channel)
+{
+	Mix_Volume(channel, volume);
+}

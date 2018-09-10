@@ -36,4 +36,5 @@ public:
 	void togglePause(const int channel);
 	void toggleMute();
 	const bool isMuted();
+	void setVolume(const int volume, const int channel = -1);
 };

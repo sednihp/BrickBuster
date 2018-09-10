@@ -29,6 +29,8 @@ const Point2D Ball::getPosition()
 
 int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<Bat>& bat, const std::vector<std::unique_ptr<Brick>>& bricks)
 {
+	bool hitWall = false, hitBat = false;
+
 	if (!isMoving() && bat->getDirection().x != 0)
 	{
 		startMoving(bat->getDirection().x, -1);
@@ -56,6 +58,7 @@ int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<
 			direction.x += bat->getDirection().x;
 			direction.y = -1;
 			speed *= speedIncrement;
+			hitBat = true;
 		}
 
 		for (auto& brick : bricks)
@@ -73,6 +76,7 @@ int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<
 		{
 			position.x -= moveX;
 			direction.x *= -1;
+			hitWall = true;
 		}
 
 		//move up/down then check if it's hit the bat or a brick
@@ -82,10 +86,11 @@ int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<
 
 		if (hasCollided(bat->getBox()))
 		{
-			position.y = bat->getPosition().y - radius;
+			position.y = bat->getPosition().y - 2 * radius;
 			direction.y = -1;
 			speed *= speedIncrement;
 			direction.x += bat->getDirection().x;
+			hitBat = true;
 		}
 
 		for (auto& brick : bricks)
@@ -103,6 +108,7 @@ int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<
 		{
 			position.y -= moveY;
 			direction.y *= -1;
+			hitWall = true;
 		}
 		else if (position.y - radius > scrHeight)
 		{
@@ -110,7 +116,18 @@ int Ball::update(const int scrWidth, const int scrHeight, const std::unique_ptr<
 		}
 	}
 
-	return 0;
+	if (hitBat)
+	{
+		return 1;
+	}
+	else if (hitWall)
+	{
+		return 2;
+	}
+	else 
+	{
+		return 0;
+	}
 }
 
 bool Ball::hasCollided(const SDL_Rect& rect) 
@@ -174,12 +191,12 @@ void Ball::smallBall()
 
 void Ball::slowBall()
 {
-	speed /= 1.5;
+	speed /= 1.25;
 }
 
 void Ball::fastBall()
 {
-	speed *= 1.25;
+	speed *= 1.2;
 }
 
 void Ball::changeState(BallState newState)

@@ -11,6 +11,7 @@ Level::Level(MediaCache& mc,
 									levelNum(level), 
 									player(std::make_unique<Player>()),
 									brickManager(std::make_unique<BrickManager>(level)),
+									powerUpManager(std::make_unique<PowerUpManager>()),
 									bat(std::make_unique<Bat>(std::make_unique<BatInputComponent>(), 
 																std::make_unique<BatGraphicsComponent>(),
 																mediaCache.getScrWidth(),
@@ -18,7 +19,12 @@ Level::Level(MediaCache& mc,
 									ball(std::make_unique<Ball>(std::make_unique<BallInputComponent>(),
 																std::make_unique<BallGraphicsComponent>(),
 																mediaCache.getScrWidth(), 
-																bat->getPosition().y))
+																bat->getPosition().y)),
+									music(mediaCache.getMusic("files/Getting it Done.mp3")), 
+									hitBrick(mediaCache.getEffect("files/brick-hit.wav")), 
+									hitBat(mediaCache.getEffect("files/bat-hit.wav")),
+									hitWall(mediaCache.getEffect("files/wall-hit.wav"))
+
 {
 	generateTextures();
 }
@@ -29,7 +35,8 @@ Level::~Level()
 
 void Level::enter(Engine* )
 {
-
+	mediaCache.setVolume(MIX_MAX_VOLUME / 4);
+	mediaCache.playMusic(music, -1);
 }
 
 void Level::handleEvents(SDL_Event& e, Engine* engine)
@@ -49,29 +56,49 @@ void Level::update(Engine* )
 	{
 		bat->update(mediaCache.getScrWidth());
 
-		//if ball->move() returns < 0 the ball has gone off the bottom of the screen so we need to lose a life and reset
-		if (ball->update(mediaCache.getScrWidth(), mediaCache.getScrHeight(), bat, brickManager->getBricks()) < 0)
+		//if ball->move() returns -1 the ball has gone off the bottom of the screen so we need to lose a life and reset
+		//return of 1 means we hit the bat
+		//return of 2 means we hit the wall
+		//play the relevant sound effects
+		int update = ball->update(mediaCache.getScrWidth(), mediaCache.getScrHeight(), bat, brickManager->getBricks());
+		if (update == -1)
 		{
 			bat->reset(mediaCache.getScrWidth(), mediaCache.getScrHeight());
 			ball->reset(mediaCache.getScrWidth(), bat->getPosition().y);
 			player->loseLife();			
 		}
+		else if (update == 1)
+		{
+			mediaCache.setVolume(MIX_MAX_VOLUME, 2);
+			mediaCache.playEffect(2, hitBat, 0);
+		}
+		else if (update == 2)
+		{
+			mediaCache.setVolume(MIX_MAX_VOLUME, 3);
+			mediaCache.playEffect(3, hitWall, 0);
+		}
 
-		player->addScore(brickManager->update(mediaCache.getScrWidth(), mediaCache.getScrHeight(), powerUps));
-		updatePowerUps();
-	}
-
-	if (brickManager->isEmpty())
-	{
-		changeState(LevelState::COMPLETE);
-	}
-	else if (player->getLives() == 0)
-	{
-		changeState(LevelState::DEAD);
+		int score = brickManager->update(mediaCache.getScrWidth(), mediaCache.getScrHeight(), powerUpManager->getPowerUps());
+		if (score > 0)
+		{
+			mediaCache.setVolume(MIX_MAX_VOLUME, 1);
+			mediaCache.playEffect(1, hitBrick, 0);
+		}
+		player->addScore(score);
+		powerUpManager->update(mediaCache.getScrHeight(), ball, bat, player);
+		
+		if (brickManager->isEmpty())
+		{
+			changeState(LevelState::COMPLETE);
+		}
+		else if (player->getLives() == 0)
+		{
+			changeState(LevelState::DEAD);
+		}
 	}
 }
 
-void Level::render(const double dTime)
+void Level::render(const double dt)
 {
 	scoreTex = mediaCache.getText(player->getScore(), font);
 	mediaCache.render(scoreTex, 0, 5);
@@ -81,16 +108,13 @@ void Level::render(const double dTime)
 	livesTex = mediaCache.getText(player->getLives(), font);
 	mediaCache.render(livesTex, mediaCache.getScrWidth() - livesTex->getW(), 5);
 
-	bat->render(mediaCache, dTime);
+	bat->render(mediaCache, dt);
 
-	brickManager->render(mediaCache, dTime);
+	brickManager->render(mediaCache, dt);
 
-	ball->render(mediaCache, dTime);
+	ball->render(mediaCache, dt);
 	
-	for (auto& powerUp : powerUps)
-	{
-		powerUp->render(mediaCache, dTime);
-	}
+	powerUpManager->render(mediaCache, dt);
 
 	if (state == LevelState::PAUSED)
 	{
@@ -112,7 +136,7 @@ void Level::render(const double dTime)
 
 void Level::exit(Engine* )
 {
-
+	mediaCache.stopMusic();
 }
 
 // ===============
@@ -135,7 +159,7 @@ void Level::generateTextures()
 	nextLevelTex = mediaCache.getText("Next Level", font);
 	nextLevelTex->setPosition(mediaCache.centreX(nextLevelTex->getW()), mediaCache.centreY(nextLevelTex->getH()) + 2 * nextLevelTex->getH());
 
-	restartTex = mediaCache.getText("Restart Level", font);
+	restartTex = mediaCache.getText("Restart", font);
 	restartTex->setPosition(mediaCache.centreX(restartTex->getW()), mediaCache.centreY(nextLevelTex->getH()) + 2 * restartTex->getH());
 
 	mainMenuTex = mediaCache.getText("Main Menu", font);
@@ -154,6 +178,7 @@ void Level::keyPressed(SDL_Event& e, Engine*)
 		switch (e.key.keysym.sym)
 		{
 		case SDLK_SPACE:
+		case SDLK_p:
 			if (state == LevelState::PAUSED)
 			{
 				changeState(LevelState::PLAYING);
@@ -162,6 +187,9 @@ void Level::keyPressed(SDL_Event& e, Engine*)
 			{
 				changeState(LevelState::PAUSED);
 			}
+			break;
+		case SDLK_m:
+			mediaCache.toggleMute();
 			break;
 		}
 	}
@@ -172,7 +200,11 @@ void Level::mouseClicked(SDL_Event&, Engine* engine)
 	int x, y;
 	if (SDL_GetMouseState(&x, &y)&SDL_BUTTON(1))
 	{
-		if (CollisionEngine::haveCollided(nextLevelTex->getBox(), x, y) || CollisionEngine::haveCollided(restartTex->getBox(), x, y))
+		if (state == LevelState::COMPLETE && CollisionEngine::haveCollided(nextLevelTex->getBox(), x, y))
+		{
+			newLevelReset();
+		}
+		else if (state == LevelState::DEAD && CollisionEngine::haveCollided(restartTex->getBox(), x, y))
 		{
 			newGameReset();
 		}
@@ -187,16 +219,15 @@ void Level::mouseClicked(SDL_Event&, Engine* engine)
 }
 
 
-void Level::newGameReset()
+void Level::newLevelReset()
 {
-	player->reset();
 	bat->reset(mediaCache.getScrWidth(), mediaCache.getScrHeight());
 	ball->reset(mediaCache.getScrWidth(), bat->getPosition().y);
-	powerUps.clear();
+	powerUpManager->clear();
 
-	if (state == LevelState::COMPLETE && levelNum < levelCount)
+	if (state == LevelState::COMPLETE)
 	{
-		++levelNum;		
+		++levelNum;
 	}
 
 	brickManager->loadBricks(levelNum);
@@ -207,24 +238,9 @@ void Level::newGameReset()
 	changeState(LevelState::PLAYING);
 }
 
-void Level::updatePowerUps()
+void Level::newGameReset()
 {
-	auto p = powerUps.begin();
-	while (p != powerUps.end())
-	{
-		if (!(*p)->isActive())
-		{
-			p = powerUps.erase(p);
-		}
-		else
-		{
-			(*p)->update(mediaCache.getScrHeight());
-
-			if (CollisionEngine::haveCollided(bat->getBox(), (*p)->getBox()))
-			{
-				(*p)->collected(bat, ball, player);
-			}
-			++p;
-		}
-	}
+	player->reset();
+	levelNum = 1;
+	newLevelReset();
 }

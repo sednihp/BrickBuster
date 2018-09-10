@@ -8,7 +8,7 @@
 MediaCache::MediaCache() :	window(nullptr), ren(nullptr), 
 							imgCache(ren), fontCache(ren, "files/fonts/LCDPHONE.TTF"), txtCache(ren)
 {
-	window = SDL_CreateWindow("Brick Buster", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, mScrWidth, mScrHeight, SDL_WINDOW_SHOWN);
+	window = SDL_CreateWindow("Brick Buster", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if(window == NULL)
 	{
 		std::string msg = "SDL_CreateWindow error: ";
@@ -59,15 +59,39 @@ GameTex MediaCache::getText(const int text, TTF_Font* font)
 
 void MediaCache::render(GameTex tex, const int x, const int y)
 {
-    SDL_Rect pos;
-    pos.x = x;
-    pos.y = y;
-	pos.w = tex->getW();
-	pos.h = tex->getH();
- 
-	if (SDL_RenderCopy(ren, tex->texture(), NULL, &pos) < 0)
+	SDL_Rect pos{ x, y, tex->getW(), tex->getH() };
+
+	if (SDL_RenderCopy(ren, tex->getTexture(), NULL, &pos) < 0)
 	{
 		std::string msg = "SDL_RenderCopy error: ";
+		msg += SDL_GetError();
+
+		GameException e(msg);
+		throw e;
+	}
+}
+
+void MediaCache::render(GameTex tex, const Point2D& position, SDL_Rect clip)
+{
+	SDL_Rect renderQuad{ static_cast<int>(position.x), static_cast<int>(position.y), clip.w, clip.h };
+
+	if (SDL_RenderCopyEx(ren, tex->getTexture(), &clip, &renderQuad, 0.0, NULL, SDL_FLIP_NONE) < 0)
+	{
+		std::string msg = "SDL_RenderCopyEx error: ";
+		msg += SDL_GetError();
+
+		GameException e(msg);
+		throw e;
+	}
+}
+
+void MediaCache::render(GameTex tex, const Point2D& position, const SDL_RendererFlip flip)
+{
+	SDL_Rect pos{ static_cast<int>(position.x), static_cast<int>(position.y), tex->getW(), tex->getH() };
+
+	if (SDL_RenderCopyEx(ren, tex->getTexture(), NULL, &pos, 0.0, NULL, flip) < 0)
+	{
+		std::string msg = "SDL_RenderCopyEx error: ";
 		msg += SDL_GetError();
 
 		GameException e(msg);
@@ -82,7 +106,12 @@ void MediaCache::render(GameTex tex, const double x, const double y)
 
 void MediaCache::render(GameTex tex, const Point2D& position)
 {
-	render(tex, static_cast<int>(position.x), static_cast<int>(position.y));
+	render(tex, position.x, position.y);
+}
+
+void MediaCache::render(GameTex tex)
+{
+	render(tex, tex->getPosition());
 }
 
 void MediaCache::render(const SDL_Rect& rect, const SDL_Color& c)
@@ -95,6 +124,7 @@ void MediaCache::render(const SDL_Rect& rect, const SDL_Color& c)
 		GameException e(msg);
 		throw e;
 	}
+
 	if (SDL_RenderFillRect(ren, &rect) < 0)
 	{
 		std::string msg = "SDL_RenderFillRect error: ";
@@ -127,10 +157,25 @@ void MediaCache::clearScreen()
 
 const int MediaCache::centreX(const int gtWidth) const
 {
-	return (mScrWidth - gtWidth) / 2;
+	return (SCREEN_WIDTH - gtWidth) / 2;
 }
 
 const int MediaCache::centreY(const int gtHeight) const
 {
-	return (mScrHeight - gtHeight) / 2;
+	return (SCREEN_HEIGHT - gtHeight) / 2;
+}
+
+const int MediaCache::centreX(GameTex tex) const
+{
+	return centreX(tex->getW());
+}
+
+const int MediaCache::centreY(GameTex tex) const
+{
+	return centreY(tex->getH());
+}
+
+const Point2D MediaCache::centre(GameTex tex) const
+{
+	return { centreX(tex->getW()), centreY(tex->getH()) };
 }

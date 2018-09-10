@@ -2,10 +2,12 @@
 
 class Player {
 private:
-	int score, lives;
+	const int PLAYER_LIVES = 3;
+	int score = 0;
+	int lives = PLAYER_LIVES;
 
 public:
-	Player() : score(0), lives(5) {}
+	Player() {}
 	~Player() {}
 
 	void addScore(const int s) { score += s; }
@@ -16,5 +18,5 @@ public:
 	const int getLives() const { return lives; }
 
 	void resetScore() { score = 0; }
-	void reset() { score = 0; lives = 5; }
+	void reset() { score = 0; lives = PLAYER_LIVES; }
 };

@@ -20,7 +20,7 @@ enum class PowerUpType
 class PowerUp : public GameObject {
 private:
 	const double puSpeed = 2;
-	const int width = 40;
+	const int width = 50;
 	const int height = 10;
 	bool active = true;
 	PowerUpType type;

@@ -6,8 +6,6 @@
 Engine::Engine() :	previous(SDL_GetTicks()), lag(0.0),
 					mediaCache()
 {
-	srand(static_cast<unsigned int>(time(nullptr)));
-
 	stateMachine = std::make_unique<StateMachine>(this, std::make_unique<Title>(mediaCache));
 }
 
@@ -70,11 +68,11 @@ void Engine::update()
 	stateMachine->getCurrentState()->update(this);
 }
 
-void Engine::render(const double dTime)
+void Engine::render(const double dt)
 {
 	mediaCache.clearScreen();
 
-	stateMachine->getCurrentState()->render(dTime);
+	stateMachine->getCurrentState()->render(dt);
 
 	mediaCache.updateScreen();
 }

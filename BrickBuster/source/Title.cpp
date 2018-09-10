@@ -1,5 +1,5 @@
 #include "Title.h"
-#include "LevelSelector.h"
+#include "HighScore.h"
 #include "Level.h"
 #include "Engine.h"
 #include "Controls.h"
@@ -58,9 +58,8 @@ void Title::generateTextures()
 	titleTex->setPosition(mediaCache.centreX(titleTex->getW()), 10);
 
 	menu.push_back(mediaCache.getText("Play", menuFont));
-	menu.push_back(mediaCache.getText("Select Level", menuFont));
-	menu.push_back(mediaCache.getText("Level Editor", menuFont));
-	//menu.push_back(mediaCache.getText("High Scores", menuFont));
+	//menu.push_back(mediaCache.getText("Level Editor", menuFont));
+	menu.push_back(mediaCache.getText("High Scores", menuFont));
 	menu.push_back(mediaCache.getText("Exit", menuFont));
 
 	for (size_t i = 0; i<menu.size(); ++i)
@@ -81,13 +80,10 @@ void Title::mouseClicked(SDL_Event&, Engine* engine)
 		}
 		else if (CollisionEngine::haveCollided(menu[1]->getBox(), x, y))
 		{
-			engine->changeState(std::make_unique<LevelSelector>(LevelSelectorState::LEVEL, mediaCache));
+			engine->changeState(std::make_unique<HighScore>(mediaCache));
+			//engine->changeState(std::make_unique<EditorLevelSelector>(mediaCache));
 		}
 		else if (CollisionEngine::haveCollided(menu[2]->getBox(), x, y))
-		{
-			engine->changeState(std::make_unique<LevelSelector>(LevelSelectorState::EDITOR, mediaCache));
-		}
-		else if (CollisionEngine::haveCollided(menu[3]->getBox(), x, y))
 		{
 			engine->stopRunning();
 		}

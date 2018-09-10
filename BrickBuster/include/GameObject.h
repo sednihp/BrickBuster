@@ -40,5 +40,5 @@ class GameObject
 		void setSpeed(const double newSpeed) { speed = newSpeed; }
 
 		void handleEvents(SDL_Event& e) { input->handleEvents(*this, e); }
-		void render(MediaCache& mc, const double dTime) { graphics->render(*this, dTime, mc); }
+		void render(MediaCache& mc, const double dt) { graphics->render(*this, dt, mc); }
 };
