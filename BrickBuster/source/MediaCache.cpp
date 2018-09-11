@@ -52,9 +52,19 @@ GameTex MediaCache::getText(const std::string& text, TTF_Font* font)
 	return txtCache.getText(text, font, textColor);
 }
 
+GameTex MediaCache::getText(const std::string& text, TTF_Font* font, const SDL_Color& c)
+{
+	return txtCache.getText(text, font, c);
+}
+
 GameTex MediaCache::getText(const int text, TTF_Font* font)
 {
 	return txtCache.getText(text, font, textColor);
+}
+
+GameTex MediaCache::getText(const int text, TTF_Font* font, const SDL_Color& c)
+{
+	return txtCache.getText(text, font, c);
 }
 
 void MediaCache::render(GameTex tex, const int x, const int y)

@@ -163,8 +163,8 @@ void Ball::startMoving(const double xDir, const double yDir)
 {
 	moving = true;
 
-	const double xRand = rand() % 100 + 10;
-	const double yRand = rand() % 100 + 10;
+	const double xRand = rand() % 100 + 20;
+	const double yRand = rand() % 100 + 20;
 
 	direction.x = xDir * xRand;
 	direction.y = yDir * yRand;

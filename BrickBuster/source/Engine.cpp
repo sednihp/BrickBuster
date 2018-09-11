@@ -4,9 +4,12 @@
 #include <time.h>
 
 Engine::Engine() :	previous(SDL_GetTicks()), lag(0.0),
-					mediaCache()
+					mediaCache(),
+					music(mediaCache.getMusic("files/Getting it Done.mp3"))
 {
 	stateMachine = std::make_unique<StateMachine>(this, std::make_unique<Title>(mediaCache));
+	mediaCache.setVolume(MIX_MAX_VOLUME / 4);
+	mediaCache.playMusic(music, -1);
 }
 
 Engine::~Engine()
@@ -44,6 +47,7 @@ void Engine::run()
 }
 
 //handle any events that happen (keyboard, mouse etc) locally first, then pass them down to the currentState
+//m will always toggle the mute and escape will always take us back to the main title screen
 void Engine::handleEvents()
 {
 	SDL_Event e;
@@ -53,10 +57,18 @@ void Engine::handleEvents()
 		{
 			running = false;
 		}
-		//the esc key takes us back to the title screen
-		else if(e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE)
+
+		if (e.type == SDL_KEYDOWN)
 		{
-			changeState(std::make_unique<Title>(mediaCache));
+			switch (e.key.keysym.sym)
+			{
+			case SDLK_m:
+				mediaCache.toggleMute();
+				break;
+			case SDLK_ESCAPE:
+				changeState(std::make_unique<Title>(mediaCache));
+				break;
+			}
 		}
 
 		stateMachine->getCurrentState()->handleEvents(e, this);

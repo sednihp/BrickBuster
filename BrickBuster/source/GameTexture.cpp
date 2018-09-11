@@ -24,3 +24,9 @@ void GameTexture::setPosition(const int x, const int y)
 	box.x = x;
 	box.y = y;
 }
+
+void GameTexture::setPosition(const Point2D p)
+{
+	box.x = static_cast<int>(p.x);
+	box.y = static_cast<int>(p.y);
+}

@@ -34,7 +34,9 @@ class MediaCache
 		TTF_Font* getFont(const int size);
 		//TextCache
 		GameTex getText(const std::string& text, TTF_Font* font);
+		GameTex getText(const std::string& text, TTF_Font* font, const SDL_Color& c);
 		GameTex getText(const int text, TTF_Font* font);
+		GameTex getText(const int text, TTF_Font* font, const SDL_Color& c);
 		//AudioCache
 		Mix_Music* getMusic(const std::string filename) { return audioCache.getMusic(filename); }
 		Mix_Chunk* getEffect(const std::string filename) { return audioCache.getEffect(filename); }

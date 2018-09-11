@@ -20,7 +20,6 @@ Level::Level(MediaCache& mc,
 																std::make_unique<BallGraphicsComponent>(),
 																mediaCache.getScrWidth(), 
 																bat->getPosition().y)),
-									music(mediaCache.getMusic("files/Getting it Done.mp3")), 
 									hitBrick(mediaCache.getEffect("files/brick-hit.wav")), 
 									hitBat(mediaCache.getEffect("files/bat-hit.wav")),
 									hitWall(mediaCache.getEffect("files/wall-hit.wav"))
@@ -35,19 +34,18 @@ Level::~Level()
 
 void Level::enter(Engine* )
 {
-	mediaCache.setVolume(MIX_MAX_VOLUME / 4);
-	mediaCache.playMusic(music, -1);
+	
 }
 
 void Level::handleEvents(SDL_Event& e, Engine* engine)
 {
-	keyPressed(e, engine);
-	mouseClicked(e, engine);
-
 	if (state == LevelState::PLAYING)
 	{
 		bat->handleEvents(e);
 	}
+	
+	mouseClicked(e, engine);
+	keyPressed(e, engine);
 }
 
 void Level::update(Engine* )
@@ -78,13 +76,16 @@ void Level::update(Engine* )
 			mediaCache.playEffect(3, hitWall, 0);
 		}
 
+		//check to see if any bricks have been destroyed and powerUps created
+		//if a brick is destroyed play a sound effect and update the score
 		int score = brickManager->update(mediaCache.getScrWidth(), mediaCache.getScrHeight(), powerUpManager->getPowerUps());
 		if (score > 0)
 		{
 			mediaCache.setVolume(MIX_MAX_VOLUME, 1);
 			mediaCache.playEffect(1, hitBrick, 0);
+			player->addScore(score);
 		}
-		player->addScore(score);
+		
 		powerUpManager->update(mediaCache.getScrHeight(), ball, bat, player);
 		
 		if (brickManager->isEmpty())
@@ -93,6 +94,7 @@ void Level::update(Engine* )
 		}
 		else if (player->getLives() == 0)
 		{
+			checkHighScore();
 			changeState(LevelState::DEAD);
 		}
 	}
@@ -103,9 +105,9 @@ void Level::render(const double dt)
 	scoreTex = mediaCache.getText(player->getScore(), font);
 	mediaCache.render(scoreTex, 0, 5);
 
-	mediaCache.render(levelTex, levelTex->getPosition());
+	mediaCache.render(levelTex);
 
-	livesTex = mediaCache.getText(player->getLives(), font);
+	livesTex = mediaCache.getText(std::to_string(player->getLives()) + " lives", font);
 	mediaCache.render(livesTex, mediaCache.getScrWidth() - livesTex->getW(), 5);
 
 	bat->render(mediaCache, dt);
@@ -118,25 +120,29 @@ void Level::render(const double dt)
 
 	if (state == LevelState::PAUSED)
 	{
-		mediaCache.render(pausedTex, pausedTex->getPosition());
+		mediaCache.render(pausedTex);
 	}
 	else if (state == LevelState::COMPLETE)
 	{
-		mediaCache.render(completeTex, completeTex->getPosition());
-		mediaCache.render(nextLevelTex, nextLevelTex->getPosition());
-		mediaCache.render(mainMenuTex, mainMenuTex->getPosition());
+		mediaCache.render(completeTex);
+		mediaCache.render(nextLevelTex);
+		mediaCache.render(mainMenuTex);
 	}
 	else if (state == LevelState::DEAD)
 	{
-		mediaCache.render(playerDeadTex, playerDeadTex->getPosition());
-		mediaCache.render(restartTex, restartTex->getPosition());
-		mediaCache.render(mainMenuTex, mainMenuTex->getPosition());
+		mediaCache.render(playerDeadTex);
+		mediaCache.render(restartTex);
+		mediaCache.render(mainMenuTex);
+
+		if (newHighScore)
+		{
+			mediaCache.render(newHighScoreTex);
+		}
 	}
 }
 
 void Level::exit(Engine* )
 {
-	mediaCache.stopMusic();
 }
 
 // ===============
@@ -145,25 +151,30 @@ void Level::exit(Engine* )
 void Level::generateTextures()
 {
 	pausedTex = mediaCache.getText("Paused", font);
-	pausedTex->setPosition(mediaCache.centreX(pausedTex->getW()), mediaCache.centreY(pausedTex->getH()));
+	pausedTex->setPosition(mediaCache.centre(pausedTex));
 
 	levelTex = mediaCache.getText("Level " + std::to_string(levelNum), font);
-	levelTex->setPosition(mediaCache.centreX(levelTex->getW()), 5);
+	levelTex->setPosition(mediaCache.centreX(levelTex), 5);
+
+	newHighScoreTex = mediaCache.getText("New High Score", font, SDL_Color{ 0,0,0 });
+	newHighScoreTex->setPosition(mediaCache.centreX(newHighScoreTex), mediaCache.centreY(newHighScoreTex) - newHighScoreTex->getH());
 
 	completeTex = mediaCache.getText("Level Complete", font);
-	completeTex->setPosition(mediaCache.centreX(completeTex->getW()), mediaCache.centreY(completeTex->getH()));
+	completeTex->setPosition(mediaCache.centre(completeTex));
 
 	playerDeadTex = mediaCache.getText("No More Lives", font);
-	playerDeadTex->setPosition(mediaCache.centreX(playerDeadTex->getW()), mediaCache.centreY(playerDeadTex->getH()));
+	playerDeadTex->setPosition(mediaCache.centre(playerDeadTex));
 
 	nextLevelTex = mediaCache.getText("Next Level", font);
-	nextLevelTex->setPosition(mediaCache.centreX(nextLevelTex->getW()), mediaCache.centreY(nextLevelTex->getH()) + 2 * nextLevelTex->getH());
+	nextLevelTex->setPosition(mediaCache.centreX(nextLevelTex), mediaCache.centreY(nextLevelTex) + 2 * nextLevelTex->getH());
 
 	restartTex = mediaCache.getText("Restart", font);
-	restartTex->setPosition(mediaCache.centreX(restartTex->getW()), mediaCache.centreY(nextLevelTex->getH()) + 2 * restartTex->getH());
+	restartTex->setPosition(mediaCache.centreX(restartTex), mediaCache.centreY(nextLevelTex) + 2 * restartTex->getH());
 
 	mainMenuTex = mediaCache.getText("Main Menu", font);
-	mainMenuTex->setPosition(mediaCache.centreX(mainMenuTex->getW()), mediaCache.centreY(mainMenuTex->getH()) + 3 * mainMenuTex->getH());
+	mainMenuTex->setPosition(mediaCache.centreX(mainMenuTex), mediaCache.centreY(mainMenuTex) + 3 * mainMenuTex->getH());
+
+	
 }
 
 void Level::changeState(LevelState newState)
@@ -188,9 +199,7 @@ void Level::keyPressed(SDL_Event& e, Engine*)
 				changeState(LevelState::PAUSED);
 			}
 			break;
-		case SDLK_m:
-			mediaCache.toggleMute();
-			break;
+		
 		}
 	}
 }
@@ -243,4 +252,56 @@ void Level::newGameReset()
 	player->reset();
 	levelNum = 1;
 	newLevelReset();
+}
+
+#include <iterator>
+#include <fstream>
+
+void Level::checkHighScore()
+{
+	std::vector<int> scores;
+	std::ifstream inf("files/highscores.txt");
+
+	if (!inf)
+	{
+		printf("Can't open highscores.txt");
+		return;
+	}
+
+	//read the scores in from the file and put them in the hiScore vector
+	std::copy(std::istream_iterator<int>(inf),
+		std::istream_iterator<int>(),
+		std::back_inserter(scores));
+
+	inf.close();
+
+	for (const auto s : scores)
+	{
+		if (player->getScore() > s)
+		{
+			newHighScore = true;
+			break;
+		}
+	}
+
+	if (newHighScore)
+	{
+		scores.push_back(player->getScore());
+	}
+
+	std::sort(scores.begin(), scores.end(), std::greater<int>());
+	scores.pop_back();
+
+	std::ofstream outf("files/highscores.txt");
+
+	if (!outf)
+	{
+		printf("Can't open highscores.txt");
+		return;
+	}
+
+	//write only 10 elements back to the highscores file
+	std::copy(scores.begin(), scores.begin() + 10, std::ostream_iterator<int>(outf, "\n"));
+
+	outf.close();
 }

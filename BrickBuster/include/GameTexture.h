@@ -28,4 +28,5 @@ class GameTexture
 		SDL_Texture* getTexture() const { return tex; }
 
 		void setPosition(const int x, const int y);
+		void setPosition(const Point2D p);
 };

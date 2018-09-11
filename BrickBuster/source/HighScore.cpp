@@ -1,5 +1,8 @@
 #include "HighScore.h"
 #include <fstream>
+#include "CollisionEngine.h"
+#include "Engine.h"
+#include "Title.h"
 
 HighScore::HighScore(MediaCache& mc) : State(mc), font(mediaCache.getFont(50))
 {
@@ -20,9 +23,9 @@ void HighScore::enter(Engine* )
 	loadScores();
 }
 
-void HighScore::handleEvents(SDL_Event& , Engine* )
+void HighScore::handleEvents(SDL_Event& e, Engine* engine)
 {
-
+	mouseClicked(e, engine);
 }
 
 void HighScore::update(Engine* )
@@ -72,5 +75,17 @@ void HighScore::loadScores()
 		score->setPosition(mediaCache.centreX(score), (i + 2)*score->getH());
 		scoresTex.push_back(score);
 
+	}
+}
+
+void HighScore::mouseClicked(SDL_Event&, Engine* engine)
+{
+	int x, y;
+	if (SDL_GetMouseState(&x, &y)&SDL_BUTTON(1))
+	{
+		if (CollisionEngine::haveCollided(menuTex->getBox(), x, y))
+		{
+			engine->changeState(std::make_unique<Title>(mediaCache));
+		}
 	}
 }

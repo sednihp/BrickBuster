@@ -24,14 +24,12 @@ private:
 	std::unique_ptr<Bat> bat;
 	std::unique_ptr<Ball> ball;
 	std::unique_ptr<BrickManager> brickManager;
-	std::unique_ptr<PowerUpManager> powerUpManager;
-	//std::vector<std::unique_ptr<PowerUp>> powerUps;	
-	Mix_Music* music;
+	std::unique_ptr<PowerUpManager> powerUpManager;	
 	Mix_Chunk* hitBrick;
 	Mix_Chunk* hitWall;
 	Mix_Chunk* hitBat;
 	TTF_Font * font;
-	GameTex pausedTex, levelTex, livesTex, scoreTex, completeTex, playerDeadTex, mainMenuTex, nextLevelTex, restartTex;
+	GameTex pausedTex, levelTex, livesTex, scoreTex, completeTex, playerDeadTex, mainMenuTex, nextLevelTex, restartTex, newHighScoreTex;
 	int levelNum;
 	LevelState state = LevelState::PLAYING;
 	bool newHighScore = false;
@@ -42,6 +40,7 @@ private:
 	void changeState(LevelState newState);
 	void newLevelReset();
 	void newGameReset();
+	void checkHighScore();
 	
 public:
 	Level(MediaCache& mc, const int level);

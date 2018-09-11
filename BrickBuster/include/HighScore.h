@@ -9,6 +9,7 @@ private:
 	std::vector<int> scores;
 
 	void loadScores();
+	void mouseClicked(SDL_Event& e, Engine* engine);
 
 public:
 	HighScore(MediaCache& mc);

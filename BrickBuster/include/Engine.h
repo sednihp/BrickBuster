@@ -13,6 +13,7 @@ class Engine
 		double previous, lag;
 		MediaCache mediaCache;
 		std::unique_ptr<StateMachine> stateMachine;
+		Mix_Music* music;
 
 		void handleEvents();
 		void update();
